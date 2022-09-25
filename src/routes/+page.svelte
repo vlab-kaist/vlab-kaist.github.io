@@ -109,14 +109,14 @@
             소식
         </h2>
         <Grid max="2" width="350">
-            <Region img="/static/recruit.png">
+            <Region img="/recruit.png">
                 <h2 style="font-size: 30px;">
                     <img src={memo} alt="공지" class="icon">
                     VLAB 리크루팅
                 </h2>
                 <h4 style="color: #555;font-size: 18px;">VLAB에서 가을 리크루팅을 진행합니다.<br>클릭해서 자세한 정보를 살펴보세요.</h4>
             </Region>
-            <Region img="/static/win.jpeg">
+            <Region img="/win.jpeg">
                 <h2 style="font-size: 30px;">
                     <img src={trophy} alt="공지" class="icon">
                     2022 카포전 승리
@@ -128,19 +128,19 @@
     </Container>
     <div style="height: calc(40px + 10vw);"></div>
     <Container full>
-        <FullImage src="/static/quiz.png">
+        <FullImage src="/quiz.png">
             <h2>과학퀴즈팀</h2>
             <h4>모든 문제를 맞춥니다.</h4>
         </FullImage>
         <Grid max="2" width="350">
-            <Region img="/static/wiki.jpeg">
+            <Region img="/wiki.jpeg">
                 <h2 style="font-size: 30px;">
                     <img src={books} alt="공지" class="icon">
                     연습
                 </h2>
                 <h4 style="color: #555;font-size: 18px;">같이 모여서 열심히 연습합니다.</h4>
             </Region>
-            <Region img="/static/library.jpg">
+            <Region img="/library.jpg">
                 <h2 style="font-size: 30px;">
                     <img src={internet} alt="공지" class="icon">
                     위키 작성
@@ -150,19 +150,19 @@
         </Grid>
     </Container>
     <Container full>
-        <FullImage src="/static/ai.png">
+        <FullImage src="/ai.png">
             <h2>인공지능팀</h2>
             <h4>정말 멋진 에이전트를 만듭니다.</h4>
         </FullImage>
         <Grid max="2" width="350">
-            <Region img="/static/coding.png">
+            <Region img="/coding.png">
                 <h2 style="font-size: 30px;">
                     <img src={computer} alt="공지" class="icon">
                     코딩
                 </h2>
                 <h4 style="color: #555;font-size: 18px;">직접 인공지능을 만듭니다.<br>NN부터 휴리스틱까지 모두다요!</h4>
             </Region>
-            <Region img="/static/seminar.jpeg">
+            <Region img="/seminar.jpeg">
                 <h2 style="font-size: 30px;">
                     <img src={television} alt="공지" class="icon">
                     세미나
