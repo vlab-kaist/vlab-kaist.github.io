@@ -12,7 +12,8 @@ const config = {
         alias: {
             '$lib': './src/lib',
             '$svg': './src/svg',
-        }
+        },
+        appDir: 'internal',
     }
 };
 
