@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1465 820 1470 835" width="100" height="100" overflow="hidden"
+     xmlns:v="https://vecta.io/nano">
+    <defs>
+        <clipPath id="A">
+            <path d="M0 0h4400v2475H0z"/>
+        </clipPath>
+        <radialGradient cx="2104505" cy="2104505" r="2976220" fx="2104506" fy="2104506" gradientUnits="userSpaceOnUse"
+                        spreadMethod="pad" id="B" gradientTransform="matrix(0.000360892 0 0 0.000360892 1053 162)">
+            <stop offset="0" stop-color="#c41162" stop-opacity=".4"/>
+            <stop offset=".15" stop-color="#c41162" stop-opacity=".4"/>
+            <stop offset=".69" stop-color="#c41162" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient cx="2104506" cy="2104505" r="2976220" fx="2104506" fy="2104505" gradientUnits="userSpaceOnUse"
+                        spreadMethod="pad" id="C" gradientTransform="matrix(0.000360892 0 0 0.000360892 1777 324)">
+            <stop offset="0" stop-color="#0ca4dd" stop-opacity=".4"/>
+            <stop offset=".18" stop-color="#0ca4dd" stop-opacity=".4"/>
+            <stop offset=".69" stop-color="#0ca4dd" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient cx="2104505" cy="2104506" r="2976220" fx="2104505" fy="2104506" gradientUnits="userSpaceOnUse"
+                        spreadMethod="pad" id="D" gradientTransform="matrix(0.000360892 0 0 0.000360892 1358 658)">
+            <stop offset="0" stop-color="#a445f2" stop-opacity=".322"/>
+            <stop offset=".18" stop-color="#a445f2" stop-opacity=".322"/>
+            <stop offset=".69" stop-color="#a445f2" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+    <g clip-path="url(#A)" fill-rule="evenodd">
+        <path d="M1053 921.5c0-419.46 340.04-759.5 759.5-759.5S2572 502.04 2572 921.5 2231.96 1681 1812.5 1681 1053 1340.96 1053 921.5z"
+              fill="url(#B)"/>
+        <path d="M1777 1083.5c0-419.46 340.04-759.5 759.5-759.5S3296 664.04 3296 1083.5 2955.96 1843 2536.5 1843 1777 1502.96 1777 1083.5z"
+              fill="url(#C)"/>
+        <path d="M1358 1417.5c0-419.46 340.04-759.5 759.5-759.5S2877 998.04 2877 1417.5 2536.96 2177 2117.5 2177 1358 1836.96 1358 1417.5z"
+              fill="url(#D)"/>
+        <path d="M2547.29 866.055l41.17 71.316h1.05l41.37-71.316zm-778.17 0L2200 1608.95l339.19-584.81h-678.38l-50.32-86.769h677.78l-11.3-19.575h0l-29.87-51.741h0 0zM0 0h4400v2475H-.001z"
+              fill="#fff"/>
+        <path d="M2478.42 746.775l68.87 119.279H2447.1l-43.82-75.895 75.14-43.384zM2539 1024l50.5-87 50.5 87z"/>
+    </g>
+</svg>

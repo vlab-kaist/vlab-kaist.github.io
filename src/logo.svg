@@ -1,0 +1,35 @@
+<svg viewBox="1465 820 1470 835" width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     xml:space="preserve" overflow="hidden"><defs><clipPath id="clip0"><rect x="0" y="0" width="4400" height="2475"/></clipPath><radialGradient
+        cx="2104505" cy="2104505" r="2976220" fx="2104506" fy="2104506" gradientUnits="userSpaceOnUse"
+        spreadMethod="pad" id="fill1" gradientTransform="matrix(0.000360892 0 0 0.000360892 1053 162)"><stop offset="0" stop-color="#C41162" stop-opacity="0.4"/>
+    <stop offset="0.15" stop-color="#C41162" stop-opacity="0.4"/>
+    <stop offset="0.69" stop-color="#C41162" stop-opacity="0"/>
+    <stop offset="1" stop-color="#C41162" stop-opacity="0"/></radialGradient><radialGradient cx="2104506" cy="2104505"
+                                                                                             r="2976220" fx="2104506"
+                                                                                             fy="2104505"
+                                                                                             gradientUnits="userSpaceOnUse"
+                                                                                             spreadMethod="pad"
+                                                                                             id="fill2"
+                                                                                             gradientTransform="matrix(0.000360892 0 0 0.000360892 1777 324)"><stop offset="0" stop-color="#0CA4DD" stop-opacity="0.4"/>
+    <stop offset="0.18" stop-color="#0CA4DD" stop-opacity="0.4"/>
+    <stop offset="0.69" stop-color="#0CA4DD" stop-opacity="0"/>
+    <stop offset="1" stop-color="#0CA4DD" stop-opacity="0"/></radialGradient><radialGradient cx="2104505" cy="2104506"
+                                                                                             r="2976220" fx="2104505"
+                                                                                             fy="2104506"
+                                                                                             gradientUnits="userSpaceOnUse"
+                                                                                             spreadMethod="pad"
+                                                                                             id="fill3"
+                                                                                             gradientTransform="matrix(0.000360892 0 0 0.000360892 1358 658)"><stop offset="0" stop-color="#A445F2" stop-opacity="0.321569"/>
+    <stop offset="0.18" stop-color="#A445F2" stop-opacity="0.321569"/>
+    <stop offset="0.69" stop-color="#A445F2" stop-opacity="0"/>
+    <stop offset="1" stop-color="#A445F2" stop-opacity="0"/></radialGradient></defs>
+    <g clip-path="url(#clip0)"><path d="M1053 921.5C1053 502.04 1393.04 162 1812.5 162 2231.96 162 2572 502.04 2572 921.5 2572 1340.96 2231.96 1681 1812.5 1681 1393.04 1681 1053 1340.96 1053 921.5Z" fill="url(#fill1)" fill-rule="evenodd"/>
+        <path d="M1777 1083.5C1777 664.04 2117.04 324 2536.5 324 2955.96 324 3296 664.04 3296 1083.5 3296 1502.96 2955.96 1843 2536.5 1843 2117.04 1843 1777 1502.96 1777 1083.5Z"
+              fill="url(#fill2)" fill-rule="evenodd"/>
+        <path d="M1358 1417.5C1358 998.04 1698.04 658 2117.5 658 2536.96 658 2877 998.04 2877 1417.5 2877 1836.96 2536.96 2177 2117.5 2177 1698.04 2177 1358 1836.96 1358 1417.5Z"
+              fill="url(#fill3)" fill-rule="evenodd"/>
+        <path d="M2547.29 866.055 2588.46 937.371 2589.51 937.371 2630.88 866.055ZM1769.12 866.055 2200 1608.95 2539.19 1024.14 1860.81 1024.14 1810.49 937.371 2488.27 937.371 2476.97 917.796 2476.97 917.796 2447.1 866.055 2447.1 866.055 2447.1 866.055ZM-0.000472335 0.000438059 4400 0.000476915 4400 2475-0.000561859 2475Z"
+              fill="#FFFFFF" fill-rule="evenodd" fill-opacity="1"/>
+        <path d="M2478.42 746.775 2547.29 866.054 2447.1 866.054 2403.28 790.159 2478.42 746.775Z" fill="#000000"
+              fill-rule="evenodd" fill-opacity="1"/>
+        <path d="M2539 1024 2589.5 937 2640 1024Z" fill="#000000" fill-rule="evenodd" fill-opacity="1"/></g></svg>
