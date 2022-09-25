@@ -183,3 +183,7 @@
     </Container>
     <Footer/>
 </main>
+
+<svelte:head>
+    <title>VLAB</title>
+</svelte:head>
