@@ -1,24 +1,38 @@
 <script lang="ts">
     import Logo from "$lib/Logo.svelte";
     import {transparentHeader} from "../store/header";
+    import {navigating} from '$app/stores';
+    import {browser} from '$app/environment';
 
-    function scrollIntoView({target}) {
+    function scrollIntoView(e) {
+        const {currentTarget: target} = e;
+        if (browser && target.getAttribute('href')[0] !== '#') {
+            location.href = target.getAttribute('href');
+            return;
+        }
+        e.preventDefault();
         const el = document.querySelector(target.getAttribute('href'));
         window.scrollTo({
-            top: el?.offsetTop + 50,
+            top: (el?.offsetTop || 0) + 50,
             behavior: 'smooth'
         });
     }
+
+    let main;
+
+    $: browser && ($navigating || !$navigating) && (main = (location.pathname === '/'));
 </script>
 
 <header class:transparentHeader={$transparentHeader}>
     <main>
-        <a href="#main" on:click|preventDefault={scrollIntoView}>
+        <a href={main?'#main':'/'} on:click={scrollIntoView}>
             <Logo size="70" dark={$transparentHeader}/>
         </a>
-        <a href="#quiz" on:click|preventDefault={scrollIntoView}>과학퀴즈팀</a>
-        <a href="#ai" on:click|preventDefault={scrollIntoView}>AI팀</a>
-        <a href="#history" on:click|preventDefault={scrollIntoView}>연혁</a>
+        {#if main}
+            <a href="#quiz" on:click={scrollIntoView}>과학퀴즈팀</a>
+            <a href="#ai" on:click={scrollIntoView}>AI팀</a>
+            <a href="#history" on:click={scrollIntoView}>연혁</a>
+        {/if}
     </main>
 </header>
 

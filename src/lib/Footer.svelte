@@ -12,7 +12,7 @@
 <style lang="scss">
   footer {
     width: calc(100% - 40px);
-    background: #f1f1f1;
+    background: #00000011;
     padding: 20px;
     display: flex;
     justify-content: center;

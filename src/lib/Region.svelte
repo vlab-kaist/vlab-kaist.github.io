@@ -1,10 +1,12 @@
 <script lang="ts">
-    import Ripple from "$lib/Ripple.svelte";
-
-    export let img = '';
+    export let img = '', href;
 </script>
 
 <style lang="scss">
+  a {
+    text-decoration: none;
+  }
+
   main {
     display: flex;
     flex-direction: column;
@@ -33,11 +35,13 @@
   }
 </style>
 
-<main>
-    <div>
-        <slot/>
-    </div>
-    {#if img}
-        <div style="width: calc(100% - 20px);background: url({img});background-size: cover;height:300px;background-position: 50% 50%;"/>
-    {/if}
-</main>
+<a {href}>
+    <main>
+        <div>
+            <slot/>
+        </div>
+        {#if img}
+            <div style="width: calc(100% - 20px);background: url({img});background-size: cover;height:300px;background-position: 50% 50%;"/>
+        {/if}
+    </main>
+</a>
