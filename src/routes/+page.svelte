@@ -14,6 +14,7 @@
     import computer from "$svg/computer.svg?url";
     import television from "$svg/television.svg?url";
     import time from "$svg/time.svg?url";
+    import Background from "$lib/Background.svelte";
 </script>
 
 <style lang="scss">
@@ -99,6 +100,7 @@
 </style>
 
 <Header/>
+<Background />
 <main>
     <Container full>
         <div style="height: calc(10px + 10vw);"></div>

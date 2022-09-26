@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-    let cnt = 0;
+    let cnt = 1;
 </script>
 
 <script lang="ts">

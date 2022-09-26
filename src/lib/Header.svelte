@@ -14,7 +14,7 @@
 <header class:transparentHeader={$transparentHeader}>
     <main>
         <a href="#main" on:click|preventDefault={scrollIntoView}>
-            <Logo size="70"/>
+            <Logo size="70" dark={$transparentHeader}/>
         </a>
         <a href="#quiz" on:click|preventDefault={scrollIntoView}>과학퀴즈팀</a>
         <a href="#ai" on:click|preventDefault={scrollIntoView}>AI팀</a>
