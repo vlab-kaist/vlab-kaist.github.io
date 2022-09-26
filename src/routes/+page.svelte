@@ -127,7 +127,7 @@
         </Grid>
     </Container>
     <div style="height: calc(40px + 10vw);"></div>
-    <Container full>
+    <Container full id="quiz">
         <FullImage src="/quiz.png">
             <h2>과학퀴즈팀</h2>
             <h4>모든 문제를 맞춥니다.</h4>
@@ -149,7 +149,7 @@
             </Region>
         </Grid>
     </Container>
-    <Container full>
+    <Container full id="ai">
         <FullImage src="/ai.png">
             <h2>인공지능팀</h2>
             <h4>정말 멋진 에이전트를 만듭니다.</h4>
@@ -171,7 +171,7 @@
             </Region>
         </Grid>
     </Container>
-    <Container>
+    <Container id="history">
         <h2 style="margin: 20px 0;">
             <img src={time} alt="공지" class="icon">
             연혁

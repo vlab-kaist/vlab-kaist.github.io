@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let full = false;
+    export let full = false, id = '';
 </script>
 
 <style lang="scss">
@@ -29,7 +29,7 @@
   }
 </style>
 
-<main class:full>
+<main class:full {id}>
     <div>
         <slot/>
     </div>
