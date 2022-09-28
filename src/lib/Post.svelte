@@ -18,6 +18,7 @@
 <style lang="scss">
   main {
     padding-top: 60px;
+    z-index: 1;
 
     :global(*) {
       line-height: 1.5;
