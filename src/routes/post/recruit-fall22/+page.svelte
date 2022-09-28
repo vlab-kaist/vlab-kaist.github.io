@@ -39,8 +39,8 @@
     <h3>Q. 지원 절차는 어떻게 되나요?</h3>
     <h3>A. 세 단계로 구성됩니다.</h3>
     <ol>
-        <li><h3><a href="https://forms.gle/fCV4eQESor8qXvno6">구글폼</a>을 작성해주세요.</h3></li>
-        <li><h3><a href="https://clubs.kaistua.org/">Clubmem 사이트</a>에서 Vlab에 가입 신청을 해주세요.</h3></li>
+        <li><h3><a href="https://forms.gle/fCV4eQESor8qXvno6" target="_blank">구글폼</a>을 작성해주세요.</h3></li>
+        <li><h3><a href="https://clubs.kaistua.org/" target="_blank">Clubmem 사이트</a>에서 Vlab에 가입 신청을 해주세요.</h3></li>
         <li><h3>이창섭에게 갠톡 연락이 올 때까지 기다려주세요!</h3></li>
     </ol>
 </Post>
