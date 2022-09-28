@@ -4,11 +4,23 @@
     export let title;
 </script>
 
-<Container full>
-    <h1>{title}</h1>
-    <slot/>
-</Container>
+<main>
+    <Container full>
+        <h1>{title}</h1>
+        <slot/>
+    </Container>
+</main>
 
 <svelte:head>
     <title>{title}</title>
 </svelte:head>
+
+<style lang="scss">
+  main {
+    padding-top: 60px;
+
+    :global(*) {
+      line-height: 1.5;
+    }
+  }
+</style>

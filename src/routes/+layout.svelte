@@ -62,6 +62,10 @@
       color: #1b1b2a;
     }
 
+    a {
+      color: #6b67c7;
+    }
+
     h1 {
       font-size: 48px;
       margin: 5px 0;

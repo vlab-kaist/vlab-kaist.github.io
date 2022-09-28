@@ -39,7 +39,7 @@
             </h2>
             <h4 style="color: #555;font-size: 18px;">"포닉스를넙죽하게"를 주제로 공모전이 진행됩니다!<br>클릭해서 자세한 정보를 살펴보세요.</h4>
         </Region>
-        <Region img="/recruit.png">
+        <Region img="/recruit.png" href="/post/recruit-fall22">
             <h2 style="font-size: 30px;">
                 <img src={memo} alt="공지" class="icon">
                 VLAB 리크루팅
