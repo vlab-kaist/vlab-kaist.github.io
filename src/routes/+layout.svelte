@@ -23,6 +23,7 @@
 
 <svelte:head>
     <title>VLAB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </svelte:head>
 
 <style lang="scss">

@@ -10,7 +10,7 @@
 
     <p>그러나 지금 Vlab은 인력 부족에 시달리고 있습니다. 내년에도 카포전을 압승할 수 있도록 리크루팅이 필요합니다.</p>
 
-    <img src="/poster_22f.png" style="width: 600px;">
+    <img src="/poster_22f.png" style="width: 600px;max-width: 80%;">
 
     <p>Q. 전 미래에 카포전 선수가 되고 싶어요!!</p>
     <p>A. 당장 오세요.</p>
