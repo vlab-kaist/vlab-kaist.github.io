@@ -1,12 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="%lang%" data-theme="dark">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
+		<link rel="alternate icon" href="%sveltekit.assets%/favicon.ico" sizes="32x32" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
+		<link rel="manifest" href="%sveltekit.assets%/site.webmanifest" />
+
+		<!-- Self-hosted; see static/fonts/pretendard.css for why. The Latin
+		     subset covers the wordmark and navigation, so it is worth preloading;
+		     the hangul chunks are picked per-page by unicode-range. -->
+		<link
+			rel="preload"
+			href="%sveltekit.assets%/fonts/PretendardVariable.subset.91.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link rel="stylesheet" href="%sveltekit.assets%/fonts/pretendard.css" />
+
+		<meta name="theme-color" content="#0b0b12" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+
+		<script>
+			// Resolve the theme before first paint so there is no light/dark flash.
+			// Mirrors the logic in src/lib/theme.svelte.ts — keep the two in sync.
+			(() => {
+				try {
+					const stored = localStorage.getItem('vlab-theme');
+					const theme =
+						stored ??
+						(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+					document.documentElement.dataset.theme = theme;
+				} catch {
+					/* private mode / storage blocked — the dark default in the markup stands */
+				}
+			})();
+		</script>
+
 		%sveltekit.head%
 	</head>
-	<body>
-		<div>%sveltekit.body%</div>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

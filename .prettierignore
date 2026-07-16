@@ -7,7 +7,13 @@ node_modules
 .env.*
 !.env.example
 
-# Ignore files for PNPM, NPM and YARN
-pnpm-lock.yaml
+# Lockfiles
 package-lock.json
+pnpm-lock.yaml
 yarn.lock
+
+# Generated — see scripts/build-images.js
+src/lib/data/images.ts
+
+# Vendored upstream font, kept byte-identical to what was published
+static/fonts/pretendard.css

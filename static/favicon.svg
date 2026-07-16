@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1700 700 1000 960">
+  <defs>
+    <mask id="v">
+      <rect x="1700" y="700" width="1000" height="960" fill="#000"/>
+      <path fill="#fff" fill-rule="evenodd" d="M2547.29 866.055l41.17 71.316h1.05l41.37-71.316zm-778.17 0L2200 1608.95l339.19-584.81h-678.38l-50.32-86.769h677.78l-11.3-19.575h0l-29.87-51.741h0 0z"/>
+    </mask>
+    <radialGradient id="a" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#e0246f"/>
+      <stop offset=".55" stop-color="#e0246f" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#e0246f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#0ca4dd"/>
+      <stop offset=".55" stop-color="#0ca4dd" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#0ca4dd" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="c" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#a445f2"/>
+      <stop offset=".55" stop-color="#a445f2" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#a445f2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g mask="url(#v)">
+    <rect x="1700" y="700" width="1000" height="960" fill="#a445f2" opacity=".3"/>
+    <circle cx="1812.5" cy="921.5" r="759.5" fill="url(#a)"/>
+    <circle cx="2536.5" cy="1083.5" r="759.5" fill="url(#b)"/>
+    <circle cx="2117.5" cy="1417.5" r="759.5" fill="url(#c)"/>
+  </g>
+  <!-- Tab icons render at 16px against unknown chrome, so these two marks use a
+       fixed light fill rather than currentColor. -->
+  <path d="M2478.42 746.775l68.87 119.279H2447.1l-43.82-75.895 75.14-43.384z" fill="#c9c9e0"/>
+  <path d="M2539 1024l50.5-87 50.5 87z" fill="#c9c9e0"/>
+</svg>

@@ -1,13 +1,10 @@
-import {sveltekit} from '@sveltejs/kit/vite';
-import type {UserConfig} from 'vite';
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
 
-const config: UserConfig = {
-    plugins: [sveltekit()],
-    server: {
-        fs: {
-            allow: ['static']
-        }
-    }
-};
-
-export default config;
+export default defineConfig({
+	plugins: [sveltekit()],
+	build: {
+		// The site is content, not an app — flag anything that creeps toward app-sized JS.
+		chunkSizeWarningLimit: 200
+	}
+});
