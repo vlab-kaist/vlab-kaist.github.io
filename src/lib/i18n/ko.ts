@@ -3,15 +3,16 @@ import type { Dict } from './types';
 /*
  * Korean copy — the source of truth. en.ts mirrors this shape.
  *
- * Facts here are drawn only from material the club supplied or from the
- * public vlab-kaist GitHub org. Anything unconfirmed is marked TODO(owner)
- * rather than guessed at — see CONTENT-TODO.md.
+ * The 카포전 record below came from the club directly. Note that it does NOT
+ * match the scoreboard visible in quiz-2025.jpg (KAIST 80 : 75 POSTECH): that
+ * capture is a mid-match frame, not the final result. Do not "correct" this
+ * copy from that image.
  */
 export const ko: Dict = {
 	meta: {
 		title: 'VLAB — KAIST 과학퀴즈 · 인공지능 학술동아리',
 		description:
-			'VLAB은 카포전 과학퀴즈와 인공지능 종목에서 KAIST를 대표하는 학술동아리입니다. 2025 카포전 과학퀴즈 80:75 승리, AI 종목 3:0 승리.',
+			'VLAB은 카포전 과학퀴즈와 인공지능 종목에서 KAIST를 대표하는 학술동아리입니다. 2025 AI 종목 3:0 승리, 과학퀴즈 2023·2024 연속 승리.',
 		ogAlt: 'VLAB — 카포전을 이기는 동아리'
 	},
 	nav: {
@@ -32,15 +33,15 @@ export const ko: Dict = {
 		lead: '과학퀴즈와 인공지능. VLAB은 두 종목에서 KAIST를 대표합니다. 문제를 풀고, 에이전트를 만들고, 이깁니다.',
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
-		imageAlt: 'VLAB 부원들이 바다가 내려다보이는 정자에서 함께 찍은 단체 사진',
+		imageAlt: '여수 바다가 내려다보이는 정자에서 함께 찍은 VLAB 단체 사진',
 		scrollHint: '아래로'
 	},
 	stats: {
-		heading: '2025 시즌 기록',
+		heading: '기록',
 		items: [
-			{ value: '80 : 75', label: '2025 과학퀴즈', note: 'vs POSTECH · 승' },
 			{ value: '3 : 0', label: '2025 AI 종목', note: 'vs POSTECH · 승' },
 			{ value: '200+', label: 'Flex 학습량', note: '인게임 연 단위' },
+			{ value: 'ML 결승', label: 'RLBot Championship', note: '2025 · 국제 대회' },
 			{ value: '2022', label: 'VLAB 설립', note: '4년째 활동 중' }
 		]
 	},
@@ -56,7 +57,7 @@ export const ko: Dict = {
 				'과거 기출과 개념 정리를 위키로 축적합니다.',
 				'실전과 같은 형식으로 모의고사를 진행합니다.'
 			],
-			imageAlt: '2025 카포전 과학퀴즈 경기 화면. KAIST 80점, POSTECH 75점.'
+			imageAlt: '2025 카포전 과학퀴즈 경기 중계 화면'
 		},
 		ai: {
 			name: '인공지능팀',
@@ -130,7 +131,7 @@ export const ko: Dict = {
 	},
 	history: {
 		heading: '연혁',
-		lead: '설립부터 지금까지.',
+		lead: '설립부터 지금까지. 이긴 해와 진 해를 모두 적습니다.',
 		entries: [
 			{
 				date: '2026.01',
@@ -140,14 +141,24 @@ export const ko: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: '2025 카포전 과학퀴즈 · AI 종목 승리',
-				body: '과학퀴즈 80:75, AI 종목 3:0으로 두 종목 모두 이겼습니다.',
+				title: '2025 카포전 — AI 종목 승리',
+				body: 'AI 종목에서 POSTECH을 3:0으로 이겼습니다. 과학퀴즈는 패배했습니다.',
 				highlight: true
 			},
 			{
 				date: '2025',
 				title: 'Flex, RLBot Championship ML 결승 진출',
 				body: '동아리에서 만든 로켓리그 에이전트가 국제 대회 머신러닝 부문 결승에 올랐습니다.'
+			},
+			{
+				date: '2024.09',
+				title: '2024 카포전 — 과학퀴즈 승리',
+				body: '과학퀴즈에서 이겼습니다. AI 종목은 패배했습니다.'
+			},
+			{
+				date: '2023.09',
+				title: '2023 카포전 — 과학퀴즈 승리',
+				body: '과학퀴즈에서 이겼습니다. AI 종목은 패배했습니다.'
 			},
 			{ date: '2022.09', title: '2022 카포전 과학퀴즈 · AI 종목 우승', highlight: true },
 			{ date: '2022.04', title: 'VLAB 설립' }
@@ -156,12 +167,16 @@ export const ko: Dict = {
 	join: {
 		heading: '함께할 사람을 찾습니다',
 		lead: '문제를 끝까지 붙잡는 사람, 그리고 이기고 싶은 사람.',
-		body: '전공은 상관없습니다. 과학퀴즈팀은 과학을 좋아하면 되고, 인공지능팀은 CS101 정도면 시작할 수 있습니다. 나머지는 들어와서 배우면 됩니다.',
-		cta: '지원하기',
-		ctaNote: 'TODO(owner): 리크루팅 폼 링크 필요',
+		body: '전공은 상관없습니다. 과학퀴즈팀은 과학을 좋아하면 되고, 인공지능팀은 CS101 정도면 시작할 수 있습니다. 나머지는 들어와서 배우면 됩니다. 궁금한 것이 있으면 편하게 메일 주세요.',
+		cta: '메일 보내기',
+		imageAlt: '2025 카포전 AI 종목에서 승리한 뒤 트로피를 들어올리는 VLAB 부원들',
 		channels: [
-			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' },
-			{ label: '이메일', value: 'TODO(owner)', href: 'mailto:' }
+			{
+				label: '이메일',
+				value: 'kaist.victorylab@gmail.com',
+				href: 'mailto:kaist.victorylab@gmail.com'
+			},
+			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' }
 		]
 	},
 	footer: {

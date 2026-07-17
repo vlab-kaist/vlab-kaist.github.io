@@ -4,15 +4,15 @@ import type { Dict } from './types';
  * English copy. Mirrors ko.ts exactly — the Dict type will fail the build if a
  * key drifts, which is the cheapest way to keep two languages in sync.
  *
- * This is written for KAIST's international students, so it explains 카포전
- * ("Kapo-jeon" / the KAIST–POSTECH Science War) rather than assuming it.
+ * Written for KAIST's international students, so it names 카포전 as the
+ * "Kapo Science War" (the club's own English term) rather than assuming it.
  */
 export const en: Dict = {
 	meta: {
 		title: 'VLAB — KAIST Science Quiz & AI Club',
 		description:
-			'VLAB represents KAIST in the Science Quiz and AI events of the annual KAIST–POSTECH Science War. 2025: won Science Quiz 80–75 and the AI event 3–0.',
-		ogAlt: 'VLAB — the club that wins the Science War'
+			'VLAB represents KAIST in the Science Quiz and AI events of the Kapo Science War against POSTECH. 2025: won the AI event 3–0. Science Quiz: won in 2023 and 2024.',
+		ogAlt: 'VLAB — the club that wins the Kapo Science War'
 	},
 	nav: {
 		teams: 'Teams',
@@ -28,19 +28,19 @@ export const en: Dict = {
 	hero: {
 		eyebrow: 'A KAIST academic club',
 		title: 'We win the',
-		titleAccent: 'Science War.',
+		titleAccent: 'Kapo Science War.',
 		lead: 'Science Quiz and Artificial Intelligence. VLAB represents KAIST in both. We answer the questions, we build the agents, and we win.',
-		ctaPrimary: 'Join us',
+		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
-		imageAlt: 'VLAB members together at a pavilion overlooking the sea',
+		imageAlt: 'VLAB members together at a pavilion overlooking the sea in Yeosu',
 		scrollHint: 'Scroll'
 	},
 	stats: {
-		heading: '2025 season',
+		heading: 'Record',
 		items: [
-			{ value: '80 : 75', label: '2025 Science Quiz', note: 'vs POSTECH · won' },
 			{ value: '3 : 0', label: '2025 AI event', note: 'vs POSTECH · won' },
 			{ value: '200+', label: 'Flex training', note: 'in-game years' },
+			{ value: 'ML final', label: 'RLBot Championship', note: '2025 · international' },
 			{ value: '2022', label: 'Founded', note: 'four years running' }
 		]
 	},
@@ -50,13 +50,13 @@ export const en: Dict = {
 		quiz: {
 			name: 'Science Quiz Team',
 			tagline: 'We get every question right.',
-			body: 'Physics, chemistry, biology, earth science, mathematics. The Science War quiz has no syllabus — so we write one.',
+			body: 'Physics, chemistry, biology, earth science, mathematics. The Science Quiz has no syllabus — so we write one.',
 			points: [
 				'Weekly sessions working through past papers together.',
 				'A growing wiki of past questions and worked concepts.',
 				'Full mock rounds run under real match conditions.'
 			],
-			imageAlt: '2025 Science War quiz broadcast. KAIST 80, POSTECH 75.'
+			imageAlt: 'Broadcast of the 2025 Kapo Science War quiz match'
 		},
 		ai: {
 			name: 'AI Team',
@@ -67,7 +67,7 @@ export const en: Dict = {
 				'Our own training infrastructure and simulators, built in-house.',
 				'Seminars pitched so that CS101 is enough to follow along.'
 			],
-			imageAlt: '2025 Science War AI event, Rocket League. The VLAB agent leads against POSTECH.'
+			imageAlt: '2025 AI event, Rocket League. The VLAB agent leads against POSTECH.'
 		}
 	},
 	projects: {
@@ -129,7 +129,7 @@ export const en: Dict = {
 	},
 	history: {
 		heading: 'History',
-		lead: 'From founding to now.',
+		lead: 'From founding to now. The years we won and the years we did not.',
 		entries: [
 			{
 				date: '2026.01',
@@ -139,8 +139,8 @@ export const en: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: 'Won both the Science Quiz and the AI event',
-				body: 'Science Quiz 80–75, AI event 3–0. Both taken in the same season.',
+				title: '2025 Kapo Science War — won the AI event',
+				body: 'Beat POSTECH 3–0 in the AI event. Lost the Science Quiz.',
 				highlight: true
 			},
 			{
@@ -148,19 +148,33 @@ export const en: Dict = {
 				title: 'Flex reaches the RLBot Championship ML finals',
 				body: 'Our Rocket League agent reached the finals of an international competition.'
 			},
-			{ date: '2022.09', title: 'Won the 2022 Science Quiz and AI events', highlight: true },
+			{
+				date: '2024.09',
+				title: '2024 Kapo Science War — won the Science Quiz',
+				body: 'Took the Science Quiz. Lost the AI event.'
+			},
+			{
+				date: '2023.09',
+				title: '2023 Kapo Science War — won the Science Quiz',
+				body: 'Took the Science Quiz. Lost the AI event.'
+			},
+			{ date: '2022.09', title: 'Won both the Science Quiz and the AI event', highlight: true },
 			{ date: '2022.04', title: 'VLAB founded' }
 		]
 	},
 	join: {
 		heading: 'We are looking for people',
 		lead: 'People who stay with a problem. People who want to win.',
-		body: 'Your major does not matter. For the quiz team, liking science is enough. For the AI team, CS101 is enough to start. You can learn the rest here.',
-		cta: 'Apply',
-		ctaNote: 'TODO(owner): recruiting form link needed',
+		body: 'Your major does not matter. For the quiz team, liking science is enough. For the AI team, CS101 is enough to start. You can learn the rest here. If you have questions, just email us.',
+		cta: 'Email us',
+		imageAlt: 'VLAB members lifting the trophy after winning the 2025 AI event',
 		channels: [
-			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' },
-			{ label: 'Email', value: 'TODO(owner)', href: 'mailto:' }
+			{
+				label: 'Email',
+				value: 'kaist.victorylab@gmail.com',
+				href: 'mailto:kaist.victorylab@gmail.com'
+			},
+			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' }
 		]
 	},
 	footer: {

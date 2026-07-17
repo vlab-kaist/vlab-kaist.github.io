@@ -97,7 +97,7 @@ export interface Dict {
 		lead: string;
 		body: string;
 		cta: string;
-		ctaNote: string;
+		imageAlt: string;
 		channels: { label: string; value: string; href: string }[];
 	};
 	footer: {

@@ -1,10 +1,15 @@
 <script lang="ts">
 	import Picture from '$components/Picture.svelte';
 	import Seo from '$components/Seo.svelte';
-	import { GITHUB_ORG } from '$lib/config';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
+
+	// The join CTA is whichever channel is an address, so the button and the
+	// listed contact can never drift apart.
+	const emailHref = $derived(
+		d.join.channels.find((c) => c.href.startsWith('mailto:'))?.href ?? '#join'
+	);
 
 	const teamPanels = $derived([
 		{
@@ -186,10 +191,9 @@
 			<p class="join-text">{d.join.body}</p>
 
 			<div class="join-actions">
-				<!-- TODO(owner): needs the real recruiting form URL — see CONTENT-TODO.md -->
-				<a class="btn btn-primary" href={GITHUB_ORG} target="_blank" rel="noopener noreferrer">
-					{d.join.cta}
-				</a>
+				<!-- The club is not running an application form, so the mail address
+				     is the call to action rather than a recruiting link. -->
+				<a class="btn btn-primary" href={emailHref}>{d.join.cta}</a>
 			</div>
 
 			<dl class="channels">
@@ -197,11 +201,13 @@
 					<div>
 						<dt>{channel.label}</dt>
 						<dd>
-							{#if channel.href && !channel.value.startsWith('TODO')}
-								<a href={channel.href} target="_blank" rel="noopener noreferrer">{channel.value}</a>
-							{:else}
-								<span class="todo">{channel.value}</span>
-							{/if}
+							<a
+								href={channel.href}
+								target={channel.href.startsWith('mailto:') ? undefined : '_blank'}
+								rel={channel.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+							>
+								{channel.value}
+							</a>
 						</dd>
 					</div>
 				{/each}
@@ -209,13 +215,7 @@
 		</div>
 
 		<div class="join-media">
-			<Picture
-				name="win-2025"
-				alt={data.locale === 'ko'
-					? '2025 카포전에서 우승한 KAIST 팀이 트로피를 들어올리는 모습'
-					: 'The KAIST team lifting the trophy after winning the 2025 Science War'}
-				sizes="(max-width: 900px) 92vw, 44vw"
-			/>
+			<Picture name="win-2025" alt={d.join.imageAlt} sizes="(max-width: 900px) 92vw, 44vw" />
 		</div>
 	</div>
 </section>
@@ -763,16 +763,6 @@
 
 	.channels a:hover {
 		color: var(--brand);
-	}
-
-	/* Placeholder styling makes unfilled content impossible to ship by accident. */
-	.todo {
-		font-family: var(--font-mono);
-		font-size: var(--text-xs);
-		color: var(--brand-crimson);
-		background: color-mix(in srgb, var(--brand-crimson) 12%, transparent);
-		padding: 0.15rem 0.4rem;
-		border-radius: var(--radius-sm);
 	}
 
 	.join-media {
