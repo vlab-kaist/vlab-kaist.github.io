@@ -133,6 +133,26 @@
 			background-color var(--dur-base) var(--ease-out),
 			border-color var(--dur-base) var(--ease-out),
 			backdrop-filter var(--dur-base) var(--ease-out);
+
+		/* Once the header has a backdrop it belongs to the page, so it follows
+		   the theme. */
+		--header-fg: var(--text);
+		--header-fg-muted: var(--text-muted);
+		--header-pill-bg: var(--text);
+		--header-pill-fg: var(--bg);
+	}
+
+	/* At the top of the page the header is transparent and sits over the hero
+	   photo, which is scrimmed dark in BOTH themes. So its colours cannot come
+	   from the theme: in light mode --text is near-black and the nav would go
+	   near-invisible against the photo. They are pinned to light-on-dark here.
+	   Assumes every page that renders this header opens with the dark hero;
+	   a page without one should start in the scrolled state. */
+	header:not(.scrolled):not(.open) {
+		--header-fg: #ffffff;
+		--header-fg-muted: rgb(255 255 255 / 0.75);
+		--header-pill-bg: #ffffff;
+		--header-pill-fg: #0a0a10;
 	}
 
 	/* Opaque enough to stay readable on its own: backdrop-filter is skipped
@@ -168,6 +188,9 @@
 		align-items: center;
 		gap: var(--space-2);
 		flex-shrink: 0;
+		/* Logo's detached marks paint with currentColor. */
+		color: var(--header-fg);
+		transition: color var(--dur-base) var(--ease-out);
 	}
 
 	.wordmark {
@@ -185,12 +208,12 @@
 	}
 
 	.links a {
-		color: var(--text-muted);
+		color: var(--header-fg-muted);
 		transition: color var(--dur-fast) var(--ease-out);
 	}
 
 	.links a:hover {
-		color: var(--text);
+		color: var(--header-fg);
 	}
 
 	.actions {
@@ -203,11 +226,14 @@
 	.cta {
 		padding: 0.45rem 0.95rem;
 		border-radius: var(--radius-full);
-		background: var(--text);
-		color: var(--bg);
+		background: var(--header-pill-bg);
+		color: var(--header-pill-fg);
 		font-size: var(--text-sm);
 		font-weight: 600;
-		transition: opacity var(--dur-fast) var(--ease-out);
+		transition:
+			opacity var(--dur-fast) var(--ease-out),
+			background-color var(--dur-base) var(--ease-out),
+			color var(--dur-base) var(--ease-out);
 	}
 
 	.cta:hover {
@@ -222,7 +248,7 @@
 		border: 0;
 		border-radius: var(--radius-md);
 		background: transparent;
-		color: var(--text-muted);
+		color: var(--header-fg-muted);
 		cursor: pointer;
 		transition:
 			background-color var(--dur-fast) var(--ease-out),
@@ -230,8 +256,8 @@
 	}
 
 	.icon-btn:hover {
-		background: var(--surface-hover);
-		color: var(--text);
+		background: color-mix(in srgb, var(--header-fg) 12%, transparent);
+		color: var(--header-fg);
 	}
 
 	.icon-btn svg {

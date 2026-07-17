@@ -26,11 +26,17 @@ export function localeFromParam(param: string | undefined): Locale {
 /**
  * Build an href for `path` in `locale`.
  * The default locale lives at the root; others are prefixed (`/en/...`).
+ *
+ * Always emits a trailing slash, to match `trailingSlash: 'always'` in
+ * +layout.ts. Without it the canonical tag, the hreflang alternates and the
+ * sitemap would all advertise `/en`, which only exists as a redirect to `/en/`
+ * — pointing canonical URLs at a redirect is exactly the kind of thing that
+ * quietly costs a site its search ranking.
  */
 export function localeHref(locale: Locale, path = '/'): string {
 	const clean = path.startsWith('/') ? path : `/${path}`;
-	if (locale === defaultLocale) return clean === '/' ? '/' : clean;
-	return clean === '/' ? `/${locale}` : `/${locale}${clean}`;
+	const withSlash = clean.endsWith('/') ? clean : `${clean}/`;
+	return locale === defaultLocale ? withSlash : `/${locale}${withSlash}`;
 }
 
 /** `<html lang>` value. */
