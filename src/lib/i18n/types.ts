@@ -20,6 +20,15 @@ export interface TimelineEntry {
 	highlight?: boolean;
 }
 
+export interface Sponsor {
+	name: string;
+	/** Path under static/sponsors/. Supply a logo that reads on a dark field. */
+	logo: string;
+	href: string;
+	/** Optional one-liner on what they actually provide. */
+	note?: string;
+}
+
 export interface Project {
 	id: string;
 	name: string;
@@ -99,6 +108,10 @@ export interface Dict {
 		cta: string;
 		imageAlt: string;
 		channels: { label: string; value: string; href: string }[];
+	};
+	sponsors: {
+		heading: string;
+		items: Sponsor[];
 	};
 	footer: {
 		blurb: string;

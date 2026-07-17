@@ -50,8 +50,9 @@
 </footer>
 
 <style>
+	/* No margin-top: whatever precedes the footer carries its own bottom padding,
+	   and adding a section gap on top of it left a dead band of empty page. */
 	footer {
-		margin-top: var(--section-gap);
 		border-top: 1px solid var(--border);
 		background: var(--bg-subtle);
 		padding-block: var(--space-7);

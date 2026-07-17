@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from '$components/Header.svelte';
 	import Footer from '$components/Footer.svelte';
+	import Sponsors from '$components/Sponsors.svelte';
 
 	let { data, children } = $props();
 </script>
@@ -14,6 +15,7 @@
 	{@render children()}
 </main>
 
+<Sponsors dict={data.dict} />
 <Footer dict={data.dict} year={data.year} />
 
 <style>

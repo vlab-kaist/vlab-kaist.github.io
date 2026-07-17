@@ -179,6 +179,16 @@ export const ko: Dict = {
 			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' }
 		]
 	},
+	sponsors: {
+		heading: '후원',
+		items: [
+			{
+				name: '엘리스',
+				logo: 'elice.png',
+				href: 'https://elice.io/'
+			}
+		]
+	},
 	footer: {
 		blurb: 'KAIST 과학퀴즈 · 인공지능 학술동아리',
 		copyright: '© {year} VLAB. All rights reserved.',

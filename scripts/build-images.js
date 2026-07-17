@@ -42,9 +42,88 @@ const IMAGES = {
 	wiki: { file: 'wiki.jpg', widths: [640, 1024, 1600] }
 };
 
+/**
+ * Sponsor logos. Each is rendered at 4x its 30px display height so it stays
+ * crisp on any screen.
+ *
+ * `cutWhite` flood-fills the white background to transparent — see cutBackground
+ * below for why that is not just "make white transparent".
+ */
+const SPONSORS = {
+	elice: { file: 'elice-logo.png', height: 120, cutWhite: true }
+};
+
 const AVIF = { quality: 50, effort: 6 };
 const WEBP = { quality: 78 };
 const JPEG = { quality: 80, mozjpeg: true };
+
+/**
+ * Make a logo's white background transparent, without destroying white parts of
+ * the artwork itself.
+ *
+ * Elice's logo is white lettering inside a purple blob, supplied on a solid
+ * white background. A naive white -> transparent would knock out the lettering
+ * too, since those pixels are also white. So instead this flood-fills inward
+ * from the edges: pixels enclosed by the blob are never reached and survive.
+ *
+ * Rim pixels get partial alpha derived from their luminance, otherwise the blob
+ * ships with a hard white fringe against a dark page.
+ *
+ * Never do this by colour-filtering a sponsor's mark — that alters their brand.
+ * If a sponsor supplies a transparent asset, drop `cutWhite` and use it as-is.
+ */
+async function cutBackground(input) {
+	const { data, info } = await sharp(input)
+		.ensureAlpha()
+		.raw()
+		.toBuffer({ resolveWithObject: true });
+	const { width: W, height: H } = info;
+	const at = (x, y) => (y * W + x) * 4;
+	const isWhite = (i) => data[i] > 232 && data[i + 1] > 232 && data[i + 2] > 232;
+
+	const outside = new Uint8Array(W * H);
+	const stack = [];
+	for (let x = 0; x < W; x++) stack.push([x, 0], [x, H - 1]);
+	for (let y = 0; y < H; y++) stack.push([0, y], [W - 1, y]);
+
+	while (stack.length) {
+		const [x, y] = stack.pop();
+		if (x < 0 || y < 0 || x >= W || y >= H) continue;
+		const idx = y * W + x;
+		if (outside[idx] || !isWhite(at(x, y))) continue;
+		outside[idx] = 1;
+		stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+	}
+
+	const NEIGHBOURS = [
+		[1, 0],
+		[-1, 0],
+		[0, 1],
+		[0, -1]
+	];
+	for (let y = 0; y < H; y++) {
+		for (let x = 0; x < W; x++) {
+			const i = at(x, y);
+			if (outside[y * W + x]) {
+				data[i + 3] = 0;
+				continue;
+			}
+			const onRim = NEIGHBOURS.some(([dx, dy]) => {
+				const nx = x + dx;
+				const ny = y + dy;
+				return nx >= 0 && ny >= 0 && nx < W && ny < H && outside[ny * W + nx];
+			});
+			if (onRim) {
+				const lum = (data[i] + data[i + 1] + data[i + 2]) / 3;
+				data[i + 3] = Math.max(0, Math.min(255, Math.round((255 - lum) * 1.6)));
+			}
+		}
+	}
+
+	return sharp(data, { raw: { width: W, height: H, channels: 4 } })
+		.png()
+		.toBuffer();
+}
 
 mkdirSync(OUT, { recursive: true });
 
@@ -115,6 +194,27 @@ export const images = ${JSON.stringify(manifest, null, '\t')} as const satisfies
 export type ImageName = keyof typeof images;
 `;
 writeFileSync(join(ROOT, 'src', 'lib', 'data', 'images.ts'), ts);
+
+// ---- Sponsor logos ----
+const SPONSOR_OUT = join(ROOT, 'static', 'sponsors');
+mkdirSync(SPONSOR_OUT, { recursive: true });
+
+for (const [name, cfg] of Object.entries(SPONSORS)) {
+	const input = join(SRC, cfg.file);
+	if (!existsSync(input)) {
+		console.error(`Missing sponsor logo: images.source/${cfg.file}`);
+		process.exit(1);
+	}
+	const prepared = cfg.cutWhite ? await cutBackground(input) : readFileSync(input);
+	const dest = join(SPONSOR_OUT, `${name}.png`);
+	await sharp(prepared)
+		.trim({ threshold: 1 })
+		.resize({ height: cfg.height, withoutEnlargement: true })
+		.png({ compressionLevel: 9, palette: true })
+		.toFile(dest);
+	bytes += statSync(dest).size;
+	console.log(`  ${name.padEnd(14)} sponsor logo (${(statSync(dest).size / 1024).toFixed(1)} KB)`);
+}
 
 // ---- Icons ----
 const favicon = readFileSync(join(ROOT, 'static', 'favicon.svg'));

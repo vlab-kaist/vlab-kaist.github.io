@@ -177,6 +177,16 @@ export const en: Dict = {
 			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' }
 		]
 	},
+	sponsors: {
+		heading: 'Supported by',
+		items: [
+			{
+				name: 'Elice',
+				logo: 'elice.png',
+				href: 'https://elice.io/'
+			}
+		]
+	},
 	footer: {
 		blurb: 'KAIST Science Quiz & AI club',
 		copyright: '© {year} VLAB. All rights reserved.',
