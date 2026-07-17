@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Picture from '$components/Picture.svelte';
 	import Seo from '$components/Seo.svelte';
+	import { reveal } from '$lib/actions/reveal';
+	import { spotlight } from '$lib/actions/spotlight';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
@@ -32,6 +34,14 @@
 
 <Seo dict={d} locale={data.locale} />
 
+{#snippet sectionHead(heading: string, lead: string)}
+	<header class="section-head" use:reveal>
+		<span class="kicker" aria-hidden="true"></span>
+		<h2>{heading}</h2>
+		<p class="section-lead">{lead}</p>
+	</header>
+{/snippet}
+
 <!-- ============================ HERO ============================ -->
 <section class="hero">
 	<div class="hero-media">
@@ -40,13 +50,13 @@
 	</div>
 
 	<div class="hero-body">
-		<p class="eyebrow">{d.hero.eyebrow}</p>
-		<h1>
+		<p class="eyebrow enter" style="--enter: 1">{d.hero.eyebrow}</p>
+		<h1 class="enter" style="--enter: 2">
 			{d.hero.title}<br />
 			<span class="gradient-text">{d.hero.titleAccent}</span>
 		</h1>
-		<p class="lead">{d.hero.lead}</p>
-		<div class="hero-cta">
+		<p class="lead enter" style="--enter: 3">{d.hero.lead}</p>
+		<div class="hero-cta enter" style="--enter: 4">
 			<a class="btn btn-primary" href="#join">{d.hero.ctaPrimary}</a>
 			<a class="btn btn-ghost" href="#projects">{d.hero.ctaSecondary}</a>
 		</div>
@@ -58,8 +68,8 @@
 	<div class="scoreboard">
 		<h2 class="visually-hidden">{d.stats.heading}</h2>
 		<ul>
-			{#each d.stats.items as stat (stat.label)}
-				<li>
+			{#each d.stats.items as stat, i (stat.label)}
+				<li class="enter" style="--enter: {5 + i}">
 					<span class="stat-value">{stat.value}</span>
 					<span class="stat-label">{stat.label}</span>
 					{#if stat.note}<span class="stat-note">{stat.note}</span>{/if}
@@ -72,16 +82,18 @@
 <!-- ============================ TEAMS ============================ -->
 <section id="teams" class="section">
 	<div class="container">
-		<header class="section-head">
-			<h2>{d.teams.heading}</h2>
-			<p class="section-lead">{d.teams.lead}</p>
-		</header>
+		{@render sectionHead(d.teams.heading, d.teams.lead)}
 	</div>
 
 	<div class="container">
 		<div class="panels">
-			{#each teamPanels as panel (panel.id)}
-				<article class="panel" style="--accent: {panel.accent}">
+			{#each teamPanels as panel, i (panel.id)}
+				<article
+					class="panel"
+					style="--accent: {panel.accent}"
+					use:reveal={{ delay: i * 90 }}
+					use:spotlight
+				>
 					<div class="panel-media">
 						<Picture
 							name={panel.image}
@@ -108,13 +120,10 @@
 <!-- ============================ PROJECTS ============================ -->
 <section id="projects" class="section section-alt">
 	<div class="container">
-		<header class="section-head">
-			<h2>{d.projects.heading}</h2>
-			<p class="section-lead">{d.projects.lead}</p>
-		</header>
+		{@render sectionHead(d.projects.heading, d.projects.lead)}
 
 		{#if featured}
-			<article class="featured">
+			<article class="featured" use:reveal use:spotlight>
 				<div class="featured-media">
 					<Picture
 						name="flex-rlbot"
@@ -136,9 +145,9 @@
 		{/if}
 
 		<ul class="cards">
-			{#each rest as project (project.id)}
-				<li>
-					<article class="card">
+			{#each rest as project, i (project.id)}
+				<li use:reveal={{ delay: (i % 3) * 90 }}>
+					<article class="card" use:spotlight>
 						<h3>{project.name}</h3>
 						<p class="card-tagline">{project.tagline}</p>
 						<p class="card-text">{project.body}</p>
@@ -163,14 +172,11 @@
 <!-- ============================ HISTORY ============================ -->
 <section id="history" class="section">
 	<div class="container">
-		<header class="section-head">
-			<h2>{d.history.heading}</h2>
-			<p class="section-lead">{d.history.lead}</p>
-		</header>
+		{@render sectionHead(d.history.heading, d.history.lead)}
 
 		<ol class="timeline">
-			{#each d.history.entries as entry (entry.date + entry.title)}
-				<li class:highlight={entry.highlight}>
+			{#each d.history.entries as entry, i (entry.date + entry.title)}
+				<li class:highlight={entry.highlight} use:reveal={{ delay: Math.min(i, 4) * 70 }}>
 					<time datetime={entry.date.replace('.', '-')}>{entry.date}</time>
 					<div class="timeline-body">
 						<h3>{entry.title}</h3>
@@ -185,7 +191,8 @@
 <!-- ============================ JOIN ============================ -->
 <section id="join" class="section section-alt">
 	<div class="container join">
-		<div class="join-copy">
+		<div class="join-copy" use:reveal>
+			<span class="kicker" aria-hidden="true"></span>
 			<h2>{d.join.heading}</h2>
 			<p class="join-lead">{d.join.lead}</p>
 			<p class="join-text">{d.join.body}</p>
@@ -214,7 +221,7 @@
 			</dl>
 		</div>
 
-		<div class="join-media">
+		<div class="join-media" use:reveal={{ delay: 120 }}>
 			<Picture name="win-2025" alt={d.join.imageAlt} sizes="(max-width: 900px) 92vw, 44vw" />
 		</div>
 	</div>
@@ -233,14 +240,28 @@
 		padding-block: var(--section-gap);
 	}
 
+	/* Slightly translucent so the aurora bleeds through the "solid" panels too,
+	   keeping the whole page on one continuous field of light rather than
+	   alternating lit / flat bands. */
 	.section-alt {
-		background: var(--bg-subtle);
+		background: color-mix(in srgb, var(--bg-subtle) 86%, transparent);
 		border-block: 1px solid var(--border);
 	}
 
 	.section-head {
 		max-width: var(--measure);
 		margin-bottom: var(--space-7);
+	}
+
+	/* Small gradient tick above each section title — a quiet rhythm marker that
+	   ties the section headings to the brand without shouting. */
+	.kicker {
+		display: block;
+		width: 42px;
+		height: 3px;
+		margin-bottom: var(--space-4);
+		border-radius: var(--radius-full);
+		background: var(--brand-gradient);
 	}
 
 	.section-head h2 {
@@ -336,6 +357,22 @@
 		margin-inline: auto;
 		padding: var(--space-9) var(--gutter) var(--space-7);
 		color: #fff;
+	}
+
+	/* Staggered entrance for hero + scoreboard. These are above the fold, so they
+	   animate on load rather than on scroll — --enter sets each element's place
+	   in the sequence. Reduced motion removes it via the global rule in base.css,
+	   and the elements are visible by default (animation only moves them in). */
+	.enter {
+		animation: enter 0.75s var(--ease-out) both;
+		animation-delay: calc(var(--enter, 0) * 90ms);
+	}
+
+	@keyframes enter {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
 	}
 
 	.eyebrow {
@@ -436,12 +473,16 @@
 		overflow: hidden;
 		transition:
 			border-color var(--dur-base) var(--ease-out),
-			transform var(--dur-base) var(--ease-out);
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
 	}
 
 	.panel:hover {
 		border-color: var(--accent);
-		transform: translateY(-3px);
+		transform: translateY(-4px);
+		/* Glow tinted to the team's own accent, so the two panels light up in
+		   their respective colours. */
+		box-shadow: 0 24px 60px -24px color-mix(in srgb, var(--accent) 60%, transparent);
 	}
 
 	/* Image first, then text — the old cards put the copy above the photo,
@@ -522,15 +563,45 @@
 		border: 1px solid var(--border);
 		border-radius: var(--radius-xl);
 		position: relative;
+		isolation: isolate;
 		overflow: hidden;
+		transition:
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
 	}
 
+	/* Gradient hairline across the top edge — the mark of the "hero" project. */
 	.featured::before {
 		content: '';
 		position: absolute;
 		inset: 0 0 auto 0;
 		height: 2px;
 		background: var(--brand-gradient);
+		z-index: 1;
+	}
+
+	/* Cursor spotlight, sitting beneath the content. */
+	.featured::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: radial-gradient(
+			460px circle at var(--spot-x, 70%) var(--spot-y, 40%),
+			color-mix(in srgb, var(--brand-violet) 16%, transparent),
+			transparent 60%
+		);
+		opacity: 0;
+		transition: opacity var(--dur-base) var(--ease-out);
+	}
+
+	.featured:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.featured:hover::after {
+		opacity: 1;
 	}
 
 	.featured-media {
@@ -565,6 +636,9 @@
 	}
 
 	.card {
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
@@ -575,12 +649,35 @@
 		border-radius: var(--radius-lg);
 		transition:
 			border-color var(--dur-base) var(--ease-out),
-			background-color var(--dur-base) var(--ease-out);
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
+	}
+
+	/* Cursor spotlight: a brand-tinted glow that tracks the pointer (--spot-x/y
+	   are written by use:spotlight). z-index:-1 keeps it above the card's own
+	   surface but beneath the text. */
+	.card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: radial-gradient(
+			340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+			color-mix(in srgb, var(--brand) 20%, transparent),
+			transparent 62%
+		);
+		opacity: 0;
+		transition: opacity var(--dur-base) var(--ease-out);
 	}
 
 	.card:hover {
-		border-color: var(--border-strong);
-		background: var(--surface-hover);
+		border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.card:hover::before {
+		opacity: 1;
 	}
 
 	.card h3 {

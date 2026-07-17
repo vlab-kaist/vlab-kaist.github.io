@@ -37,6 +37,19 @@
 				} catch {
 					/* private mode / storage blocked — the dark default in the markup stands */
 				}
+
+				// Arm scroll-reveal animations before first paint, but only when the
+				// visitor has not asked for reduced motion. Elements marked
+				// [data-reveal] then start hidden and fade in as they enter view; if
+				// this class is never set, they simply stay visible. See
+				// src/lib/actions/reveal.ts.
+				try {
+					if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+						document.documentElement.classList.add('reveal-ready');
+					}
+				} catch {
+					/* no matchMedia — leave reveals disarmed, content stays visible */
+				}
 			})();
 		</script>
 

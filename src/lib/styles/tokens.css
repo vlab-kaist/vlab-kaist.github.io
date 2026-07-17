@@ -120,6 +120,8 @@
 	--shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.5);
 	--shadow-lg: 0 16px 48px -8px rgb(0 0 0 / 0.65);
 
+	--grain-opacity: 0.04;
+
 	/* Scrim over photography.
 	   Two layers, because one is never enough on a real photo: a vertical ramp
 	   that anchors the text block, plus a horizontal one so copy set against a
@@ -161,6 +163,9 @@
 	--shadow-sm: 0 1px 2px rgb(16 16 40 / 0.06);
 	--shadow-md: 0 4px 16px -2px rgb(16 16 40 / 0.08);
 	--shadow-lg: 0 16px 48px -8px rgb(16 16 40 / 0.12);
+
+	/* Grain is barely there on white — just enough to stop gradient banding. */
+	--grain-opacity: 0.02;
 
 	/* The hero keeps its dark treatment in light mode: the photo is the same
 	   photo, and white-on-photo needs the same protection either way. */
