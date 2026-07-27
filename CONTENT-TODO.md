@@ -53,9 +53,11 @@ Answered items are already in the site. What follows is what remains.
 
 ### 6. 공개 전: 사진 속 인물 동의
 
-`team-2025`(여수 단체 사진)와 `win-2025`(트로피)에는 부원 얼굴이 알아볼 수 있게 나옵니다.
+`team-2025`(여수 단체 사진), `win-2025`(트로피), 그리고 **'생활' 섹션의 5장**
+(`life-practice` 동아리방, `life-festival` 학생문화제, `life-picnic`·`life-strawberry` 딸기 파티,
+`life-dinner` 회식)에는 부원 얼굴이 알아볼 수 있게 나옵니다.
 
-- [ ] 공개 전에 사진에 나온 사람들 동의 확인
+- [ ] 공개 전에 사진에 나온 사람들 동의 확인 (특히 생활 섹션의 셀카·회식 사진)
 - [ ] 내리고 싶은 사람은 `kaist.victorylab@gmail.com` 로 연락하면 되도록 안내할지
 
 > 참고: 예전 사이트에는 `img.png`(20MB, 4032×3024 인물 사진)가 **아무 페이지에도 연결되지 않은 채**

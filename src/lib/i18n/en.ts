@@ -17,6 +17,7 @@ export const en: Dict = {
 	nav: {
 		teams: 'Teams',
 		projects: 'Projects',
+		life: 'Life',
 		history: 'History',
 		join: 'Join',
 		skipToContent: 'Skip to content',
@@ -160,6 +161,37 @@ export const en: Dict = {
 			},
 			{ date: '2022.09', title: 'Won both the Science Quiz and the AI event', highlight: true },
 			{ date: '2022.04', title: 'VLAB founded' }
+		]
+	},
+	life: {
+		heading: 'It is not all about winning',
+		lead: 'We study together, eat together, and hang out together. This is the real VLAB.',
+		captions: [
+			{
+				title: 'Practice',
+				subtitle: 'Until the whiteboard is full',
+				alt: 'VLAB members preparing for the Kapo Science War in the club room, laptops and a whiteboard'
+			},
+			{
+				title: 'Culture Festival',
+				subtitle: 'We run a booth and meet people',
+				alt: 'Members gathered in front of the VLAB booth at the KAIST student culture festival'
+			},
+			{
+				title: 'Strawberry Party',
+				subtitle: 'On the lawn, under the blossoms',
+				alt: 'VLAB members sharing strawberries on the spring campus lawn under cherry blossoms'
+			},
+			{
+				title: 'Team Dinner',
+				subtitle: 'You fight better on a full stomach',
+				alt: 'VLAB members grilling and sharing a meal together at night'
+			},
+			{
+				title: 'Spring Picnic',
+				subtitle: 'The day everyone shows up',
+				alt: 'VLAB members gathered together on a picnic mat on the KAIST campus lawn'
+			}
 		]
 	},
 	join: {

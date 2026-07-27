@@ -39,7 +39,14 @@ const IMAGES = {
 	'quiz-2025': { file: 'quiz-2025.jpg', widths: [640, 1024, 1600], cropBottom: 204 },
 	'win-2022': { file: 'win-2022.jpg', widths: [640, 1024, 1600] },
 	seminar: { file: 'seminar.jpg', widths: [640, 1024, 1440] },
-	wiki: { file: 'wiki.jpg', widths: [640, 1024, 1600] }
+	wiki: { file: 'wiki.jpg', widths: [640, 1024, 1600] },
+
+	// Club-life photos for the "동아리 생활" crossfade showcase.
+	'life-practice': { file: 'life-practice.jpg', widths: [640, 1024, 1600] },
+	'life-festival': { file: 'life-festival.jpg', widths: [640, 1024, 1600] },
+	'life-picnic': { file: 'life-picnic.jpg', widths: [640, 1024, 1600] },
+	'life-dinner': { file: 'life-dinner.jpg', widths: [640, 1024, 1600] },
+	'life-strawberry': { file: 'life-strawberry.jpg', widths: [640, 1024, 1600] }
 };
 
 /**

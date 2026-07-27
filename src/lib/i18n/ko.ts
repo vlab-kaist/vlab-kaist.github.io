@@ -18,6 +18,7 @@ export const ko: Dict = {
 	nav: {
 		teams: '팀',
 		projects: '프로젝트',
+		life: '생활',
 		history: '연혁',
 		join: '함께하기',
 		skipToContent: '본문 바로가기',
@@ -162,6 +163,37 @@ export const ko: Dict = {
 			},
 			{ date: '2022.09', title: '2022 카포전 과학퀴즈 · AI 종목 우승', highlight: true },
 			{ date: '2022.04', title: 'VLAB 설립' }
+		]
+	},
+	life: {
+		heading: '이기기만 하는 건 아닙니다',
+		lead: '같이 공부하고, 같이 먹고, 같이 놉니다. VLAB의 진짜 모습.',
+		captions: [
+			{
+				title: '카포전 연습',
+				subtitle: '화이트보드가 가득 찰 때까지',
+				alt: '동아리방에서 노트북과 화이트보드를 두고 카포전을 준비하는 VLAB 부원들'
+			},
+			{
+				title: '학생문화제',
+				subtitle: '부스를 열고 사람들을 만납니다',
+				alt: 'KAIST 학생문화제에서 VLAB 부스 앞에 모여 사진을 찍는 부원들'
+			},
+			{
+				title: '딸기 파티',
+				subtitle: '벚꽃 아래, 잔디밭에서',
+				alt: '벚꽃이 핀 봄 캠퍼스 잔디밭에서 딸기를 나눠 먹는 VLAB 부원들'
+			},
+			{
+				title: '회식',
+				subtitle: '잘 싸우려면 잘 먹어야죠',
+				alt: '밤에 다 같이 모여 고기를 구워 먹는 VLAB 회식'
+			},
+			{
+				title: '봄 소풍',
+				subtitle: '다 같이 모이는 날',
+				alt: 'KAIST 캠퍼스 잔디밭에서 돗자리를 펴고 다 함께 모인 VLAB 부원들'
+			}
 		]
 	},
 	join: {

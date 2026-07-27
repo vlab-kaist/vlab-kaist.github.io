@@ -98,6 +98,61 @@ export const images = {
 			1600
 		],
 		"fallback": 1600
+	},
+	"life-practice": {
+		"width": 2000,
+		"height": 1500,
+		"ratio": 1.3333,
+		"widths": [
+			640,
+			1024,
+			1600
+		],
+		"fallback": 1600
+	},
+	"life-festival": {
+		"width": 1600,
+		"height": 901,
+		"ratio": 1.7758,
+		"widths": [
+			640,
+			1024,
+			1600
+		],
+		"fallback": 1600
+	},
+	"life-picnic": {
+		"width": 2000,
+		"height": 1500,
+		"ratio": 1.3333,
+		"widths": [
+			640,
+			1024,
+			1600
+		],
+		"fallback": 1600
+	},
+	"life-dinner": {
+		"width": 2000,
+		"height": 1500,
+		"ratio": 1.3333,
+		"widths": [
+			640,
+			1024,
+			1600
+		],
+		"fallback": 1600
+	},
+	"life-strawberry": {
+		"width": 2000,
+		"height": 1500,
+		"ratio": 1.3333,
+		"widths": [
+			640,
+			1024,
+			1600
+		],
+		"fallback": 1600
 	}
 } as const satisfies Record<string, ImageMeta>;
 

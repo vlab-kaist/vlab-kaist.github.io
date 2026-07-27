@@ -50,6 +50,7 @@ export interface Dict {
 	nav: {
 		teams: string;
 		projects: string;
+		life: string;
 		history: string;
 		join: string;
 		skipToContent: string;
@@ -100,6 +101,12 @@ export interface Dict {
 		heading: string;
 		lead: string;
 		entries: TimelineEntry[];
+	};
+	life: {
+		heading: string;
+		lead: string;
+		/** One per showcase slide, paired by index with the image list in Showcase.svelte. */
+		captions: { title: string; subtitle: string; alt: string }[];
 	};
 	join: {
 		heading: string;

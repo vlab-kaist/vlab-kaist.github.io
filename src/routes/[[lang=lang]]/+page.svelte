@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Picture from '$components/Picture.svelte';
 	import Seo from '$components/Seo.svelte';
+	import Showcase from '$components/Showcase.svelte';
 	import { reveal } from '$lib/actions/reveal';
 	import { spotlight } from '$lib/actions/spotlight';
 
@@ -169,6 +170,16 @@
 	</div>
 </section>
 
+<!-- ============================ LIFE ============================ -->
+<section id="life" class="section">
+	<div class="container">
+		{@render sectionHead(d.life.heading, d.life.lead)}
+		<div use:reveal>
+			<Showcase dict={d} />
+		</div>
+	</div>
+</section>
+
 <!-- ============================ HISTORY ============================ -->
 <section id="history" class="section">
 	<div class="container">
@@ -244,8 +255,28 @@
 	   keeping the whole page on one continuous field of light rather than
 	   alternating lit / flat bands. */
 	.section-alt {
+		position: relative;
 		background: color-mix(in srgb, var(--bg-subtle) 86%, transparent);
-		border-block: 1px solid var(--border);
+	}
+
+	/* Soft dividers instead of hard 1px rules: a hairline that fades out toward
+	   the edges, so sections flow into each other rather than snapping. */
+	.section-alt::before,
+	.section-alt::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+	}
+
+	.section-alt::before {
+		top: 0;
+	}
+
+	.section-alt::after {
+		bottom: 0;
 	}
 
 	.section-head {
@@ -339,6 +370,23 @@
 		height: 100%;
 		object-fit: cover;
 		object-position: 50% 38%;
+	}
+
+	/* A very slow zoom gives the still hero a living, breathing quality. Long and
+	   gentle so it never reads as "moving" — just alive. Off under reduced motion. */
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-media :global(img) {
+			animation: hero-zoom 26s var(--ease-in-out) infinite alternate;
+		}
+	}
+
+	@keyframes hero-zoom {
+		from {
+			transform: scale(1);
+		}
+		to {
+			transform: scale(1.07);
+		}
 	}
 
 	/* z-index is relative to .hero-media, which is its own stacking context.

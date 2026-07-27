@@ -17,6 +17,7 @@
 	const sections = $derived([
 		{ href: '#teams', label: dict.nav.teams },
 		{ href: '#projects', label: dict.nav.projects },
+		{ href: '#life', label: dict.nav.life },
 		{ href: '#history', label: dict.nav.history }
 	]);
 
