@@ -6,12 +6,15 @@ import type { Dict } from './types';
  *
  * Written for KAIST's international students, so it names 카포전 as the
  * "Kapo Science War" (the club's own English term) rather than assuming it.
+ *
+ * Mirror the *register* too, not just the facts. See the voice note at the top
+ * of ko.ts: plain, concrete, uneven sentence lengths, no closing punchline.
  */
 export const en: Dict = {
 	meta: {
 		title: 'VLAB — KAIST Science Quiz & AI Club',
 		description:
-			'VLAB represents KAIST in the Science Quiz and AI events of the Kapo Science War against POSTECH. 2025: won the AI event 3–0. Science Quiz: won in 2023 and 2024.',
+			'VLAB is a student club at KAIST. We enter the Science Quiz and AI events of the Kapo Science War against POSTECH. We won the AI event 3–0 in 2025, and the Science Quiz in 2023 and 2024.',
 		ogAlt: 'VLAB — the club that wins the Kapo Science War'
 	},
 	nav: {
@@ -29,7 +32,7 @@ export const en: Dict = {
 		eyebrow: 'A KAIST academic club',
 		title: 'We win the',
 		titleAccent: 'Kapo Science War.',
-		lead: 'Science Quiz and Artificial Intelligence. VLAB represents KAIST in both. We answer the questions, we build the agents, and we win.',
+		lead: 'A KAIST student club that enters the Science Quiz and AI events of the Kapo Science War. We started in 2022 and have entered both events every year since.',
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
 		imageAlt: 'VLAB members together at a pavilion overlooking the sea in Yeosu',
@@ -45,26 +48,26 @@ export const en: Dict = {
 		]
 	},
 	teams: {
-		heading: 'Two teams, one goal',
-		lead: 'VLAB solves the same problem two ways. One team answers the questions itself. The other builds the machine that answers them.',
+		heading: 'The Science Quiz team and the AI team',
+		lead: 'The two barely overlap. The quiz team meets every week to work through problems; the AI team spends that time writing code.',
 		quiz: {
 			name: 'Science Quiz Team',
-			tagline: 'We get every question right.',
-			body: 'Physics, chemistry, biology, earth science, mathematics. The Science Quiz has no syllabus — so we write one.',
+			tagline: 'Preparing every week for an exam with no syllabus.',
+			body: 'Physics, chemistry, biology, earth science and maths all come up. Nothing is off the table, so we collect the past papers, write up our own notes, and study from those.',
 			points: [
-				'Weekly sessions working through past papers together.',
-				'A growing wiki of past questions and worked concepts.',
-				'Full mock rounds run under real match conditions.'
+				'Weekly sessions on past papers and likely questions.',
+				'Everything we write up goes into a wiki.',
+				'Mock rounds run in the real match format.'
 			],
 			imageAlt: 'Broadcast of the 2025 Kapo Science War quiz match'
 		},
 		ai: {
 			name: 'AI Team',
-			tagline: 'We build agents that win.',
-			body: 'From reinforcement learning to hand-written heuristics, we implement whatever it takes to beat the game we are given. And then we beat it.',
+			tagline: 'We build the program that plays the game.',
+			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League — so we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
 			points: [
-				'A new agent designed around each season’s AI event task.',
-				'Our own training infrastructure and simulators, built in-house.',
+				'Once the season’s task is announced, we design a new agent around it.',
+				'We build the simulators and training infrastructure ourselves.',
 				'Seminars pitched so that CS101 is enough to follow along.'
 			],
 			imageAlt: '2025 AI event, Rocket League. The VLAB agent leads against POSTECH.'
@@ -72,14 +75,14 @@ export const en: Dict = {
 	},
 	projects: {
 		heading: 'What we build',
-		lead: 'Most of what we make is public. Here is some of it.',
+		lead: 'Most of what we make ends up on GitHub. Here is some of it.',
 		viewRepo: 'View repository',
 		items: [
 			{
 				id: 'flex',
 				name: 'Flex',
 				tagline: 'The Rocket League agent that won 2025 three–nil',
-				body: 'Trained for over 200 in-game years of reinforcement learning against a pool of 100+ self-play models, then refined with behaviour cloning and further fine-tuning. It beat POSTECH 3–0 in the 2025 AI event and reached the ML finals of the RLBot Championship 2025.',
+				body: 'Trained against a pool of 100+ self-play models for over 200 in-game years, then refined with behaviour cloning and further fine-tuning. It beat POSTECH 3–0 in the 2025 AI event and made the ML finals of the RLBot Championship 2025.',
 				tags: ['Reinforcement learning', 'Self-play', 'Python'],
 				image: 'flex-rlbot',
 				imageAlt: 'RLBot Championship 2025 ML finals bracket showing Flex by KAIST AI Club.',
@@ -89,7 +92,7 @@ export const en: Dict = {
 				id: 'rocketsim',
 				name: 'RocketSim · pyvrsim',
 				tagline: 'A fast Rocket League simulator built for training',
-				body: 'Training an agent means running the game absurdly fast. We maintain a C++ simulator and a Python binding that keeps C++-level parallelism.',
+				body: 'Training an agent means running the game very fast. So we maintain our own C++ simulator, plus a Python binding that keeps the parallelism you would get in C++.',
 				tags: ['C++', 'Python bindings', 'Simulation'],
 				repo: 'https://github.com/vlab-kaist/RocketSim'
 			},
@@ -97,7 +100,7 @@ export const en: Dict = {
 				id: 'neopjuki',
 				name: 'Neopjuki',
 				tagline: 'A Puoribor agent',
-				body: 'An agent for Puoribor, the board game set as the 2022–2023 AI event task, combining search with a neural network.',
+				body: 'An agent for Puoribor, the board game set as the AI event task in 2022–2023. Search, with a neural network on top.',
 				tags: ['Search', 'Neural networks', 'Python'],
 				repo: 'https://github.com/vlab-kaist/Neopjuki-v2'
 			},
@@ -105,7 +108,7 @@ export const en: Dict = {
 				id: 'melee',
 				name: 'Melee-PPO',
 				tagline: 'Reinforcement learning for a fighting game',
-				body: 'Training real-time fighting-game policies with PPO — an environment that demands fast reactions and long-horizon strategy at the same time.',
+				body: 'An experiment in training real-time fighting-game policies with PPO. The environment wants split-second reactions and long-horizon strategy at once, which makes the policy awkward to learn.',
 				tags: ['PPO', 'Reinforcement learning'],
 				repo: 'https://github.com/vlab-kaist/Melee-PPO'
 			},
@@ -113,7 +116,7 @@ export const en: Dict = {
 				id: 'nn101',
 				name: 'NN101',
 				tagline: 'A deep learning course for new members',
-				body: 'Regression, then classification, MLPs, CNNs, RNNs and Transformers. Materials and assignments published weekly alongside live sessions. It became the AI Winter Camp in January 2026.',
+				body: 'Regression first, then classification, MLPs, CNNs, RNNs and Transformers. Materials and assignments go out weekly, with live sessions alongside. It became the AI Winter Camp in January 2026.',
 				tags: ['Teaching', 'Curriculum'],
 				repo: 'https://github.com/vlab-kaist/NN101_23S'
 			},
@@ -129,12 +132,12 @@ export const en: Dict = {
 	},
 	history: {
 		heading: 'History',
-		lead: 'From founding to now. The years we won and the years we did not.',
+		lead: 'From 2022 to now. The years we lost are in here too.',
 		entries: [
 			{
 				date: '2026.01',
 				title: 'AI Winter Camp',
-				body: 'A six-week course running from regression through to Transformers.',
+				body: 'Six weeks, running from regression through to Transformers.',
 				highlight: true
 			},
 			{
@@ -146,25 +149,25 @@ export const en: Dict = {
 			{
 				date: '2025',
 				title: 'Flex reaches the RLBot Championship ML finals',
-				body: 'Our Rocket League agent reached the finals of an international competition.'
+				body: 'Our Rocket League agent made it to the finals of an international competition.'
 			},
 			{
 				date: '2024.09',
 				title: '2024 Kapo Science War — won the Science Quiz',
-				body: 'Took the Science Quiz. Lost the AI event.'
+				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{
 				date: '2023.09',
 				title: '2023 Kapo Science War — won the Science Quiz',
-				body: 'Took the Science Quiz. Lost the AI event.'
+				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{ date: '2022.09', title: 'Won both the Science Quiz and the AI event', highlight: true },
 			{ date: '2022.04', title: 'VLAB founded' }
 		]
 	},
 	life: {
-		heading: 'It is not all about winning',
-		lead: 'We study together, eat together, and hang out together. This is the real VLAB.',
+		heading: 'It is not all Kapo Science War',
+		lead: 'Most of our time goes on sitting in the club room. The rest of it, mostly, goes on eating.',
 		captions: [
 			{
 				title: 'Practice',
@@ -195,8 +198,8 @@ export const en: Dict = {
 	},
 	join: {
 		heading: 'We are looking for people',
-		lead: 'People who stay with a problem. People who want to win.',
-		body: 'Your major does not matter. For the quiz team, liking science is enough. For the AI team, CS101 is enough to start. You can learn the rest here. If you have questions, just email us.',
+		lead: 'Ideally someone who does not mind sitting with one problem for a long time.',
+		body: 'Your major does not matter. For the quiz team, liking science is enough; for the AI team, CS101 is enough to start. You can pick up the rest here. Email us if you want to ask anything.',
 		cta: 'Email us',
 		imageAlt: 'VLAB members lifting the trophy after winning the 2025 AI event',
 		channels: [
