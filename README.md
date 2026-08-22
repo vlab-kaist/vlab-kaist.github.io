@@ -66,13 +66,12 @@ src/
   app.html              문서 셸. <html lang> 은 hooks.server.ts 가 채웁니다.
   hooks.server.ts       페이지별 lang 속성 주입
   lib/
-    components/         Header, Footer, Picture, Logo, Seo
+    components/         Header, Footer, Sponsors, LifeGrid, Picture, Logo, Seo
     data/images.ts      자동 생성 — 이미지 크기 정보
     i18n/               ko.ts, en.ts, types.ts  ← 문구는 전부 여기
     styles/
       tokens.css        색·타이포·간격 토큰. 하드코딩 대신 여기에 추가하세요.
-      base.css          리셋과 전역 스타일
-    theme.svelte.ts     라이트/다크 상태
+      base.css          리셋과 전역 스타일, .reveal 스크롤 애니메이션
   params/lang.ts        [[lang]] 매처
   routes/
     [[lang=lang]]/      / 와 /en/ 이 같은 컴포넌트를 씁니다
@@ -86,6 +85,12 @@ scripts/                build-images.js, check-links.js
 
 ## 알아둘 것
 
+- **테마는 라이트 하나뿐입니다.** 2026 디자인은 따뜻한 종이색 바탕에 얇은 선으로 구획하는 방식이라
+  다크 대응이 별도 설계를 요구합니다. 어설픈 다크보다 없는 편이 낫다고 보고 토글과 `theme.svelte.ts`
+  를 걷어냈습니다. 되살린다면 `tokens.css` 안에 `:root[data-theme='dark']` 블록으로 넣으세요.
+- **스크롤 리빌은 CSS만 씁니다.** `.reveal` 클래스 하나이고 `animation-timeline: view()` 로 돕니다.
+  기본값이 "보임" 이라서 JS가 죽든, 뷰 타임라인 미지원이든, `prefers-reduced-motion` 이든
+  전부 그냥 보이는 쪽으로 떨어집니다.
 - **디자인 토큰을 쓰세요.** `tokens.css` 에 없는 색이나 여백이 필요하면, 컴포넌트에 하드코딩하지 말고
   토큰을 추가하세요. 예전 사이트는 `style="font-size: 30px"` 를 카드마다 복사해 붙여 썼습니다.
 - **폰트는 자체 호스팅입니다.** 예전에는 제3자 CDN에서 불러왔는데, Sass 설정 문제로 4년간

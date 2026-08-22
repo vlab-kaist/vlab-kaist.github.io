@@ -23,7 +23,6 @@ export const en: Dict = {
 		skipToContent: 'Skip to content',
 		menu: 'Open menu',
 		close: 'Close menu',
-		theme: 'Toggle theme',
 		language: 'Language'
 	},
 	hero: {
@@ -34,7 +33,7 @@ export const en: Dict = {
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
 		imageAlt: 'VLAB members together at a pavilion overlooking the sea in Yeosu',
-		scrollHint: 'Scroll'
+		imageCaption: 'VLAB group photo — Yeosu'
 	},
 	stats: {
 		heading: 'Record',

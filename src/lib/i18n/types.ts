@@ -56,7 +56,6 @@ export interface Dict {
 		skipToContent: string;
 		menu: string;
 		close: string;
-		theme: string;
 		language: string;
 	};
 	hero: {
@@ -67,7 +66,8 @@ export interface Dict {
 		ctaPrimary: string;
 		ctaSecondary: string;
 		imageAlt: string;
-		scrollHint: string;
+		/** Credit line under the framed hero photo. */
+		imageCaption: string;
 	};
 	stats: {
 		heading: string;
@@ -105,7 +105,7 @@ export interface Dict {
 	life: {
 		heading: string;
 		lead: string;
-		/** One per showcase slide, paired by index with the image list in Showcase.svelte. */
+		/** One per photo, paired by index with the IMAGES list in LifeGrid.svelte. */
 		captions: { title: string; subtitle: string; alt: string }[];
 	};
 	join: {

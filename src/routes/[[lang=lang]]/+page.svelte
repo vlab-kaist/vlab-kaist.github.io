@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Picture from '$components/Picture.svelte';
 	import Seo from '$components/Seo.svelte';
-	import Showcase from '$components/Showcase.svelte';
-	import { reveal } from '$lib/actions/reveal';
-	import { spotlight } from '$lib/actions/spotlight';
+	import LifeGrid from '$components/LifeGrid.svelte';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
@@ -14,19 +12,12 @@
 		d.join.channels.find((c) => c.href.startsWith('mailto:'))?.href ?? '#join'
 	);
 
-	const teamPanels = $derived([
-		{
-			id: 'quiz',
-			team: d.teams.quiz,
-			image: 'quiz-2025' as const,
-			accent: 'var(--brand-cyan)'
-		},
-		{
-			id: 'ai',
-			team: d.teams.ai,
-			image: 'rocketleague' as const,
-			accent: 'var(--brand-violet)'
-		}
+	// Alternating rows: the quiz team leads with its photo, the AI team with its
+	// text. Same components, mirrored — which is what stops two structurally
+	// identical blocks from reading as a copy-paste.
+	const teamRows = $derived([
+		{ id: 'quiz', team: d.teams.quiz, image: 'quiz-2025' as const, mirrored: false },
+		{ id: 'ai', team: d.teams.ai, image: 'rocketleague' as const, mirrored: true }
 	]);
 
 	const featured = $derived(d.projects.items.find((p) => p.featured));
@@ -35,9 +26,14 @@
 
 <Seo dict={d} locale={data.locale} />
 
-{#snippet sectionHead(heading: string, lead: string)}
-	<header class="section-head" use:reveal>
-		<span class="kicker" aria-hidden="true"></span>
+<!--
+  Every section opens the same way: a small accent label, a title, one line of
+  lead, and a hairline rule under the lot. Repeating that exactly is what lets
+  the sections below it differ as much as they do without the page coming apart.
+-->
+{#snippet sectionHead(eyebrow: string, heading: string, lead: string)}
+	<header class="section-head reveal">
+		<p class="eyebrow">{eyebrow}</p>
 		<h2>{heading}</h2>
 		<p class="section-lead">{lead}</p>
 	</header>
@@ -45,32 +41,37 @@
 
 <!-- ============================ HERO ============================ -->
 <section class="hero">
-	<div class="hero-media">
-		<Picture name="team-2025" alt={d.hero.imageAlt} sizes="100vw" priority />
-		<div class="hero-scrim"></div>
-	</div>
-
-	<div class="hero-body">
-		<p class="eyebrow enter" style="--enter: 1">{d.hero.eyebrow}</p>
-		<h1 class="enter" style="--enter: 2">
-			{d.hero.title}<br />
-			<span class="gradient-text">{d.hero.titleAccent}</span>
-		</h1>
-		<p class="lead enter" style="--enter: 3">{d.hero.lead}</p>
-		<div class="hero-cta enter" style="--enter: 4">
-			<a class="btn btn-primary" href="#join">{d.hero.ctaPrimary}</a>
-			<a class="btn btn-ghost" href="#projects">{d.hero.ctaSecondary}</a>
+	<div class="container hero-inner">
+		<div class="hero-copy">
+			<span class="rule rule-gradient" aria-hidden="true"></span>
+			<p class="eyebrow">{d.hero.eyebrow}</p>
+			<h1>
+				{d.hero.title}<br />{d.hero.titleAccent}
+			</h1>
+			<p class="hero-lead">{d.hero.lead}</p>
+			<div class="hero-cta">
+				<a class="btn btn-primary" href="#join">{d.hero.ctaPrimary}</a>
+				<a class="btn btn-ghost" href="#projects">{d.hero.ctaSecondary}</a>
+			</div>
 		</div>
-	</div>
 
-	<!-- ---------------------- SCOREBOARD ---------------------- -->
-	<!-- VLAB's story is numbers: scores, margins, training scale. Leading with
-	     them says more in one glance than a paragraph of prose could. -->
-	<div class="scoreboard">
-		<h2 class="visually-hidden">{d.stats.heading}</h2>
+		<figure class="hero-media">
+			<Picture name="team-2025" alt={d.hero.imageAlt} sizes="340px" priority ratio={1.55} />
+			<figcaption>{d.hero.imageCaption}</figcaption>
+		</figure>
+	</div>
+</section>
+
+<!-- ---------------------------- SCOREBOARD ---------------------------- -->
+<!-- VLAB's story is numbers: scores, margins, training scale. Leading with them
+     says more in one glance than a paragraph of prose could. Set in mono and
+     banded off from the hero so it reads as a record, not as body copy. -->
+<section class="scoreboard" aria-labelledby="scoreboard-heading">
+	<div class="container">
+		<h2 class="visually-hidden" id="scoreboard-heading">{d.stats.heading}</h2>
 		<ul>
-			{#each d.stats.items as stat, i (stat.label)}
-				<li class="enter" style="--enter: {5 + i}">
+			{#each d.stats.items as stat (stat.label)}
+				<li>
 					<span class="stat-value">{stat.value}</span>
 					<span class="stat-label">{stat.label}</span>
 					{#if stat.note}<span class="stat-note">{stat.note}</span>{/if}
@@ -83,31 +84,25 @@
 <!-- ============================ TEAMS ============================ -->
 <section id="teams" class="section">
 	<div class="container">
-		{@render sectionHead(d.teams.heading, d.teams.lead)}
-	</div>
+		{@render sectionHead(d.nav.teams, d.teams.heading, d.teams.lead)}
 
-	<div class="container">
-		<div class="panels">
-			{#each teamPanels as panel, i (panel.id)}
-				<article
-					class="panel"
-					style="--accent: {panel.accent}"
-					use:reveal={{ delay: i * 90 }}
-					use:spotlight
-				>
-					<div class="panel-media">
+		<div class="team-rows">
+			{#each teamRows as row (row.id)}
+				<article class="team reveal" class:mirrored={row.mirrored}>
+					<div class="team-media">
 						<Picture
-							name={panel.image}
-							alt={panel.team.imageAlt}
-							sizes="(max-width: 900px) 92vw, 46vw"
+							name={row.image}
+							alt={row.team.imageAlt}
+							sizes="(max-width: 900px) 92vw, 420px"
+							ratio={1.6}
 						/>
 					</div>
-					<div class="panel-body">
-						<h3>{panel.team.name}</h3>
-						<p class="panel-tagline">{panel.team.tagline}</p>
-						<p class="panel-text">{panel.team.body}</p>
-						<ul class="panel-points">
-							{#each panel.team.points as point (point)}
+					<div class="team-body">
+						<h3>{row.team.name}</h3>
+						<p class="team-tagline">{row.team.tagline}</p>
+						<p class="team-text">{row.team.body}</p>
+						<ul class="team-points">
+							{#each row.team.points as point (point)}
 								<li>{point}</li>
 							{/each}
 						</ul>
@@ -121,38 +116,32 @@
 <!-- ============================ PROJECTS ============================ -->
 <section id="projects" class="section section-alt">
 	<div class="container">
-		{@render sectionHead(d.projects.heading, d.projects.lead)}
+		{@render sectionHead(d.nav.projects, d.projects.heading, d.projects.lead)}
 
 		{#if featured}
-			<article class="featured" use:reveal use:spotlight>
-				<div class="featured-media">
-					<Picture
-						name="flex-rlbot"
-						alt={featured.imageAlt ?? featured.name}
-						sizes="(max-width: 900px) 92vw, 52vw"
-					/>
-				</div>
-				<div class="featured-body">
-					<ul class="tags">
-						{#each featured.tags as tag (tag)}
-							<li>{tag}</li>
-						{/each}
-					</ul>
-					<h3>{featured.name}</h3>
-					<p class="featured-tagline">{featured.tagline}</p>
-					<p class="featured-text">{featured.body}</p>
-				</div>
+			<!-- The only element on the page that carries the full brand gradient
+			     as a device: one project is the reason the club is known, and it
+			     gets the one gradient edge. -->
+			<article class="featured reveal">
+				<ul class="tags">
+					{#each featured.tags as tag (tag)}
+						<li>{tag}</li>
+					{/each}
+				</ul>
+				<h3>{featured.name}</h3>
+				<p class="featured-tagline">{featured.tagline}</p>
+				<p class="featured-text">{featured.body}</p>
 			</article>
 		{/if}
 
 		<ul class="cards">
-			{#each rest as project, i (project.id)}
-				<li use:reveal={{ delay: (i % 3) * 90 }}>
-					<article class="card" use:spotlight>
+			{#each rest as project (project.id)}
+				<li class="reveal">
+					<article class="card">
 						<h3>{project.name}</h3>
 						<p class="card-tagline">{project.tagline}</p>
 						<p class="card-text">{project.body}</p>
-						<ul class="tags">
+						<ul class="tags tags-sm">
 							{#each project.tags as tag (tag)}
 								<li>{tag}</li>
 							{/each}
@@ -173,23 +162,25 @@
 <!-- ============================ LIFE ============================ -->
 <section id="life" class="section">
 	<div class="container">
-		{@render sectionHead(d.life.heading, d.life.lead)}
-		<div use:reveal>
-			<Showcase dict={d} />
-		</div>
+		{@render sectionHead(d.nav.life, d.life.heading, d.life.lead)}
+		<LifeGrid dict={d} />
 	</div>
 </section>
 
 <!-- ============================ HISTORY ============================ -->
-<section id="history" class="section">
+<section id="history" class="section section-alt">
 	<div class="container">
-		{@render sectionHead(d.history.heading, d.history.lead)}
+		{@render sectionHead(d.nav.history, d.history.heading, d.history.lead)}
 
 		<ol class="timeline">
-			{#each d.history.entries as entry, i (entry.date + entry.title)}
-				<li class:highlight={entry.highlight} use:reveal={{ delay: Math.min(i, 4) * 70 }}>
-					<time datetime={entry.date.replace('.', '-')}>{entry.date}</time>
-					<div class="timeline-body">
+			{#each d.history.entries as entry (entry.date + entry.title)}
+				<li class="reveal" class:highlight={entry.highlight}>
+					<span class="rail" aria-hidden="true">
+						<span class="dot"></span>
+						<span class="line"></span>
+					</span>
+					<div class="entry">
+						<time datetime={entry.date.replace('.', '-')}>{entry.date}</time>
 						<h3>{entry.title}</h3>
 						{#if entry.body}<p>{entry.body}</p>{/if}
 					</div>
@@ -200,19 +191,19 @@
 </section>
 
 <!-- ============================ JOIN ============================ -->
-<section id="join" class="section section-alt">
+<section id="join" class="section">
 	<div class="container join">
-		<div class="join-copy" use:reveal>
-			<span class="kicker" aria-hidden="true"></span>
+		<div class="join-copy reveal">
+			<!-- Solid, not gradient: the gradient marks brand moments, and this is
+			     an ask. -->
+			<span class="rule rule-solid" aria-hidden="true"></span>
 			<h2>{d.join.heading}</h2>
 			<p class="join-lead">{d.join.lead}</p>
 			<p class="join-text">{d.join.body}</p>
 
-			<div class="join-actions">
-				<!-- The club is not running an application form, so the mail address
-				     is the call to action rather than a recruiting link. -->
-				<a class="btn btn-primary" href={emailHref}>{d.join.cta}</a>
-			</div>
+			<!-- The club is not running an application form, so the mail address
+			     is the call to action rather than a recruiting link. -->
+			<a class="btn btn-primary" href={emailHref}>{d.join.cta}</a>
 
 			<dl class="channels">
 				{#each d.join.channels as channel (channel.label)}
@@ -232,8 +223,8 @@
 			</dl>
 		</div>
 
-		<div class="join-media" use:reveal={{ delay: 120 }}>
-			<Picture name="win-2025" alt={d.join.imageAlt} sizes="(max-width: 900px) 92vw, 44vw" />
+		<div class="join-media reveal">
+			<Picture name="win-2025" alt={d.join.imageAlt} sizes="(max-width: 900px) 92vw, 440px" />
 		</div>
 	</div>
 </section>
@@ -251,57 +242,52 @@
 		padding-block: var(--section-gap);
 	}
 
-	/* Slightly translucent so the aurora bleeds through the "solid" panels too,
-	   keeping the whole page on one continuous field of light rather than
-	   alternating lit / flat bands. */
+	/* Alternating bands, separated by a real hairline rather than the soft
+	   fading dividers of the dark design — on paper a drawn line is the whole
+	   point, and a gradient that fades to nothing just looks like a mistake. */
 	.section-alt {
-		position: relative;
-		background: color-mix(in srgb, var(--bg-subtle) 86%, transparent);
+		border-top: 1px solid var(--border);
+		background: var(--bg-subtle);
 	}
 
-	/* Soft dividers instead of hard 1px rules: a hairline that fades out toward
-	   the edges, so sections flow into each other rather than snapping. */
-	.section-alt::before,
-	.section-alt::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		right: 0;
-		height: 1px;
-		background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+	.rule {
+		display: block;
+		width: 36px;
+		height: 3px;
+		border-radius: 2px;
+		margin-bottom: 1.125rem;
 	}
 
-	.section-alt::before {
-		top: 0;
+	.rule-gradient {
+		background: var(--brand-gradient);
 	}
 
-	.section-alt::after {
-		bottom: 0;
+	.rule-solid {
+		background: var(--brand);
+	}
+
+	.eyebrow {
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--brand);
 	}
 
 	.section-head {
 		max-width: var(--measure);
-		margin-bottom: var(--space-7);
-	}
-
-	/* Small gradient tick above each section title — a quiet rhythm marker that
-	   ties the section headings to the brand without shouting. */
-	.kicker {
-		display: block;
-		width: 42px;
-		height: 3px;
-		margin-bottom: var(--space-4);
-		border-radius: var(--radius-full);
-		background: var(--brand-gradient);
+		margin-bottom: var(--space-8);
+		padding-bottom: 1.125rem;
+		border-bottom: 1px solid var(--border);
 	}
 
 	.section-head h2 {
+		margin-top: var(--space-2);
 		font-size: var(--text-3xl);
 	}
 
 	.section-lead {
-		margin-top: var(--space-4);
-		font-size: var(--text-lg);
+		margin-top: var(--space-3);
 		color: var(--text-muted);
 	}
 
@@ -311,14 +297,14 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.8rem 1.6rem;
-		border-radius: var(--radius-full);
+		padding: 0.75rem 1.375rem;
+		border-radius: var(--radius-md);
 		font-weight: 600;
-		font-size: var(--text-sm);
+		font-size: 0.95rem;
 		transition:
-			transform var(--dur-fast) var(--ease-out),
 			background-color var(--dur-fast) var(--ease-out),
-			border-color var(--dur-fast) var(--ease-out);
+			border-color var(--dur-fast) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out);
 	}
 
 	.btn:active {
@@ -326,532 +312,413 @@
 	}
 
 	.btn-primary {
-		background: #fff;
-		color: #0a0a10;
+		background: var(--brand);
+		color: var(--brand-contrast);
 	}
 
 	.btn-primary:hover {
-		background: #dcdcea;
+		background: var(--brand-strong);
 	}
 
 	.btn-ghost {
-		border: 1px solid rgb(255 255 255 / 0.28);
-		color: #fff;
-		backdrop-filter: blur(6px);
+		border: 1px solid var(--border-strong);
+		color: var(--text);
 	}
 
 	.btn-ghost:hover {
-		border-color: rgb(255 255 255 / 0.6);
-		background: rgb(255 255 255 / 0.08);
+		border-color: var(--text-faint);
+		background: var(--surface);
 	}
 
 	/* ---------------- Hero ---------------- */
 
+	/* Deliberately not a full-bleed photo. The one the club has is a night shot,
+	   and stretching it edge to edge meant either white text on a dark scrim in
+	   both themes or a contrast failure. Framed at 340px it is a photograph on a
+	   page instead, and the headline gets to be black on paper. */
 	.hero {
-		position: relative;
-		/* The team photo is 2.16:1. A taller hero would force `cover` to scale it
-		   up and crop the sides away, which is where the pavilion framing lives. */
-		min-height: min(86svh, 820px);
+		padding-block: clamp(3.5rem, 8vw, 5.5rem) clamp(4rem, 9vw, 6rem);
+	}
+
+	.hero-inner {
 		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-		isolation: isolate;
+		gap: clamp(2rem, 5vw, 3.5rem);
+		align-items: flex-end;
+		flex-wrap: wrap;
 	}
 
-	.hero-media {
-		position: absolute;
-		inset: 0;
-		z-index: -2;
+	/* `min(…, 100%)` rather than a bare min-width on all of these two-column
+	   blocks. The min-width is what makes the columns wrap instead of squeezing,
+	   but a bare 320px also refuses to shrink below 320px — which overflows the
+	   page on a 320px-wide phone. Capping it at the container's own width keeps
+	   the wrap behaviour and drops the overflow. */
+	.hero-copy {
+		flex: 1.3;
+		min-width: min(320px, 100%);
 	}
 
-	.hero-media :global(picture),
-	.hero-media :global(img) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: 50% 38%;
+	.hero-copy .eyebrow {
+		margin-bottom: 0.875rem;
 	}
 
-	/* A very slow zoom gives the still hero a living, breathing quality. Long and
-	   gentle so it never reads as "moving" — just alive. Off under reduced motion. */
-	@media (prefers-reduced-motion: no-preference) {
-		.hero-media :global(img) {
-			animation: hero-zoom 26s var(--ease-in-out) infinite alternate;
-		}
+	h1 {
+		font-size: var(--text-4xl);
+		letter-spacing: var(--tracking-display);
+		margin-bottom: var(--space-5);
 	}
 
-	@keyframes hero-zoom {
-		from {
-			transform: scale(1);
-		}
-		to {
-			transform: scale(1.07);
-		}
-	}
-
-	/* z-index is relative to .hero-media, which is its own stacking context.
-	   A negative value here would paint the scrim *behind* the <img> it is
-	   meant to cover; it needs to sit above the image but below .hero-body. */
-	.hero-scrim {
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-		background: var(--scrim-v), var(--scrim-h);
-	}
-
-	.hero-body {
-		max-width: var(--container);
-		width: 100%;
-		margin-inline: auto;
-		padding: var(--space-9) var(--gutter) var(--space-7);
-		color: #fff;
-	}
-
-	/* Staggered entrance for hero + scoreboard. These are above the fold, so they
-	   animate on load rather than on scroll — --enter sets each element's place
-	   in the sequence. Reduced motion removes it via the global rule in base.css,
-	   and the elements are visible by default (animation only moves them in). */
-	.enter {
-		animation: enter 0.75s var(--ease-out) both;
-		animation-delay: calc(var(--enter, 0) * 90ms);
-	}
-
-	@keyframes enter {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-	}
-
-	.eyebrow {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: rgb(255 255 255 / 0.72);
-		margin-bottom: var(--space-4);
-	}
-
-	.hero h1 {
-		font-size: var(--text-5xl);
-		font-weight: 800;
-		max-width: 14ch;
-	}
-
-	/* The gradient wordmark needs a touch more weight to survive being clipped
-	   to text at display size. */
-	.hero h1 .gradient-text {
-		font-weight: 900;
-	}
-
-	.lead {
-		margin-top: var(--space-5);
+	.hero-lead {
+		font-size: 1.08rem;
+		color: var(--text-muted);
 		max-width: 46ch;
-		font-size: var(--text-lg);
-		color: rgb(255 255 255 / 0.82);
-		line-height: var(--leading-normal);
+		margin-bottom: var(--space-6);
 	}
 
 	.hero-cta {
 		display: flex;
-		flex-wrap: wrap;
 		gap: var(--space-3);
-		margin-top: var(--space-6);
+		flex-wrap: wrap;
+	}
+
+	.hero-media {
+		flex: 1;
+		min-width: min(260px, 100%);
+		max-width: 340px;
+	}
+
+	.hero-media :global(picture) {
+		border-radius: var(--radius-photo);
+		border: 1px solid var(--border);
+		overflow: hidden;
+	}
+
+	/* Sans, not mono. The reference design set this credit in monospace, but the
+	   caption is mostly hangul and no mono stack ships a Korean face — every
+	   browser falls back mid-string and the spacing goes ragged. Mono is kept
+	   for what it is actually good at here: the scores and the timeline dates. */
+	.hero-media figcaption {
+		margin-top: var(--space-2);
+		font-size: var(--text-xs);
+		color: var(--text-faint);
 	}
 
 	/* ---------------- Scoreboard ---------------- */
 
 	.scoreboard {
-		position: relative;
-		background: color-mix(in srgb, var(--bg) 82%, transparent);
-		backdrop-filter: blur(16px) saturate(150%);
-		-webkit-backdrop-filter: blur(16px) saturate(150%);
-		border-top: 1px solid var(--border);
+		border-block: 1px solid var(--border);
+		background: color-mix(in srgb, var(--brand-soft) 45%, transparent);
 	}
 
 	.scoreboard ul {
-		max-width: var(--container);
-		margin-inline: auto;
-		padding: var(--space-5) var(--gutter);
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		gap: var(--space-5);
-	}
-
-	.scoreboard li {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
+		padding-block: var(--space-6);
 	}
 
 	.stat-value {
+		display: block;
 		font-family: var(--font-mono);
-		font-size: var(--text-2xl);
+		font-size: 1.5rem;
 		font-weight: 700;
-		letter-spacing: -0.02em;
-		font-variant-numeric: tabular-nums;
-		color: var(--text);
+		letter-spacing: var(--tracking-heading);
+		line-height: 1.2;
 	}
 
 	.stat-label {
-		font-size: var(--text-sm);
+		display: block;
+		font-size: 0.9rem;
 		font-weight: 600;
-		color: var(--text);
+		margin-top: var(--space-1);
+		line-height: var(--leading-snug);
 	}
 
 	.stat-note {
-		font-size: var(--text-xs);
+		display: block;
+		font-size: 0.78rem;
 		color: var(--text-faint);
+		line-height: var(--leading-snug);
 	}
 
-	/* ---------------- Team panels ---------------- */
+	/* ---------------- Teams ---------------- */
 
-	.panels {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
-		gap: var(--space-5);
-	}
-
-	.panel {
+	.team-rows {
 		display: flex;
 		flex-direction: column;
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: var(--radius-xl);
-		overflow: hidden;
-		transition:
-			border-color var(--dur-base) var(--ease-out),
-			transform var(--dur-base) var(--ease-out),
-			box-shadow var(--dur-base) var(--ease-out);
+		gap: var(--space-8);
 	}
 
-	.panel:hover {
-		border-color: var(--accent);
-		transform: translateY(-4px);
-		/* Glow tinted to the team's own accent, so the two panels light up in
-		   their respective colours. */
-		box-shadow: 0 24px 60px -24px color-mix(in srgb, var(--accent) 60%, transparent);
-	}
-
-	/* Image first, then text — the old cards put the copy above the photo,
-	   which read as a caption floating over nothing. */
-	.panel-media {
-		aspect-ratio: 16 / 9;
-		overflow: hidden;
-		border-bottom: 1px solid var(--border);
-	}
-
-	.panel-media :global(img) {
-		transition: transform var(--dur-slow) var(--ease-out);
-	}
-
-	.panel:hover .panel-media :global(img) {
-		transform: scale(1.03);
-	}
-
-	.panel-body {
-		padding: var(--space-6);
+	.team {
 		display: flex;
-		flex-direction: column;
-		gap: var(--space-3);
+		gap: var(--space-7);
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	.team-media {
 		flex: 1;
+		min-width: min(280px, 100%);
+		max-width: 420px;
 	}
 
-	.panel-body h3 {
+	.team-media :global(picture) {
+		border-radius: var(--radius-lg);
+		border: 1px solid var(--border);
+		overflow: hidden;
+	}
+
+	.team-body {
+		flex: 1;
+		min-width: min(280px, 100%);
+	}
+
+	/* `order` rather than row-reverse: when the row wraps on a narrow screen the
+	   photo must still come first in both rows, and row-reverse would flip one
+	   of them so the text landed above its own heading's photo. */
+	.mirrored .team-media {
+		order: 2;
+	}
+
+	.team h3 {
 		font-size: var(--text-2xl);
 	}
 
-	.panel-tagline {
-		font-size: var(--text-lg);
+	.team-tagline {
 		font-weight: 600;
-		color: var(--accent);
+		color: var(--brand);
+		margin-top: var(--space-1);
+		margin-bottom: var(--space-4);
 	}
 
-	.panel-text {
+	.team-text {
+		font-size: 0.98rem;
 		color: var(--text-muted);
+		max-width: var(--measure-tight);
+		margin-bottom: var(--space-5);
 	}
 
-	.panel-points {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-2);
-		margin-top: auto;
-		padding-top: var(--space-4);
-		border-top: 1px dashed var(--border);
+	.team-points {
+		list-style: disc;
+		padding-left: 1.25rem;
+		color: var(--text-body);
+		font-size: 0.92rem;
+		line-height: 1.9;
 	}
 
-	.panel-points li {
-		position: relative;
-		padding-left: var(--space-5);
-		font-size: var(--text-sm);
-		color: var(--text-muted);
+	@media (max-width: 900px) {
+		.mirrored .team-media {
+			order: 0;
+		}
 	}
 
-	.panel-points li::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: 0.62em;
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		background: var(--accent);
-	}
-
-	/* ---------------- Featured project ---------------- */
+	/* ---------------- Projects ---------------- */
 
 	.featured {
-		display: grid;
-		grid-template-columns: 1.1fr 1fr;
-		gap: var(--space-6);
-		align-items: center;
-		padding: var(--space-6);
-		margin-bottom: var(--space-6);
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: var(--radius-xl);
 		position: relative;
-		isolation: isolate;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		padding: clamp(1.5rem, 4vw, 2.25rem);
+		margin-bottom: var(--space-5);
 		overflow: hidden;
-		transition:
-			transform var(--dur-base) var(--ease-out),
-			box-shadow var(--dur-base) var(--ease-out);
 	}
 
-	/* Gradient hairline across the top edge — the mark of the "hero" project. */
 	.featured::before {
 		content: '';
 		position: absolute;
 		inset: 0 0 auto 0;
 		height: 2px;
 		background: var(--brand-gradient);
-		z-index: 1;
 	}
 
-	/* Cursor spotlight, sitting beneath the content. */
-	.featured::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: -1;
-		background: radial-gradient(
-			460px circle at var(--spot-x, 70%) var(--spot-y, 40%),
-			color-mix(in srgb, var(--brand-violet) 16%, transparent),
-			transparent 60%
-		);
-		opacity: 0;
-		transition: opacity var(--dur-base) var(--ease-out);
-	}
-
-	.featured:hover {
-		transform: translateY(-3px);
-		box-shadow: var(--shadow-lg);
-	}
-
-	.featured:hover::after {
-		opacity: 1;
-	}
-
-	.featured-media {
-		border-radius: var(--radius-lg);
-		overflow: hidden;
-		border: 1px solid var(--border);
-	}
-
-	.featured-body h3 {
-		font-size: var(--text-3xl);
-		margin-top: var(--space-3);
+	.featured h3 {
+		font-size: 1.5rem;
 	}
 
 	.featured-tagline {
-		margin-top: var(--space-2);
-		font-size: var(--text-lg);
 		font-weight: 600;
 		color: var(--brand);
+		margin-top: var(--space-2);
+		margin-bottom: 0.875rem;
 	}
 
 	.featured-text {
-		margin-top: var(--space-4);
+		font-size: 0.96rem;
 		color: var(--text-muted);
+		max-width: 70ch;
 	}
-
-	/* ---------------- Project cards ---------------- */
 
 	.cards {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 		gap: var(--space-5);
 	}
 
 	.card {
-		position: relative;
-		isolation: isolate;
-		overflow: hidden;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-3);
-		padding: var(--space-6);
-		background: var(--surface);
 		border: 1px solid var(--border);
-		border-radius: var(--radius-lg);
+		border-radius: var(--radius-photo);
+		background: var(--surface);
+		padding: var(--space-5);
 		transition:
 			border-color var(--dur-base) var(--ease-out),
-			transform var(--dur-base) var(--ease-out),
 			box-shadow var(--dur-base) var(--ease-out);
 	}
 
-	/* Cursor spotlight: a brand-tinted glow that tracks the pointer (--spot-x/y
-	   are written by use:spotlight). z-index:-1 keeps it above the card's own
-	   surface but beneath the text. */
-	.card::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: -1;
-		background: radial-gradient(
-			340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-			color-mix(in srgb, var(--brand) 20%, transparent),
-			transparent 62%
-		);
-		opacity: 0;
-		transition: opacity var(--dur-base) var(--ease-out);
-	}
-
 	.card:hover {
-		border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
-		transform: translateY(-3px);
-		box-shadow: var(--shadow-lg);
-	}
-
-	.card:hover::before {
-		opacity: 1;
+		border-color: var(--border-strong);
+		box-shadow: var(--shadow-md);
 	}
 
 	.card h3 {
-		font-size: var(--text-xl);
+		font-size: 1.1rem;
+		font-weight: 700;
 	}
 
 	.card-tagline {
 		font-size: var(--text-sm);
 		font-weight: 600;
 		color: var(--brand);
+		margin-top: var(--space-1);
+		margin-bottom: 0.625rem;
 	}
 
 	.card-text {
-		font-size: var(--text-sm);
+		font-size: 0.88rem;
 		color: var(--text-muted);
+		margin-bottom: var(--space-4);
+	}
+
+	/* Pushed to the bottom so every card's repo link lines up regardless of how
+	   long its description runs. */
+	.card .tags {
+		margin-top: auto;
+		margin-bottom: var(--space-3);
 	}
 
 	.card-link {
-		margin-top: auto;
 		font-size: var(--text-sm);
 		font-weight: 600;
-		color: var(--text);
-		display: inline-flex;
-		gap: var(--space-2);
+		color: var(--brand);
 	}
 
-	.card-link span {
-		transition: transform var(--dur-fast) var(--ease-out);
-	}
-
-	.card-link:hover span {
-		transform: translateX(3px);
+	.card-link:hover {
+		color: var(--brand-strong);
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-2);
-		margin-top: auto;
+		margin-bottom: var(--space-4);
 	}
 
 	.tags li {
-		padding: 0.2rem 0.6rem;
-		border: 1px solid var(--border);
-		border-radius: var(--radius-full);
 		font-size: var(--text-xs);
+		padding: 3px 10px;
+		border: 1px solid var(--border-strong);
+		border-radius: var(--radius-full);
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	.tags-sm li {
+		font-size: 11px;
+		padding: 2px 8px;
 		color: var(--text-faint);
 	}
 
-	.featured .tags {
-		margin-top: 0;
-	}
-
-	/* ---------------- Timeline ---------------- */
+	/* ---------------- History ---------------- */
 
 	.timeline {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-6);
-		padding-left: var(--space-6);
-	}
-
-	.timeline::before {
-		content: '';
-		position: absolute;
-		left: 5px;
-		top: 6px;
-		bottom: 6px;
-		width: 1px;
-		background: linear-gradient(to bottom, var(--border-strong), transparent);
+		max-width: 680px;
 	}
 
 	.timeline li {
-		position: relative;
-		display: grid;
-		grid-template-columns: 6.5rem 1fr;
+		display: flex;
 		gap: var(--space-5);
-		align-items: baseline;
 	}
 
-	.timeline li::before {
-		content: '';
-		position: absolute;
-		left: calc(-1 * var(--space-6) + 1px);
-		top: 0.55em;
-		width: 9px;
-		height: 9px;
+	.rail {
+		flex: none;
+		width: 14px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.dot {
+		width: 10px;
+		height: 10px;
 		border-radius: 50%;
 		background: var(--border-strong);
-		outline: 4px solid var(--bg);
+		flex: none;
 	}
 
-	.timeline li.highlight::before {
-		background: var(--brand);
+	/* Only the entries the club calls out get the gradient dot. If everything
+	   were highlighted the timeline would just be a list of dots again. */
+	.highlight .dot {
+		background: var(--brand-gradient);
 	}
 
-	.timeline time {
+	.line {
+		width: 2px;
+		flex: 1;
+		background: var(--border-strong);
+		margin-top: 2px;
+	}
+
+	.timeline li:last-child .line {
+		display: none;
+	}
+
+	.entry {
+		padding-bottom: var(--space-6);
+	}
+
+	.timeline li:last-child .entry {
+		padding-bottom: 0;
+	}
+
+	.entry time {
+		display: block;
 		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		font-variant-numeric: tabular-nums;
+		font-size: 12.5px;
 		color: var(--text-faint);
+		margin-bottom: var(--space-1);
 	}
 
-	.timeline h3 {
-		font-size: var(--text-lg);
+	.entry h3 {
+		font-size: 1.02rem;
+		font-weight: 700;
 	}
 
-	.timeline li.highlight h3 {
+	.highlight .entry h3 {
 		color: var(--brand);
 	}
 
-	.timeline-body p {
-		margin-top: var(--space-2);
-		font-size: var(--text-sm);
+	.entry p {
+		font-size: 0.9rem;
 		color: var(--text-muted);
-		max-width: var(--measure);
+		margin-top: var(--space-1);
 	}
 
 	/* ---------------- Join ---------------- */
 
 	.join {
-		display: grid;
-		grid-template-columns: 1fr 0.85fr;
-		gap: var(--space-8);
+		display: flex;
+		gap: clamp(2rem, 5vw, 3.5rem);
+		flex-wrap: wrap;
 		align-items: center;
+	}
+
+	.join-copy {
+		flex: 1.1;
+		min-width: min(320px, 100%);
 	}
 
 	.join-copy h2 {
@@ -859,51 +726,40 @@
 	}
 
 	.join-lead {
-		margin-top: var(--space-4);
-		font-size: var(--text-xl);
-		font-weight: 600;
+		font-size: 1.1rem;
+		font-weight: 700;
 		color: var(--brand);
+		margin-top: 0.875rem;
+		margin-bottom: var(--space-4);
 	}
 
 	.join-text {
-		margin-top: var(--space-4);
 		color: var(--text-muted);
-		max-width: 44ch;
-	}
-
-	.join-actions {
-		margin-top: var(--space-6);
-	}
-
-	.join .btn-primary {
-		background: var(--brand);
-		color: var(--brand-contrast);
-	}
-
-	.join .btn-primary:hover {
-		background: var(--brand-500);
+		max-width: 48ch;
+		margin-bottom: var(--space-6);
 	}
 
 	.channels {
 		display: flex;
-		gap: var(--space-6);
+		gap: var(--space-7);
+		flex-wrap: wrap;
 		margin-top: var(--space-6);
 		padding-top: var(--space-5);
 		border-top: 1px solid var(--border);
 	}
 
 	.channels dt {
-		font-size: var(--text-xs);
+		font-size: 11px;
 		text-transform: uppercase;
 		letter-spacing: var(--tracking-wide);
 		color: var(--text-faint);
-		margin-bottom: 2px;
+		margin-bottom: var(--space-1);
 	}
 
 	.channels dd {
 		margin: 0;
-		font-size: var(--text-sm);
-		font-weight: 600;
+		font-size: 0.92rem;
+		font-weight: 700;
 	}
 
 	.channels a:hover {
@@ -911,28 +767,19 @@
 	}
 
 	.join-media {
-		border-radius: var(--radius-xl);
-		overflow: hidden;
+		flex: 1;
+		min-width: min(280px, 100%);
+		max-width: 440px;
+	}
+
+	.join-media :global(picture) {
+		aspect-ratio: 1.35;
+		border-radius: var(--radius-lg);
 		border: 1px solid var(--border);
-		aspect-ratio: 4 / 3;
+		overflow: hidden;
 	}
 
-	/* ---------------- Responsive ---------------- */
-
-	@media (max-width: 900px) {
-		.featured,
-		.join {
-			grid-template-columns: 1fr;
-		}
-
-		.featured-media {
-			order: -1;
-		}
-
-		.join-media {
-			aspect-ratio: 16 / 10;
-		}
-	}
+	/* ---------------- Narrow screens ---------------- */
 
 	@media (max-width: 720px) {
 		.scoreboard ul {
@@ -940,19 +787,9 @@
 		}
 	}
 
-	@media (max-width: 560px) {
-		.hero h1 {
-			max-width: none;
-		}
-
-		.timeline li {
-			grid-template-columns: 1fr;
-			gap: var(--space-1);
-		}
-
+	@media (max-width: 400px) {
 		.channels {
-			flex-direction: column;
-			gap: var(--space-4);
+			gap: var(--space-5);
 		}
 	}
 </style>

@@ -24,7 +24,6 @@ export const ko: Dict = {
 		skipToContent: '본문 바로가기',
 		menu: '메뉴 열기',
 		close: '메뉴 닫기',
-		theme: '테마 전환',
 		language: '언어'
 	},
 	hero: {
@@ -35,7 +34,7 @@ export const ko: Dict = {
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
 		imageAlt: '여수 바다가 내려다보이는 정자에서 함께 찍은 VLAB 단체 사진',
-		scrollHint: '아래로'
+		imageCaption: 'VLAB 단체 사진 — 여수'
 	},
 	stats: {
 		heading: '기록',

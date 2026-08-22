@@ -39,11 +39,12 @@
 {/if}
 
 <style>
-	/* No border-top: the section above (.section-alt) already ends in one, and
-	   the footer below starts with one. This band is the unshaded gap between
-	   them, which is separation enough. */
+	/* The join section above sits on plain paper, so this band draws its own
+	   rule; without it the sponsor logo floats in the gap between the club's
+	   last words and the footer. */
 	.sponsors {
-		padding-block: var(--space-7);
+		border-top: 1px solid var(--border);
+		padding-block: var(--space-6);
 	}
 
 	.inner {

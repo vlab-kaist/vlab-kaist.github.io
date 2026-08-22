@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="%lang%" data-theme="dark">
+<html lang="%lang%">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,37 +21,9 @@
 		/>
 		<link rel="stylesheet" href="%sveltekit.assets%/fonts/pretendard.css" />
 
-		<meta name="theme-color" content="#0b0b12" media="(prefers-color-scheme: dark)" />
-		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-
-		<script>
-			// Resolve the theme before first paint so there is no light/dark flash.
-			// Mirrors the logic in src/lib/theme.svelte.ts — keep the two in sync.
-			(() => {
-				try {
-					const stored = localStorage.getItem('vlab-theme');
-					const theme =
-						stored ??
-						(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-					document.documentElement.dataset.theme = theme;
-				} catch {
-					/* private mode / storage blocked — the dark default in the markup stands */
-				}
-
-				// Arm scroll-reveal animations before first paint, but only when the
-				// visitor has not asked for reduced motion. Elements marked
-				// [data-reveal] then start hidden and fade in as they enter view; if
-				// this class is never set, they simply stay visible. See
-				// src/lib/actions/reveal.ts.
-				try {
-					if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-						document.documentElement.classList.add('reveal-ready');
-					}
-				} catch {
-					/* no matchMedia — leave reveals disarmed, content stays visible */
-				}
-			})();
-		</script>
+		<!-- Single light theme; keep in sync with --bg in src/lib/styles/tokens.css. -->
+		<meta name="color-scheme" content="light" />
+		<meta name="theme-color" content="#fbfbf8" />
 
 		%sveltekit.head%
 	</head>

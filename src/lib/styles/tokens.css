@@ -6,56 +6,100 @@
  * add a token instead — that is the whole point of this file.
  *
  * The brand ramp derives from the three gradient blobs in the VLAB "V" mark:
- *   crimson #C41162 · cyan #0CA4DD · violet #A445F2
+ *   crimson #C41162 · violet #A445F2 · cyan #0CA4DD
+ *
+ * The 2026 redesign is a single light theme on warm paper. There is no dark
+ * counterpart on purpose: the layout leans on hairline rules and generous
+ * white space, both of which need a paper ground to read as intended, and a
+ * half-tuned dark palette was worse than none. If dark ever comes back, it
+ * belongs here as a `:root[data-theme='dark']` block and nowhere else.
  */
 
 :root {
+	color-scheme: light;
+
 	/* ---- Brand ---------------------------------------------------------- */
 	--brand-crimson: #e0246f;
-	--brand-cyan: #0ca4dd;
 	--brand-violet: #a445f2;
+	--brand-cyan: #0ca4dd;
 
-	/* Primary action colour. Tuned from the original #6b67c7 toward a
-	   more saturated indigo so it holds up against a dark background. */
-	--brand-400: #9b93ff;
-	--brand-500: #7a6ff5;
-	--brand-600: #5f51e8;
-	--brand-700: #4a3cc9;
+	/* The one accent. Buttons, links, active nav, section kickers — all of it
+	   is this violet. It is darkened from the logo's #a445f2 so that white text
+	   on it clears WCAG AA (5.8:1) and so it holds against warm paper. */
+	--brand: #7a2ee0;
+	--brand-strong: #6522c2;
+	--brand-contrast: #ffffff;
+	/* Tint for the active nav pill and other faint accent fields. */
+	--brand-soft: #f4eefc;
 
+	/* Brand device, not decoration: the logo, the hero rule, section kickers,
+	   the featured project's top edge, live timeline dots. Never on body text. */
 	--brand-gradient: linear-gradient(
 		100deg,
 		var(--brand-crimson) 0%,
-		var(--brand-violet) 45%,
+		var(--brand-violet) 46%,
 		var(--brand-cyan) 100%
 	);
+
+	/* ---- Surface -------------------------------------------------------- */
+	/* Warm off-white rather than #fff: at these amounts of empty space pure
+	   white glares, and the paper tone is what makes the hairlines look drawn
+	   rather than rendered. */
+	--bg: #fbfbf8;
+	/* Alternating band (projects, history, footer). */
+	--bg-subtle: #f3f3f0;
+	/* Cards sit *above* the paper, so they are the one true white. */
+	--surface: #ffffff;
+	--surface-hover: #faf9f6;
+
+	--border: #e7e4dc;
+	--border-strong: #d8d4c8;
+
+	--text: #18171c;
+	/* Body copy inside lists — one step darker than --text-muted so long
+	   paragraphs stay comfortable at 0.92rem. */
+	--text-body: #33313c;
+	--text-muted: #5b5866;
+	/* Darkened from the reference design's #8d8996, which measured 3.3:1 on
+	   paper. Everything wearing this token is small — photo credits, timeline
+	   dates, stat qualifiers — so it has to clear 4.5:1, not 3:1. This is
+	   5.0:1 on --bg and 4.7:1 on --bg-subtle. */
+	--text-faint: #6e6a7a;
+
+	--shadow-sm: 0 1px 2px rgb(24 23 28 / 0.05);
+	--shadow-md: 0 6px 20px -6px rgb(24 23 28 / 0.1);
+	--shadow-lg: 0 18px 44px -12px rgb(24 23 28 / 0.14);
 
 	/* ---- Type ----------------------------------------------------------- */
 	--font-sans:
 		'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
 		'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+	/* Numbers and dates only: scores, training scale, timeline stamps. Mono
+	   makes a scoreboard read as a scoreboard. */
 	--font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, monospace;
 
-	/* Fluid type scale — clamp() means no breakpoint jumps.
-	   Ratio ~1.25 at mobile widening to ~1.33 at desktop. */
+	/* Fluid type scale — clamp() means no breakpoint jumps. The display sizes
+	   are deliberately tamer than the previous dark design: this layout gets
+	   its impact from space and rules, not from 6rem headlines. */
 	--text-xs: 0.75rem;
 	--text-sm: 0.875rem;
 	--text-base: 1rem;
 	--text-lg: clamp(1.0625rem, 0.2vw + 1rem, 1.125rem);
-	--text-xl: clamp(1.25rem, 0.4vw + 1.15rem, 1.5rem);
-	--text-2xl: clamp(1.5rem, 1vw + 1.25rem, 2rem);
-	--text-3xl: clamp(1.875rem, 2vw + 1.4rem, 2.75rem);
-	--text-4xl: clamp(2.25rem, 4vw + 1.4rem, 4rem);
-	--text-5xl: clamp(2.75rem, 7vw + 1rem, 6rem);
+	--text-xl: clamp(1.15rem, 0.4vw + 1.05rem, 1.35rem);
+	--text-2xl: clamp(1.35rem, 0.8vw + 1.15rem, 1.7rem);
+	--text-3xl: clamp(1.5rem, 1.2vw + 1.2rem, 1.9rem);
+	--text-4xl: clamp(2.4rem, 5.5vw, 3.8rem);
 
-	--leading-tight: 1.08;
-	--leading-snug: 1.3;
+	--leading-tight: 1.15;
+	--leading-snug: 1.35;
 	--leading-normal: 1.65;
 
 	/* Korean text needs looser tracking than Latin at display sizes;
 	   negative tracking on hangul quickly turns to mush. */
 	--tracking-display: -0.03em;
-	--tracking-normal: -0.011em;
-	--tracking-wide: 0.08em;
+	--tracking-heading: -0.02em;
+	--tracking-normal: -0.01em;
+	--tracking-wide: 0.1em;
 
 	/* ---- Space (4px base) ----------------------------------------------- */
 	--space-1: 0.25rem;
@@ -67,23 +111,24 @@
 	--space-7: 3rem;
 	--space-8: 4rem;
 	--space-9: 6rem;
-	--space-10: 8rem;
 
-	/* Vertical rhythm between major page sections. */
-	--section-gap: clamp(4rem, 10vw, 9rem);
+	/* Vertical rhythm between major page sections — 96px at desktop. */
+	--section-gap: clamp(3.5rem, 8vw, 6rem);
 
 	/* ---- Layout ---------------------------------------------------------- */
-	--measure: 68ch; /* max line length for body copy */
-	--container: 1140px;
-	--container-wide: 1440px;
-	--gutter: clamp(1.25rem, 4vw, 2.5rem);
+	--measure: 60ch; /* max line length for section leads */
+	--measure-tight: 52ch; /* body copy inside a two-column block */
+	--container: 1120px;
+	--gutter: clamp(1.25rem, 4vw, 1.5rem);
 	--header-h: 64px;
 
 	/* ---- Shape ----------------------------------------------------------- */
+	/* Three steps only: cards 16, small cards and photos 12, controls 10.
+	   Tags are the sole exception and go full pill. */
 	--radius-sm: 6px;
 	--radius-md: 10px;
+	--radius-photo: 12px;
 	--radius-lg: 16px;
-	--radius-xl: 24px;
 	--radius-full: 999px;
 
 	/* ---- Motion ---------------------------------------------------------- */
@@ -95,91 +140,4 @@
 
 	--z-header: 100;
 	--z-modal: 200;
-}
-
-/* ---- Dark theme (default) ----------------------------------------------- */
-:root,
-:root[data-theme='dark'] {
-	color-scheme: dark;
-
-	--bg: #0a0a10;
-	--bg-subtle: #101018;
-	--surface: #14141f;
-	--surface-hover: #1b1b28;
-	--border: #262633;
-	--border-strong: #363648;
-
-	--text: #f2f2f7;
-	--text-muted: #a2a2b8;
-	--text-faint: #6b6b80;
-
-	--brand: var(--brand-400);
-	--brand-contrast: #0a0a10;
-
-	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-	--shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.5);
-	--shadow-lg: 0 16px 48px -8px rgb(0 0 0 / 0.65);
-
-	--grain-opacity: 0.04;
-
-	/* Scrim over photography.
-	   Two layers, because one is never enough on a real photo: a vertical ramp
-	   that anchors the text block, plus a horizontal one so copy set against a
-	   bright sky still clears 4.5:1. The old hero put white text on an unscrimmed
-	   photo and measured 2.32:1 — this is the thing that has to not happen. */
-	--scrim-v: linear-gradient(
-		to top,
-		rgb(8 8 14 / 0.92) 0%,
-		rgb(8 8 14 / 0.72) 34%,
-		rgb(8 8 14 / 0.38) 68%,
-		rgb(8 8 14 / 0.2) 100%
-	);
-	--scrim-h: linear-gradient(
-		to right,
-		rgb(8 8 14 / 0.6) 0%,
-		rgb(8 8 14 / 0.18) 52%,
-		rgb(8 8 14 / 0) 100%
-	);
-}
-
-/* ---- Light theme -------------------------------------------------------- */
-:root[data-theme='light'] {
-	color-scheme: light;
-
-	--bg: #ffffff;
-	--bg-subtle: #f7f7fb;
-	--surface: #ffffff;
-	--surface-hover: #f4f4f9;
-	--border: #e6e6ef;
-	--border-strong: #d0d0dd;
-
-	--text: #111118;
-	--text-muted: #55556b;
-	--text-faint: #85859a;
-
-	--brand: var(--brand-600);
-	--brand-contrast: #ffffff;
-
-	--shadow-sm: 0 1px 2px rgb(16 16 40 / 0.06);
-	--shadow-md: 0 4px 16px -2px rgb(16 16 40 / 0.08);
-	--shadow-lg: 0 16px 48px -8px rgb(16 16 40 / 0.12);
-
-	/* Grain is barely there on white — just enough to stop gradient banding. */
-	--grain-opacity: 0.02;
-
-	/* The hero keeps its dark treatment in light mode: the photo is the same
-	   photo, and white-on-photo needs the same protection either way. */
-	--scrim-v: linear-gradient(
-		to top,
-		rgb(8 8 14 / 0.94) 0%,
-		rgb(8 8 14 / 0.84) 32%,
-		rgb(8 8 14 / 0.58) 62%,
-		rgb(8 8 14 / 0.38) 100%
-	);
-	--scrim-h: linear-gradient(
-		to right,
-		rgb(8 8 14 / 0.7) 0%,
-		rgb(8 8 14 / 0.26) 55%,
-		rgb(8 8 14 / 0.08) 100%
-	);
 }
