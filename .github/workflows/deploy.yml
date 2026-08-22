@@ -1,0 +1,69 @@
+name: Deploy to GitHub Pages
+
+# Replaces the old `npm run page` script, which pushed a build from one specific
+# person's laptop using their personal git identity. When that person graduated,
+# the site's only deploy path left with them.
+#
+# ONE-TIME SETUP by a repo admin:
+#   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+# Without that, this workflow runs green and nothing is published.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow one concurrent deploy; let in-progress runs finish so a deploy is never
+# left half-applied.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `npm ci` fails loudly if package-lock.json and package.json disagree.
+      # That is the point: the old tree floated "next" tags and silently drifted
+      # two major versions until it stopped installing at all.
+      - run: npm ci
+
+      - name: Check formatting
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify no broken internal links
+        run: npm run check:links
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

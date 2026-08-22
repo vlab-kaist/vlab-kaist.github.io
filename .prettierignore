@@ -1,0 +1,19 @@
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+
+# Lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Generated — see scripts/build-images.js
+src/lib/data/images.ts
+
+# Vendored upstream font, kept byte-identical to what was published
+static/fonts/pretendard.css

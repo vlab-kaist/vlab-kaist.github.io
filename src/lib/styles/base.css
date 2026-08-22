@@ -1,0 +1,219 @@
+@import './tokens.css';
+
+/* ---- Reset -------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+	/* Anchored sections must clear the fixed header. The old site did this by
+	   adding +50px in a scroll handler, which drifted out of sync with the
+	   header height; scroll-padding keeps them tied together. */
+	scroll-padding-top: calc(var(--header-h) + var(--space-4));
+}
+
+body {
+	min-height: 100dvh;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	font-size: var(--text-base);
+	line-height: var(--leading-normal);
+	letter-spacing: var(--tracking-normal);
+	/* Korean has no inter-word breaking rule by default, so browsers break
+	   mid-eojeol — "문제를" splits into "문제" / "를", which reads as a typo.
+	   keep-all restricts breaks to spaces; overflow-wrap is the escape hatch so
+	   an unbroken token (a long URL) still cannot force a horizontal scrollbar.
+	   Harmless for English, which already breaks at spaces. */
+	word-break: keep-all;
+	overflow-wrap: break-word;
+	font-synthesis-weight: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+	transition:
+		background-color var(--dur-base) var(--ease-out),
+		color var(--dur-base) var(--ease-out);
+}
+
+/* Film grain. A fixed, non-interactive overlay of fine noise sitting above the
+   aurora but below content. It does two jobs: it kills the visible banding that
+   large soft gradients produce on 8-bit displays, and it lends the flat dark
+   fields a subtle filmic texture that reads as "designed" rather than "empty".
+   The noise is an inline SVG so it costs no request. */
+body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	opacity: var(--grain-opacity);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	/* mix-blend so the grain lightens the darks without greying the mid-tones. */
+	mix-blend-mode: overlay;
+}
+
+img,
+picture,
+svg,
+video {
+	display: block;
+	max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-weight: 700;
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-display);
+	text-wrap: balance;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+ul,
+ol {
+	list-style: none;
+	padding: 0;
+}
+
+/* ---- Focus -------------------------------------------------------------- */
+/* The old site had no focus styling at all — keyboard users were flying blind. */
+
+:focus-visible {
+	outline: 2px solid var(--brand);
+	outline-offset: 3px;
+	border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* ---- Selection ---------------------------------------------------------- */
+
+::selection {
+	background: var(--brand-violet);
+	color: #fff;
+}
+
+/* ---- Utilities ---------------------------------------------------------- */
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link {
+	position: absolute;
+	top: var(--space-3);
+	left: var(--space-3);
+	z-index: calc(var(--z-header) + 1);
+	padding: var(--space-3) var(--space-5);
+	background: var(--brand);
+	color: var(--brand-contrast);
+	border-radius: var(--radius-md);
+	font-weight: 600;
+	transform: translateY(-200%);
+	transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+	transform: translateY(0);
+}
+
+/* Gradient text lockup for the VLAB wordmark.
+   `background-clip: text` is unprefixed and Baseline since 2023 — the old site
+   used only -webkit-linear-gradient, which left the text invisible in Firefox
+   for anyone who fell outside the prefix.
+   background-size + the sheen keyframe make the gradient slowly travel across
+   the letters, so the wordmark reads as alive rather than a static fill. */
+.gradient-text {
+	background: var(--brand-gradient);
+	background-size: 220% 100%;
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	animation: gradient-sheen 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradient-sheen {
+	to {
+		background-position: 100% 0;
+	}
+}
+
+/* ---- Scroll reveal ------------------------------------------------------ */
+/* The hidden state only applies once JS has added `reveal-ready` to <html>
+   (see app.html), and only until the reveal action marks the element done.
+   No JS, or a crawler: the class is never added, so content is always visible.
+   See src/lib/actions/reveal.ts. */
+:global(html.reveal-ready) [data-reveal] {
+	opacity: 0;
+	transform: translateY(22px);
+	transition:
+		opacity 0.7s var(--ease-out),
+		transform 0.7s var(--ease-out);
+	transition-delay: var(--reveal-delay, 0ms);
+	will-change: opacity, transform;
+}
+
+[data-reveal][data-revealed] {
+	opacity: 1;
+	transform: none;
+}
+
+/* ---- Motion ------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		/* Zero the delay too: an entrance animation with `both` fill and a stagger
+		   delay would otherwise hold its element at opacity 0 for the delay's
+		   duration before snapping in. */
+		animation-delay: 0ms !important;
+		transition-duration: 0.01ms !important;
+		transition-delay: 0ms !important;
+		scroll-behavior: auto !important;
+	}
+}

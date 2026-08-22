@@ -1,0 +1,185 @@
+/*
+ * VLAB design tokens.
+ *
+ * Every colour, space and type value in the site resolves to something here.
+ * If you are tempted to write a raw hex or a magic px value in a component,
+ * add a token instead — that is the whole point of this file.
+ *
+ * The brand ramp derives from the three gradient blobs in the VLAB "V" mark:
+ *   crimson #C41162 · cyan #0CA4DD · violet #A445F2
+ */
+
+:root {
+	/* ---- Brand ---------------------------------------------------------- */
+	--brand-crimson: #e0246f;
+	--brand-cyan: #0ca4dd;
+	--brand-violet: #a445f2;
+
+	/* Primary action colour. Tuned from the original #6b67c7 toward a
+	   more saturated indigo so it holds up against a dark background. */
+	--brand-400: #9b93ff;
+	--brand-500: #7a6ff5;
+	--brand-600: #5f51e8;
+	--brand-700: #4a3cc9;
+
+	--brand-gradient: linear-gradient(
+		100deg,
+		var(--brand-crimson) 0%,
+		var(--brand-violet) 45%,
+		var(--brand-cyan) 100%
+	);
+
+	/* ---- Type ----------------------------------------------------------- */
+	--font-sans:
+		'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+		'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+	--font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, monospace;
+
+	/* Fluid type scale — clamp() means no breakpoint jumps.
+	   Ratio ~1.25 at mobile widening to ~1.33 at desktop. */
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: clamp(1.0625rem, 0.2vw + 1rem, 1.125rem);
+	--text-xl: clamp(1.25rem, 0.4vw + 1.15rem, 1.5rem);
+	--text-2xl: clamp(1.5rem, 1vw + 1.25rem, 2rem);
+	--text-3xl: clamp(1.875rem, 2vw + 1.4rem, 2.75rem);
+	--text-4xl: clamp(2.25rem, 4vw + 1.4rem, 4rem);
+	--text-5xl: clamp(2.75rem, 7vw + 1rem, 6rem);
+
+	--leading-tight: 1.08;
+	--leading-snug: 1.3;
+	--leading-normal: 1.65;
+
+	/* Korean text needs looser tracking than Latin at display sizes;
+	   negative tracking on hangul quickly turns to mush. */
+	--tracking-display: -0.03em;
+	--tracking-normal: -0.011em;
+	--tracking-wide: 0.08em;
+
+	/* ---- Space (4px base) ----------------------------------------------- */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4rem;
+	--space-9: 6rem;
+	--space-10: 8rem;
+
+	/* Vertical rhythm between major page sections. */
+	--section-gap: clamp(4rem, 10vw, 9rem);
+
+	/* ---- Layout ---------------------------------------------------------- */
+	--measure: 68ch; /* max line length for body copy */
+	--container: 1140px;
+	--container-wide: 1440px;
+	--gutter: clamp(1.25rem, 4vw, 2.5rem);
+	--header-h: 64px;
+
+	/* ---- Shape ----------------------------------------------------------- */
+	--radius-sm: 6px;
+	--radius-md: 10px;
+	--radius-lg: 16px;
+	--radius-xl: 24px;
+	--radius-full: 999px;
+
+	/* ---- Motion ---------------------------------------------------------- */
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--dur-fast: 120ms;
+	--dur-base: 240ms;
+	--dur-slow: 480ms;
+
+	--z-header: 100;
+	--z-modal: 200;
+}
+
+/* ---- Dark theme (default) ----------------------------------------------- */
+:root,
+:root[data-theme='dark'] {
+	color-scheme: dark;
+
+	--bg: #0a0a10;
+	--bg-subtle: #101018;
+	--surface: #14141f;
+	--surface-hover: #1b1b28;
+	--border: #262633;
+	--border-strong: #363648;
+
+	--text: #f2f2f7;
+	--text-muted: #a2a2b8;
+	--text-faint: #6b6b80;
+
+	--brand: var(--brand-400);
+	--brand-contrast: #0a0a10;
+
+	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+	--shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.5);
+	--shadow-lg: 0 16px 48px -8px rgb(0 0 0 / 0.65);
+
+	--grain-opacity: 0.04;
+
+	/* Scrim over photography.
+	   Two layers, because one is never enough on a real photo: a vertical ramp
+	   that anchors the text block, plus a horizontal one so copy set against a
+	   bright sky still clears 4.5:1. The old hero put white text on an unscrimmed
+	   photo and measured 2.32:1 — this is the thing that has to not happen. */
+	--scrim-v: linear-gradient(
+		to top,
+		rgb(8 8 14 / 0.92) 0%,
+		rgb(8 8 14 / 0.72) 34%,
+		rgb(8 8 14 / 0.38) 68%,
+		rgb(8 8 14 / 0.2) 100%
+	);
+	--scrim-h: linear-gradient(
+		to right,
+		rgb(8 8 14 / 0.6) 0%,
+		rgb(8 8 14 / 0.18) 52%,
+		rgb(8 8 14 / 0) 100%
+	);
+}
+
+/* ---- Light theme -------------------------------------------------------- */
+:root[data-theme='light'] {
+	color-scheme: light;
+
+	--bg: #ffffff;
+	--bg-subtle: #f7f7fb;
+	--surface: #ffffff;
+	--surface-hover: #f4f4f9;
+	--border: #e6e6ef;
+	--border-strong: #d0d0dd;
+
+	--text: #111118;
+	--text-muted: #55556b;
+	--text-faint: #85859a;
+
+	--brand: var(--brand-600);
+	--brand-contrast: #ffffff;
+
+	--shadow-sm: 0 1px 2px rgb(16 16 40 / 0.06);
+	--shadow-md: 0 4px 16px -2px rgb(16 16 40 / 0.08);
+	--shadow-lg: 0 16px 48px -8px rgb(16 16 40 / 0.12);
+
+	/* Grain is barely there on white — just enough to stop gradient banding. */
+	--grain-opacity: 0.02;
+
+	/* The hero keeps its dark treatment in light mode: the photo is the same
+	   photo, and white-on-photo needs the same protection either way. */
+	--scrim-v: linear-gradient(
+		to top,
+		rgb(8 8 14 / 0.94) 0%,
+		rgb(8 8 14 / 0.84) 32%,
+		rgb(8 8 14 / 0.58) 62%,
+		rgb(8 8 14 / 0.38) 100%
+	);
+	--scrim-h: linear-gradient(
+		to right,
+		rgb(8 8 14 / 0.7) 0%,
+		rgb(8 8 14 / 0.26) 55%,
+		rgb(8 8 14 / 0.08) 100%
+	);
+}
