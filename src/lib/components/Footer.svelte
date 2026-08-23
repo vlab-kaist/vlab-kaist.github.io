@@ -1,15 +1,22 @@
 <script lang="ts">
 	import Logo from './Logo.svelte';
-	import { fill, type Dict } from '$i18n';
+	import { fill, localeHref, type Dict, type Locale } from '$i18n';
 
 	interface Props {
 		dict: Dict;
+		locale: Locale;
 		/** Passed in from the page so the year is baked at prerender, not read
 		 *  from the visitor's clock (which would be wrong if it drifts). */
 		year: number;
 	}
 
-	let { dict, year }: Props = $props();
+	let { dict, locale, year }: Props = $props();
+
+	// Internal links in the dictionary are written locale-agnostically ("/join/")
+	// so the copy does not have to know about the /en prefix. External ones are
+	// absolute and pass through untouched.
+	const href = (link: { href: string; external?: boolean }) =>
+		link.external ? link.href : localeHref(locale, link.href);
 </script>
 
 <footer>
@@ -26,7 +33,7 @@
 			{#each dict.footer.links as link (link.href)}
 				<li>
 					<a
-						href={link.href}
+						href={href(link)}
 						target={link.external ? '_blank' : undefined}
 						rel={link.external ? 'noopener noreferrer' : undefined}
 					>

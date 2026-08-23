@@ -66,7 +66,7 @@ src/
   app.html              문서 셸. <html lang> 은 hooks.server.ts 가 채웁니다.
   hooks.server.ts       페이지별 lang 속성 주입
   lib/
-    components/         Header, Footer, Sponsors, LifeGrid, Picture, Logo, Seo
+    components/         Header, Footer, Sponsors, PageHead, LifeGrid, Picture, Logo, Seo
     data/images.ts      자동 생성 — 이미지 크기 정보
     i18n/               ko.ts, en.ts, types.ts  ← 문구는 전부 여기
     styles/
@@ -75,7 +75,13 @@ src/
   params/lang.ts        [[lang]] 매처
   routes/
     [[lang=lang]]/      / 와 /en/ 이 같은 컴포넌트를 씁니다
-    sitemap.xml/
+      +page.svelte      홈 — 히어로, 기록, 섹션 목록
+      teams/            팀
+      projects/         프로젝트
+      life/             생활
+      history/          연혁
+      join/             함께하기
+    sitemap.xml/        경로를 추가하면 여기 paths 배열도 같이 고치세요
 static/
   fonts/                Pretendard 자체 호스팅 (OFL)
   img/                  자동 생성
@@ -85,6 +91,11 @@ scripts/                build-images.js, check-links.js
 
 ## 알아둘 것
 
+- **탭마다 별도 페이지입니다.** 처음에는 한 페이지에 전부 넣고 헤더가 앵커로 스크롤시키는
+  구조였는데, 페이지가 너무 길다는 피드백을 받아 라우트를 나눴습니다. 문구는 그대로
+  `i18n/` 에서 오고, 페이지는 그걸 어떻게 배치할지만 정합니다. 섹션을 추가하려면 라우트
+  하나, `Header.svelte` 의 `sections` 배열, `sitemap.xml` 의 `paths` 배열 세 군데를
+  고치면 됩니다.
 - **테마는 라이트 하나뿐입니다.** 2026 디자인은 따뜻한 종이색 바탕에 얇은 선으로 구획하는 방식이라
   다크 대응이 별도 설계를 요구합니다. 어설픈 다크보다 없는 편이 낫다고 보고 토글과 `theme.svelte.ts`
   를 걷어냈습니다. 되살린다면 `tokens.css` 안에 `:root[data-theme='dark']` 블록으로 넣으세요.

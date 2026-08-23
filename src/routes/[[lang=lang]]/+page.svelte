@@ -1,43 +1,24 @@
 <script lang="ts">
 	import Picture from '$components/Picture.svelte';
 	import Seo from '$components/Seo.svelte';
-	import LifeGrid from '$components/LifeGrid.svelte';
+	import { localeHref } from '$i18n';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
 
-	// The join CTA is whichever channel is an address, so the button and the
-	// listed contact can never drift apart.
-	const emailHref = $derived(
-		d.join.channels.find((c) => c.href.startsWith('mailto:'))?.href ?? '#join'
-	);
-
-	// Alternating rows: the quiz team leads with its photo, the AI team with its
-	// text. Same components, mirrored — which is what stops two structurally
-	// identical blocks from reading as a copy-paste.
-	const teamRows = $derived([
-		{ id: 'quiz', team: d.teams.quiz, image: 'quiz-2025' as const, mirrored: false },
-		{ id: 'ai', team: d.teams.ai, image: 'rocketleague' as const, mirrored: true }
+	// The home page is now an entrance, not the whole site: hero, the record,
+	// and a way into each of the five sections. Everything that used to scroll
+	// past below this lives at its own URL.
+	const sections = $derived([
+		{ path: '/teams/', label: d.nav.teams, title: d.teams.heading, lead: d.teams.lead },
+		{ path: '/projects/', label: d.nav.projects, title: d.projects.heading, lead: d.projects.lead },
+		{ path: '/life/', label: d.nav.life, title: d.life.heading, lead: d.life.lead },
+		{ path: '/history/', label: d.nav.history, title: d.history.heading, lead: d.history.lead },
+		{ path: '/join/', label: d.nav.join, title: d.join.heading, lead: d.join.lead }
 	]);
-
-	const featured = $derived(d.projects.items.find((p) => p.featured));
-	const rest = $derived(d.projects.items.filter((p) => !p.featured));
 </script>
 
 <Seo dict={d} locale={data.locale} />
-
-<!--
-  Every section opens the same way: a small accent label, a title, one line of
-  lead, and a hairline rule under the lot. Repeating that exactly is what lets
-  the sections below it differ as much as they do without the page coming apart.
--->
-{#snippet sectionHead(eyebrow: string, heading: string, lead: string)}
-	<header class="section-head reveal">
-		<p class="eyebrow">{eyebrow}</p>
-		<h2>{heading}</h2>
-		<p class="section-lead">{lead}</p>
-	</header>
-{/snippet}
 
 <!-- ============================ HERO ============================ -->
 <section class="hero">
@@ -50,8 +31,10 @@
 			</h1>
 			<p class="hero-lead">{d.hero.lead}</p>
 			<div class="hero-cta">
-				<a class="btn btn-primary" href="#join">{d.hero.ctaPrimary}</a>
-				<a class="btn btn-ghost" href="#projects">{d.hero.ctaSecondary}</a>
+				<a class="btn btn-primary" href={localeHref(data.locale, '/join/')}>{d.hero.ctaPrimary}</a>
+				<a class="btn btn-ghost" href={localeHref(data.locale, '/projects/')}>
+					{d.hero.ctaSecondary}
+				</a>
 			</div>
 		</div>
 
@@ -81,255 +64,30 @@
 	</div>
 </section>
 
-<!-- ============================ TEAMS ============================ -->
-<section id="teams" class="section">
+<!-- ---------------------------- SECTION INDEX ---------------------------- -->
+<!-- The header nav is behind a burger on mobile, so the home page cannot rely
+     on it as the only way in. Each card carries the section's own heading and
+     lead, which is exactly the text that used to introduce it further down the
+     old single page — so this costs no new copy. -->
+<section class="index page">
 	<div class="container">
-		{@render sectionHead(d.nav.teams, d.teams.heading, d.teams.lead)}
-
-		<div class="team-rows">
-			{#each teamRows as row (row.id)}
-				<article class="team reveal" class:mirrored={row.mirrored}>
-					<div class="team-media">
-						<Picture
-							name={row.image}
-							alt={row.team.imageAlt}
-							sizes="(max-width: 900px) 92vw, 420px"
-							ratio={1.6}
-						/>
-					</div>
-					<div class="team-body">
-						<h3>{row.team.name}</h3>
-						<p class="team-tagline">{row.team.tagline}</p>
-						<p class="team-text">{row.team.body}</p>
-						<ul class="team-points">
-							{#each row.team.points as point (point)}
-								<li>{point}</li>
-							{/each}
-						</ul>
-					</div>
-				</article>
-			{/each}
-		</div>
-	</div>
-</section>
-
-<!-- ============================ PROJECTS ============================ -->
-<section id="projects" class="section section-alt">
-	<div class="container">
-		{@render sectionHead(d.nav.projects, d.projects.heading, d.projects.lead)}
-
-		{#if featured}
-			<!-- The only element on the page that carries the full brand gradient
-			     as a device: one project is the reason the club is known, and it
-			     gets the one gradient edge. -->
-			<article class="featured reveal">
-				<ul class="tags">
-					{#each featured.tags as tag (tag)}
-						<li>{tag}</li>
-					{/each}
-				</ul>
-				<h3>{featured.name}</h3>
-				<p class="featured-tagline">{featured.tagline}</p>
-				<p class="featured-text">{featured.body}</p>
-			</article>
-		{/if}
-
-		<ul class="cards">
-			{#each rest as project (project.id)}
+		<h2 class="visually-hidden">{d.nav.menu}</h2>
+		<ul>
+			{#each sections as section (section.path)}
 				<li class="reveal">
-					<article class="card">
-						<h3>{project.name}</h3>
-						<p class="card-tagline">{project.tagline}</p>
-						<p class="card-text">{project.body}</p>
-						<ul class="tags tags-sm">
-							{#each project.tags as tag (tag)}
-								<li>{tag}</li>
-							{/each}
-						</ul>
-						{#if project.repo}
-							<a class="card-link" href={project.repo} target="_blank" rel="noopener noreferrer">
-								{d.projects.viewRepo}
-								<span aria-hidden="true">→</span>
-							</a>
-						{/if}
-					</article>
+					<a href={localeHref(data.locale, section.path)}>
+						<span class="index-label">{section.label}</span>
+						<span class="index-title">{section.title}</span>
+						<span class="index-lead">{section.lead}</span>
+						<span class="index-go" aria-hidden="true">→</span>
+					</a>
 				</li>
 			{/each}
 		</ul>
 	</div>
 </section>
 
-<!-- ============================ LIFE ============================ -->
-<section id="life" class="section">
-	<div class="container">
-		{@render sectionHead(d.nav.life, d.life.heading, d.life.lead)}
-		<LifeGrid dict={d} />
-	</div>
-</section>
-
-<!-- ============================ HISTORY ============================ -->
-<section id="history" class="section section-alt">
-	<div class="container">
-		{@render sectionHead(d.nav.history, d.history.heading, d.history.lead)}
-
-		<ol class="timeline">
-			{#each d.history.entries as entry (entry.date + entry.title)}
-				<li class="reveal" class:highlight={entry.highlight}>
-					<span class="rail" aria-hidden="true">
-						<span class="dot"></span>
-						<span class="line"></span>
-					</span>
-					<div class="entry">
-						<time datetime={entry.date.replace('.', '-')}>{entry.date}</time>
-						<h3>{entry.title}</h3>
-						{#if entry.body}<p>{entry.body}</p>{/if}
-					</div>
-				</li>
-			{/each}
-		</ol>
-	</div>
-</section>
-
-<!-- ============================ JOIN ============================ -->
-<section id="join" class="section">
-	<div class="container join">
-		<div class="join-copy reveal">
-			<!-- Solid, not gradient: the gradient marks brand moments, and this is
-			     an ask. -->
-			<span class="rule rule-solid" aria-hidden="true"></span>
-			<h2>{d.join.heading}</h2>
-			<p class="join-lead">{d.join.lead}</p>
-			<p class="join-text">{d.join.body}</p>
-
-			<!-- The club is not running an application form, so the mail address
-			     is the call to action rather than a recruiting link. -->
-			<a class="btn btn-primary" href={emailHref}>{d.join.cta}</a>
-
-			<dl class="channels">
-				{#each d.join.channels as channel (channel.label)}
-					<div>
-						<dt>{channel.label}</dt>
-						<dd>
-							<a
-								href={channel.href}
-								target={channel.href.startsWith('mailto:') ? undefined : '_blank'}
-								rel={channel.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-							>
-								{channel.value}
-							</a>
-						</dd>
-					</div>
-				{/each}
-			</dl>
-		</div>
-
-		<div class="join-media reveal">
-			<Picture name="win-2025" alt={d.join.imageAlt} sizes="(max-width: 900px) 92vw, 440px" />
-		</div>
-	</div>
-</section>
-
 <style>
-	/* ---------------- Layout primitives ---------------- */
-
-	.container {
-		max-width: var(--container);
-		margin-inline: auto;
-		padding-inline: var(--gutter);
-	}
-
-	.section {
-		padding-block: var(--section-gap);
-	}
-
-	/* Alternating bands, separated by a real hairline rather than the soft
-	   fading dividers of the dark design — on paper a drawn line is the whole
-	   point, and a gradient that fades to nothing just looks like a mistake. */
-	.section-alt {
-		border-top: 1px solid var(--border);
-		background: var(--bg-subtle);
-	}
-
-	.rule {
-		display: block;
-		width: 36px;
-		height: 3px;
-		border-radius: 2px;
-		margin-bottom: 1.125rem;
-	}
-
-	.rule-gradient {
-		background: var(--brand-gradient);
-	}
-
-	.rule-solid {
-		background: var(--brand);
-	}
-
-	.eyebrow {
-		font-size: var(--text-xs);
-		font-weight: 700;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: var(--brand);
-	}
-
-	.section-head {
-		max-width: var(--measure);
-		margin-bottom: var(--space-8);
-		padding-bottom: 1.125rem;
-		border-bottom: 1px solid var(--border);
-	}
-
-	.section-head h2 {
-		margin-top: var(--space-2);
-		font-size: var(--text-3xl);
-	}
-
-	.section-lead {
-		margin-top: var(--space-3);
-		color: var(--text-muted);
-	}
-
-	/* ---------------- Buttons ---------------- */
-
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.75rem 1.375rem;
-		border-radius: var(--radius-md);
-		font-weight: 600;
-		font-size: 0.95rem;
-		transition:
-			background-color var(--dur-fast) var(--ease-out),
-			border-color var(--dur-fast) var(--ease-out),
-			transform var(--dur-fast) var(--ease-out);
-	}
-
-	.btn:active {
-		transform: translateY(1px);
-	}
-
-	.btn-primary {
-		background: var(--brand);
-		color: var(--brand-contrast);
-	}
-
-	.btn-primary:hover {
-		background: var(--brand-strong);
-	}
-
-	.btn-ghost {
-		border: 1px solid var(--border-strong);
-		color: var(--text);
-	}
-
-	.btn-ghost:hover {
-		border-color: var(--text-faint);
-		background: var(--surface);
-	}
-
 	/* ---------------- Hero ---------------- */
 
 	/* Deliberately not a full-bleed photo. The one the club has is a night shot,
@@ -347,11 +105,11 @@
 		flex-wrap: wrap;
 	}
 
-	/* `min(…, 100%)` rather than a bare min-width on all of these two-column
-	   blocks. The min-width is what makes the columns wrap instead of squeezing,
-	   but a bare 320px also refuses to shrink below 320px — which overflows the
-	   page on a 320px-wide phone. Capping it at the container's own width keeps
-	   the wrap behaviour and drops the overflow. */
+	/* `min(…, 100%)` rather than a bare min-width on these two-column blocks.
+	   The min-width is what makes the columns wrap instead of squeezing, but a
+	   bare 320px also refuses to shrink below 320px — which overflows the page
+	   on a 320px-wide phone. Capping it at the container's own width keeps the
+	   wrap behaviour and drops the overflow. */
 	.hero-copy {
 		flex: 1.3;
 		min-width: min(320px, 100%);
@@ -440,343 +198,75 @@
 		line-height: var(--leading-snug);
 	}
 
-	/* ---------------- Teams ---------------- */
+	/* ---------------- Section index ---------------- */
 
-	.team-rows {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-8);
-	}
-
-	.team {
-		display: flex;
-		gap: var(--space-7);
-		flex-wrap: wrap;
-		align-items: flex-start;
-	}
-
-	.team-media {
-		flex: 1;
-		min-width: min(280px, 100%);
-		max-width: 420px;
-	}
-
-	.team-media :global(picture) {
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--border);
-		overflow: hidden;
-	}
-
-	.team-body {
-		flex: 1;
-		min-width: min(280px, 100%);
-	}
-
-	/* `order` rather than row-reverse: when the row wraps on a narrow screen the
-	   photo must still come first in both rows, and row-reverse would flip one
-	   of them so the text landed above its own heading's photo. */
-	.mirrored .team-media {
-		order: 2;
-	}
-
-	.team h3 {
-		font-size: var(--text-2xl);
-	}
-
-	.team-tagline {
-		font-weight: 600;
-		color: var(--brand);
-		margin-top: var(--space-1);
-		margin-bottom: var(--space-4);
-	}
-
-	.team-text {
-		font-size: 0.98rem;
-		color: var(--text-muted);
-		max-width: var(--measure-tight);
-		margin-bottom: var(--space-5);
-	}
-
-	.team-points {
-		list-style: disc;
-		padding-left: 1.25rem;
-		color: var(--text-body);
-		font-size: 0.92rem;
-		line-height: 1.9;
-	}
-
-	@media (max-width: 900px) {
-		.mirrored .team-media {
-			order: 0;
-		}
-	}
-
-	/* ---------------- Projects ---------------- */
-
-	.featured {
-		position: relative;
-		border: 1px solid var(--border);
-		border-radius: var(--radius-lg);
-		background: var(--surface);
-		padding: clamp(1.5rem, 4vw, 2.25rem);
-		margin-bottom: var(--space-5);
-		overflow: hidden;
-	}
-
-	.featured::before {
-		content: '';
-		position: absolute;
-		inset: 0 0 auto 0;
-		height: 2px;
-		background: var(--brand-gradient);
-	}
-
-	.featured h3 {
-		font-size: 1.5rem;
-	}
-
-	.featured-tagline {
-		font-weight: 600;
-		color: var(--brand);
-		margin-top: var(--space-2);
-		margin-bottom: 0.875rem;
-	}
-
-	.featured-text {
-		font-size: 0.96rem;
-		color: var(--text-muted);
-		max-width: 70ch;
-	}
-
-	.cards {
+	.index ul {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-		gap: var(--space-5);
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: var(--space-4);
 	}
 
-	.card {
+	.index a {
+		position: relative;
+		display: grid;
+		/* The arrow gets its own column so a long lead can never run under it. */
+		grid-template-columns: 1fr auto;
+		align-content: start;
+		gap: 0 var(--space-4);
 		height: 100%;
-		display: flex;
-		flex-direction: column;
-		border: 1px solid var(--border);
-		border-radius: var(--radius-photo);
-		background: var(--surface);
 		padding: var(--space-5);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: var(--surface);
 		transition:
 			border-color var(--dur-base) var(--ease-out),
 			box-shadow var(--dur-base) var(--ease-out);
 	}
 
-	.card:hover {
+	.index a:hover {
 		border-color: var(--border-strong);
 		box-shadow: var(--shadow-md);
 	}
 
-	.card h3 {
-		font-size: 1.1rem;
-		font-weight: 700;
-	}
-
-	.card-tagline {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--brand);
-		margin-top: var(--space-1);
-		margin-bottom: 0.625rem;
-	}
-
-	.card-text {
-		font-size: 0.88rem;
-		color: var(--text-muted);
-		margin-bottom: var(--space-4);
-	}
-
-	/* Pushed to the bottom so every card's repo link lines up regardless of how
-	   long its description runs. */
-	.card .tags {
-		margin-top: auto;
-		margin-bottom: var(--space-3);
-	}
-
-	.card-link {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--brand);
-	}
-
-	.card-link:hover {
-		color: var(--brand-strong);
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-2);
-		margin-bottom: var(--space-4);
-	}
-
-	.tags li {
+	.index-label {
+		grid-column: 1;
 		font-size: var(--text-xs);
-		padding: 3px 10px;
-		border: 1px solid var(--border-strong);
-		border-radius: var(--radius-full);
-		color: var(--text-muted);
-		line-height: 1.5;
-	}
-
-	.tags-sm li {
-		font-size: 11px;
-		padding: 2px 8px;
-		color: var(--text-faint);
-	}
-
-	/* ---------------- History ---------------- */
-
-	.timeline {
-		max-width: 680px;
-	}
-
-	.timeline li {
-		display: flex;
-		gap: var(--space-5);
-	}
-
-	.rail {
-		flex: none;
-		width: 14px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.dot {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		background: var(--border-strong);
-		flex: none;
-	}
-
-	/* Only the entries the club calls out get the gradient dot. If everything
-	   were highlighted the timeline would just be a list of dots again. */
-	.highlight .dot {
-		background: var(--brand-gradient);
-	}
-
-	.line {
-		width: 2px;
-		flex: 1;
-		background: var(--border-strong);
-		margin-top: 2px;
-	}
-
-	.timeline li:last-child .line {
-		display: none;
-	}
-
-	.entry {
-		padding-bottom: var(--space-6);
-	}
-
-	.timeline li:last-child .entry {
-		padding-bottom: 0;
-	}
-
-	.entry time {
-		display: block;
-		font-family: var(--font-mono);
-		font-size: 12.5px;
-		color: var(--text-faint);
-		margin-bottom: var(--space-1);
-	}
-
-	.entry h3 {
-		font-size: 1.02rem;
 		font-weight: 700;
-	}
-
-	.highlight .entry h3 {
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
 		color: var(--brand);
 	}
 
-	.entry p {
+	.index-title {
+		grid-column: 1;
+		margin-top: var(--space-2);
+		font-size: 1.15rem;
+		font-weight: 800;
+		letter-spacing: var(--tracking-heading);
+		line-height: var(--leading-snug);
+	}
+
+	.index-lead {
+		grid-column: 1 / -1;
+		margin-top: var(--space-2);
 		font-size: 0.9rem;
 		color: var(--text-muted);
-		margin-top: var(--space-1);
 	}
 
-	/* ---------------- Join ---------------- */
-
-	.join {
-		display: flex;
-		gap: clamp(2rem, 5vw, 3.5rem);
-		flex-wrap: wrap;
-		align-items: center;
-	}
-
-	.join-copy {
-		flex: 1.1;
-		min-width: min(320px, 100%);
-	}
-
-	.join-copy h2 {
-		font-size: var(--text-3xl);
-	}
-
-	.join-lead {
+	.index-go {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		align-self: center;
 		font-size: 1.1rem;
-		font-weight: 700;
-		color: var(--brand);
-		margin-top: 0.875rem;
-		margin-bottom: var(--space-4);
-	}
-
-	.join-text {
-		color: var(--text-muted);
-		max-width: 48ch;
-		margin-bottom: var(--space-6);
-	}
-
-	.channels {
-		display: flex;
-		gap: var(--space-7);
-		flex-wrap: wrap;
-		margin-top: var(--space-6);
-		padding-top: var(--space-5);
-		border-top: 1px solid var(--border);
-	}
-
-	.channels dt {
-		font-size: 11px;
-		text-transform: uppercase;
-		letter-spacing: var(--tracking-wide);
 		color: var(--text-faint);
-		margin-bottom: var(--space-1);
+		transition:
+			transform var(--dur-base) var(--ease-out),
+			color var(--dur-base) var(--ease-out);
 	}
 
-	.channels dd {
-		margin: 0;
-		font-size: 0.92rem;
-		font-weight: 700;
-	}
-
-	.channels a:hover {
+	.index a:hover .index-go {
+		transform: translateX(3px);
 		color: var(--brand);
-	}
-
-	.join-media {
-		flex: 1;
-		min-width: min(280px, 100%);
-		max-width: 440px;
-	}
-
-	.join-media :global(picture) {
-		aspect-ratio: 1.35;
-		border-radius: var(--radius-lg);
-		border: 1px solid var(--border);
-		overflow: hidden;
 	}
 
 	/* ---------------- Narrow screens ---------------- */
@@ -784,12 +274,6 @@
 	@media (max-width: 720px) {
 		.scoreboard ul {
 			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (max-width: 400px) {
-		.channels {
-			gap: var(--space-5);
 		}
 	}
 </style>

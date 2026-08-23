@@ -227,7 +227,7 @@ export const en: Dict = {
 		builtBy: 'Made with ❤️ by {author}',
 		links: [
 			{ label: 'GitHub', href: 'https://github.com/vlab-kaist', external: true },
-			{ label: 'Join', href: '#join' }
+			{ label: 'Join', href: '/join/' }
 		]
 	},
 	notFound: {

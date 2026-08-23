@@ -146,6 +146,135 @@ ol {
 	color: transparent;
 }
 
+/* ---- Layout primitives -------------------------------------------------- */
+/* These were scoped inside the old single-page route. Once the page was split
+   into one route per nav tab they had to be shared, and copying them into six
+   components would have been six places to drift. They live here instead;
+   anything genuinely specific to one page still stays scoped in that page. */
+
+.container {
+	max-width: var(--container);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+/* Vertical breathing room for a subpage's body. */
+.page {
+	padding-block: var(--section-gap);
+}
+
+/* Short accent rule above a page title. */
+.rule {
+	display: block;
+	width: 36px;
+	height: 3px;
+	border-radius: 2px;
+	margin-bottom: 1.125rem;
+}
+
+.rule-gradient {
+	background: var(--brand-gradient);
+}
+
+.rule-solid {
+	background: var(--brand);
+}
+
+.eyebrow {
+	font-size: var(--text-xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-wide);
+	text-transform: uppercase;
+	color: var(--brand);
+}
+
+/* Every subpage opens with the same block: accent label, title, one line of
+   lead, hairline underneath. It is the section head from the old long page,
+   promoted to an <h1> now that each section is its own document. */
+.page-head {
+	max-width: var(--measure);
+	margin-bottom: var(--space-8);
+	padding-bottom: 1.125rem;
+	border-bottom: 1px solid var(--border);
+}
+
+.page-head h1 {
+	font-size: var(--text-3xl);
+}
+
+/* Only when an eyebrow actually sits above it — see PageHead.svelte. */
+.page-head .eyebrow + h1 {
+	margin-top: var(--space-2);
+}
+
+.page-lead {
+	margin-top: var(--space-3);
+	color: var(--text-muted);
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.75rem 1.375rem;
+	border-radius: var(--radius-md);
+	font-weight: 600;
+	font-size: 0.95rem;
+	transition:
+		background-color var(--dur-fast) var(--ease-out),
+		border-color var(--dur-fast) var(--ease-out),
+		transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:active {
+	transform: translateY(1px);
+}
+
+.btn-primary {
+	background: var(--brand);
+	color: var(--brand-contrast);
+}
+
+.btn-primary:hover {
+	background: var(--brand-strong);
+}
+
+.btn-ghost {
+	border: 1px solid var(--border-strong);
+	color: var(--text);
+}
+
+.btn-ghost:hover {
+	border-color: var(--text-faint);
+	background: var(--surface);
+}
+
+/* ---- Tags --------------------------------------------------------------- */
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-bottom: var(--space-4);
+}
+
+.tags li {
+	font-size: var(--text-xs);
+	padding: 3px 10px;
+	border: 1px solid var(--border-strong);
+	border-radius: var(--radius-full);
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.tags-sm li {
+	font-size: 11px;
+	padding: 2px 8px;
+	color: var(--text-faint);
+}
+
 /* ---- Scroll reveal ------------------------------------------------------ */
 /* Pure CSS, driven by a view-progress timeline: the element fades and lifts as
    it crosses into the viewport, with no observer, no hydration and no attribute

@@ -233,7 +233,7 @@ export const ko: Dict = {
 		builtBy: 'Made with ❤️ by {author}',
 		links: [
 			{ label: 'GitHub', href: 'https://github.com/vlab-kaist', external: true },
-			{ label: '함께하기', href: '#join' }
+			{ label: '함께하기', href: '/join/' }
 		]
 	},
 	notFound: {

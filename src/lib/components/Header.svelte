@@ -12,12 +12,21 @@
 
 	let open = $state(false);
 
+	// Real routes, not in-page anchors. The single long page was split so each
+	// nav item is its own document; the header is now navigation rather than a
+	// scroll shortcut.
 	const sections = $derived([
-		{ href: '#teams', label: dict.nav.teams },
-		{ href: '#projects', label: dict.nav.projects },
-		{ href: '#life', label: dict.nav.life },
-		{ href: '#history', label: dict.nav.history }
+		{ path: '/teams/', label: dict.nav.teams },
+		{ path: '/projects/', label: dict.nav.projects },
+		{ path: '/life/', label: dict.nav.life },
+		{ path: '/history/', label: dict.nav.history },
+		{ path: '/join/', label: dict.nav.join }
 	]);
+
+	// Compare against the resolved href so the check works in both locales, and
+	// normalise the trailing slash the router may or may not have applied yet.
+	const current = $derived(page.url.pathname.replace(/\/?$/, '/'));
+	const isActive = (path: string) => current === localeHref(locale, path);
 
 	// Swapping language must keep you on the page you were reading.
 	const otherLocale = $derived(locales.find((l) => l !== locale) as Locale);
@@ -55,12 +64,18 @@
 		</a>
 
 		<ul class="links">
-			{#each sections as section (section.href)}
-				<li><a href={section.href} onclick={() => (open = false)}>{section.label}</a></li>
+			{#each sections as section (section.path)}
+				<li>
+					<a
+						href={localeHref(locale, section.path)}
+						class:join={section.path === '/join/'}
+						aria-current={isActive(section.path) ? 'page' : undefined}
+						onclick={() => (open = false)}
+					>
+						{section.label}
+					</a>
+				</li>
 			{/each}
-			<li>
-				<a class="join" href="#join" onclick={() => (open = false)}>{dict.nav.join}</a>
-			</li>
 		</ul>
 
 		<div class="actions">
@@ -93,12 +108,18 @@
 {#if open}
 	<div id="mobile-nav" class="sheet">
 		<ul>
-			{#each sections as section (section.href)}
-				<li><a href={section.href} onclick={() => (open = false)}>{section.label}</a></li>
+			{#each sections as section (section.path)}
+				<li>
+					<a
+						href={localeHref(locale, section.path)}
+						class:sheet-cta={section.path === '/join/'}
+						aria-current={isActive(section.path) ? 'page' : undefined}
+						onclick={() => (open = false)}
+					>
+						{section.label}
+					</a>
+				</li>
 			{/each}
-			<li>
-				<a class="sheet-cta" href="#join" onclick={() => (open = false)}>{dict.nav.join}</a>
-			</li>
 		</ul>
 	</div>
 {/if}
@@ -174,13 +195,30 @@
 		background: color-mix(in srgb, var(--border) 45%, transparent);
 	}
 
-	/* "함께하기" is the one nav item that is also the page's goal, so it carries
+	/* "함께하기" is the one nav item that is also the site's goal, so it carries
 	   the accent as a tinted pill rather than a filled button — a filled button
 	   in a 64px header out-shouts the hero CTA directly below it. */
 	.links .join,
 	.links .join:hover {
 		color: var(--brand);
 		background: var(--brand-soft);
+	}
+
+	/* Now that these are page links rather than scroll targets, the header has
+	   to say where you are. An underline rather than a filled pill, so it does
+	   not collide with the tinted "함께하기" item. */
+	.links a[aria-current='page'] {
+		color: var(--text);
+		box-shadow: inset 0 -2px 0 var(--brand);
+		border-radius: var(--radius-md) var(--radius-md) 0 0;
+	}
+
+	.links .join[aria-current='page'] {
+		color: var(--brand);
+	}
+
+	.sheet a[aria-current='page'] {
+		color: var(--brand);
 	}
 
 	.actions {

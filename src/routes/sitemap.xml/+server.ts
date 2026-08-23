@@ -5,7 +5,7 @@ import type { RequestHandler } from './$types';
 export const prerender = true;
 
 /** Every page, in every locale. Keep in step as routes are added. */
-const paths = ['/'];
+const paths = ['/', '/teams/', '/projects/', '/life/', '/history/', '/join/'];
 
 export const GET: RequestHandler = () => {
 	const urls = paths

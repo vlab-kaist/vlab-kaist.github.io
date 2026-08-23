@@ -16,7 +16,7 @@
 </main>
 
 <Sponsors dict={data.dict} />
-<Footer dict={data.dict} year={data.year} />
+<Footer dict={data.dict} locale={data.locale} year={data.year} />
 
 <style>
 	main {
