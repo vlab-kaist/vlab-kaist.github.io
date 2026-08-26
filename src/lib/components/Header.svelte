@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Logo from './Logo.svelte';
+	import ThemeToggle from './ThemeToggle.svelte';
 	import { localeHref, localeName, locales, type Dict, type Locale } from '$i18n';
 
 	interface Props {
@@ -60,7 +61,7 @@
 	<nav aria-label="Primary">
 		<a class="brand" href={localeHref(locale)} onclick={() => (open = false)}>
 			<Logo size={24} decorative />
-			<span class="wordmark">VLAB</span>
+			<span class="wordmark">Vlab</span>
 		</a>
 
 		<ul class="links">
@@ -79,6 +80,8 @@
 		</ul>
 
 		<div class="actions">
+			<ThemeToggle {dict} />
+
 			<a class="lang" href={localeHref(otherLocale, currentPath)} hreflang={otherLocale}>
 				<span class="visually-hidden">{dict.nav.language}: {localeName[otherLocale]}</span>
 				<span aria-hidden="true">{otherLocale.toUpperCase()}</span>
@@ -104,25 +107,31 @@
 </header>
 
 <!-- The old site simply had no mobile nav: the logo and three Korean links sat
-     side by side and overflowed. -->
-{#if open}
-	<div id="mobile-nav" class="sheet">
-		<ul>
-			{#each sections as section (section.path)}
-				<li>
-					<a
-						href={localeHref(locale, section.path)}
-						class:sheet-cta={section.path === '/join/'}
-						aria-current={isActive(section.path) ? 'page' : undefined}
-						onclick={() => (open = false)}
-					>
-						{section.label}
-					</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
-{/if}
+     side by side and overflowed.
+
+     Always rendered, hidden with the `hidden` attribute rather than an {#if}.
+     Two reasons, both a11y: the burger's aria-controls has to point at an
+     element that actually exists even while the menu is shut, and a bare <div>
+     of links belongs to no landmark — axe flags every link in it as content
+     outside a region. `hidden` keeps it out of the accessibility tree and out
+     of the tab order for free, and the open animation still fires because the
+     element goes display:none -> block when the attribute drops. -->
+<nav id="mobile-nav" class="sheet" aria-label={dict.nav.menu} hidden={!open}>
+	<ul>
+		{#each sections as section (section.path)}
+			<li>
+				<a
+					href={localeHref(locale, section.path)}
+					class:sheet-cta={section.path === '/join/'}
+					aria-current={isActive(section.path) ? 'page' : undefined}
+					onclick={() => (open = false)}
+				>
+					{section.label}
+				</a>
+			</li>
+		{/each}
+	</ul>
+</nav>
 
 <style>
 	header {
@@ -147,7 +156,11 @@
 		}
 	}
 
-	nav {
+	/* `header nav`, not a bare `nav`: the mobile sheet below is a <nav> too, and
+	   a bare element selector would hand it this rule's `display: flex` — which
+	   overrides the UA stylesheet's `[hidden] { display: none }` and leaves the
+	   sheet painted over every desktop page. */
+	header nav {
 		width: 100%;
 		max-width: var(--container);
 		margin-inline: auto;
@@ -167,10 +180,12 @@
 		color: var(--text);
 	}
 
+	/* "Vlab" is Latin and it is a logotype, so it keeps the tight setting the
+	   hangul headings just gave up. */
 	.wordmark {
 		font-size: 1.0625rem;
 		font-weight: 800;
-		letter-spacing: var(--tracking-heading);
+		letter-spacing: var(--tracking-lat);
 	}
 
 	.links {
@@ -240,12 +255,21 @@
 		color: var(--text-faint);
 		transition:
 			color var(--dur-fast) var(--ease-out),
-			background-color var(--dur-fast) var(--ease-out);
+			background-color var(--dur-fast) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out);
 	}
 
 	.lang:hover {
 		color: var(--text);
 		background: color-mix(in srgb, var(--border) 45%, transparent);
+	}
+
+	/* The header controls are small enough that a lift would just look like a
+	   wobble, so they take the press half of the button treatment only. */
+	.lang:active,
+	.burger:active {
+		transform: scale(0.92);
+		transition-duration: 70ms;
 	}
 
 	.burger {
@@ -258,6 +282,10 @@
 		background: transparent;
 		color: var(--text-muted);
 		cursor: pointer;
+		transition:
+			color var(--dur-fast) var(--ease-out),
+			background-color var(--dur-fast) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out);
 	}
 
 	.burger:hover {
@@ -271,6 +299,13 @@
 		stroke-width: 1.8;
 		stroke-linecap: round;
 		stroke-linejoin: round;
+	}
+
+	/* Explicit rather than relying on the UA `[hidden]` rule alone: `hidden` is
+	   only as strong as the weakest author rule that sets `display` on this
+	   element, and that is a trap worth closing once. */
+	.sheet[hidden] {
+		display: none;
 	}
 
 	.sheet {

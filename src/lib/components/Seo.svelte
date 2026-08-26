@@ -19,14 +19,14 @@
 	const canonical = $derived(new URL(localeHref(locale, path), SITE_URL).href);
 	const ogImage = $derived(new URL('/og.png', SITE_URL).href);
 
-	// Organization schema so search engines understand what VLAB is rather than
-	// guessing from a page that used to say nothing but "VLAB".
+	// Organization schema so search engines understand what Vlab is rather than
+	// guessing from a page that used to say nothing but "Vlab".
 	const jsonLd = $derived(
 		JSON.stringify({
 			'@context': 'https://schema.org',
 			'@type': 'Organization',
-			name: 'VLAB',
-			alternateName: 'VLAB KAIST',
+			name: 'Vlab',
+			alternateName: 'Vlab KAIST',
 			url: SITE_URL,
 			logo: new URL('/favicon.svg', SITE_URL).href,
 			description: resolvedDesc,
@@ -59,7 +59,7 @@
 	/>
 
 	<meta property="og:type" content="website" />
-	<meta property="og:site_name" content="VLAB" />
+	<meta property="og:site_name" content="Vlab" />
 	<meta property="og:locale" content={locale === 'ko' ? 'ko_KR' : 'en_US'} />
 	<meta property="og:title" content={resolvedTitle} />
 	<meta property="og:description" content={resolvedDesc} />

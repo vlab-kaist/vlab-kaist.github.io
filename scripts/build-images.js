@@ -296,14 +296,14 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
   <rect width="1200" height="630" fill="#0a0a10"/>
   <rect width="1200" height="630" fill="url(#glow1)"/>
   <rect width="1200" height="630" fill="url(#glow2)"/>
-  <text x="80" y="250" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="128" font-weight="800" fill="url(#wordmark)" letter-spacing="-4">VLAB</text>
+  <text x="80" y="250" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="128" font-weight="800" fill="url(#wordmark)" letter-spacing="-4">Vlab</text>
   <text x="80" y="332" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="42" font-weight="600" fill="#f2f2f7">카포전을 이기는 동아리</text>
-  <text x="80" y="394" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="28" font-weight="400" fill="#a2a2b8">KAIST 과학퀴즈 · 인공지능 학술동아리</text>
+  <text x="80" y="394" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="28" font-weight="400" fill="#a2a2b8">KAIST 인공지능 · 과학퀴즈 학술동아리</text>
   <rect x="80" y="466" width="420" height="1" fill="#2e2e40"/>
-  <text x="80" y="534" font-family="ui-monospace, monospace" font-size="36" font-weight="700" fill="#f2f2f7">3 : 0</text>
+  <text x="80" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">3 : 0</text>
   <text x="80" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">2025 AI 종목</text>
-  <text x="300" y="534" font-family="ui-monospace, monospace" font-size="36" font-weight="700" fill="#f2f2f7">200+</text>
-  <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">Flex 학습량</text>
+  <text x="300" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">29</text>
+  <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">활동 인원</text>
   <text x="1120" y="570" text-anchor="end" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="20" fill="#6b6b80">vlab-kaist.github.io</text>
 </svg>`;
 await sharp(Buffer.from(og))

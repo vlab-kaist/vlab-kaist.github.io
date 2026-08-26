@@ -10,12 +10,17 @@
 </script>
 
 <svelte:head>
-	<title>{page.status} — VLAB</title>
+	<title>{page.status} — Vlab</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="wrap">
-	<a class="mark" href="/" aria-label="VLAB">
+<!-- <main>, not a <div>: this route renders outside the [[lang]] layout, so it
+     does not inherit that layout's <main id="main"> and the page shipped with
+     no main landmark at all — every element on it counted as content outside a
+     region. A 404 is the page a lost visitor lands on; it is the worst one to
+     make hard to navigate. -->
+<main class="wrap" id="main">
+	<a class="mark" href="/" aria-label="Vlab">
 		<Logo size={56} decorative />
 	</a>
 
@@ -28,7 +33,7 @@
 			<a href={i === 0 ? '/' : '/en/'}>{dict.notFound.cta} <span aria-hidden="true">→</span></a>
 		</section>
 	{/each}
-</div>
+</main>
 
 <style>
 	.wrap {
@@ -47,7 +52,8 @@
 	}
 
 	.status {
-		font-family: var(--font-mono);
+		font-family: var(--font-numeric);
+		font-variant-numeric: tabular-nums;
 		font-size: var(--text-sm);
 		letter-spacing: var(--tracking-wide);
 		color: var(--text-faint);

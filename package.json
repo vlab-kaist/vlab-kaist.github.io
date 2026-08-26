@@ -10,6 +10,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"images": "node scripts/build-images.js",
+		"og": "node scripts/build-og.js",
 		"check:links": "node scripts/check-links.js",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

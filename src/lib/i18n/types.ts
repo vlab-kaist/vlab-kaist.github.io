@@ -57,6 +57,10 @@ export interface Dict {
 		menu: string;
 		close: string;
 		language: string;
+		/** Action labels for the theme toggle — what the click will do, not what
+		 *  the current theme is. Only one of the two is ever in the a11y tree. */
+		themeToLight: string;
+		themeToDark: string;
 	};
 	hero: {
 		eyebrow: string;
@@ -66,8 +70,6 @@ export interface Dict {
 		ctaPrimary: string;
 		ctaSecondary: string;
 		imageAlt: string;
-		/** Credit line under the framed hero photo. */
-		imageCaption: string;
 	};
 	stats: {
 		heading: string;
@@ -105,24 +107,38 @@ export interface Dict {
 	life: {
 		heading: string;
 		lead: string;
-		/** One per photo, paired by index with the IMAGES list in LifeGrid.svelte. */
-		captions: { title: string; subtitle: string; alt: string }[];
+		/** One per photo, paired by index with the IMAGES list in LifeGrid.svelte.
+		 *  Title only: the second line these used to carry was a caption in the
+		 *  chatty sense ("you fight better on a full stomach") and the club wanted
+		 *  the page to read straight. `alt` is unaffected — it is not decoration. */
+		captions: { title: string; alt: string }[];
 	};
 	join: {
 		heading: string;
 		lead: string;
 		body: string;
+		/** Primary button — currently the application form. */
 		cta: string;
+		/** One line under the button saying where it goes, because the button
+		 *  leaves the site and a form is a bigger commitment than a link. */
+		ctaNote: string;
+		/** Absolute URL. External on purpose: the club runs recruiting on a
+		 *  Google Form, not on this site. */
+		ctaHref: string;
 		imageAlt: string;
 		channels: { label: string; value: string; href: string }[];
 	};
 	sponsors: {
 		heading: string;
 		items: Sponsor[];
+		/** The block addressed to companies rather than to students: a question,
+		 *  one line of answer, and a button. */
+		contact: { heading: string; body: string; label: string; href: string };
 	};
 	footer: {
 		blurb: string;
 		copyright: string;
+		/** Contains `{authors}` — Footer.svelte fills it with linked names. */
 		builtBy: string;
 		links: { label: string; href: string; external?: boolean }[];
 	};

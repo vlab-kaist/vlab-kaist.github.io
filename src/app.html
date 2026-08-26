@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="%lang%">
+<html lang="%lang%" data-theme="light">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,9 +21,35 @@
 		/>
 		<link rel="stylesheet" href="%sveltekit.assets%/fonts/pretendard.css" />
 
-		<!-- Single light theme; keep in sync with --bg in src/lib/styles/tokens.css. -->
-		<meta name="color-scheme" content="light" />
+		<!-- Both themes; keep the two hex values in sync with --bg in
+		     src/lib/styles/tokens.css. The content is rewritten by the script
+		     below (and by theme.svelte.ts on toggle) once the theme is known —
+		     a static value would be wrong for half the visitors. -->
+		<meta name="color-scheme" content="light dark" />
 		<meta name="theme-color" content="#fbfbf8" />
+
+		<script>
+			// Resolve the theme BEFORE first paint, so a dark-mode visitor never
+			// sees a white page flash first. This has to be inline and blocking:
+			// anything deferred, module-typed or bundled runs after the first
+			// paint by definition, which is the flash we are avoiding.
+			//
+			// Mirrors src/lib/theme.svelte.ts. Change both or neither.
+			(() => {
+				try {
+					const stored = localStorage.getItem('vlab-theme');
+					const theme =
+						stored ??
+						(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+					document.documentElement.dataset.theme = theme;
+					document
+						.querySelector('meta[name="theme-color"]')
+						.setAttribute('content', theme === 'dark' ? '#101017' : '#fbfbf8');
+				} catch {
+					/* storage or matchMedia blocked — the light default in the markup stands */
+				}
+			})();
+		</script>
 
 		%sveltekit.head%
 	</head>

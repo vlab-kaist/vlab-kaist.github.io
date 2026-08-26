@@ -1,6 +1,6 @@
 # vlab-kaist.github.io
 
-VLAB 동아리 웹사이트. <https://vlab-kaist.github.io>
+Vlab 동아리 웹사이트. <https://vlab-kaist.github.io>
 
 SvelteKit 2 + Svelte 5 로 만든 정적 사이트입니다. 한국어(`/`)와 영어(`/en/`)를 제공합니다.
 
@@ -23,6 +23,7 @@ Node 20 이상이 필요합니다.
 | `npm run build`       | `build/` 에 정적 사이트 생성                                        |
 | `npm run preview`     | 빌드 결과 미리보기                                                  |
 | `npm run images`      | `images.source/` 에서 `static/img/` 의 모든 이미지·아이콘·OG 재생성 |
+| `npm run og`          | 공유 카드(`static/og.png`)만 재생성 — 문구만 바꿀 때                |
 | `npm run check`       | 타입 검사                                                           |
 | `npm run check:links` | 빌드 결과에 깨진 내부 링크가 없는지 확인                            |
 | `npm run lint`        | 포맷 검사                                                           |
@@ -57,7 +58,17 @@ Node 20 이상이 필요합니다.
 4. `<Picture name="새이름" alt="..." sizes="..." />` 로 씁니다.
 
 `static/img/` 와 `src/lib/data/images.ts` 는 **자동 생성물**입니다. 직접 고치지 마세요.
-지워도 `npm run images` 로 되살아납니다.
+
+## 공유 카드 (OG 이미지)
+
+`static/og.png` 는 `scripts/build-images.js` 안의 SVG에서 나옵니다. 문구(동아리 이름, 기록 숫자)만
+고칠 때는 그 SVG를 고치고 `npm run og` 를 돌리세요 — `npm run images` 는 `static/img/` 의 93개
+파일을 전부 다시 씁니다.
+
+> **Pretendard 가 시스템 폰트로 깔려 있어야 합니다.** `static/fonts/` 의 것은 woff2 서브셋 92개라
+> fontconfig 이 못 씁니다. 없으면 **조용히** 다른 폰트로 렌더됩니다.
+> `fc-list | grep -i pretendard` 로 먼저 확인하세요.
+> 지워도 `npm run images` 로 되살아납니다.
 
 ## 구조
 
@@ -96,9 +107,22 @@ scripts/                build-images.js, check-links.js
   `i18n/` 에서 오고, 페이지는 그걸 어떻게 배치할지만 정합니다. 섹션을 추가하려면 라우트
   하나, `Header.svelte` 의 `sections` 배열, `sitemap.xml` 의 `paths` 배열 세 군데를
   고치면 됩니다.
-- **테마는 라이트 하나뿐입니다.** 2026 디자인은 따뜻한 종이색 바탕에 얇은 선으로 구획하는 방식이라
-  다크 대응이 별도 설계를 요구합니다. 어설픈 다크보다 없는 편이 낫다고 보고 토글과 `theme.svelte.ts`
-  를 걷어냈습니다. 되살린다면 `tokens.css` 안에 `:root[data-theme='dark']` 블록으로 넣으세요.
+- **테마는 라이트와 다크 둘 다입니다.** 기본값은 시스템 설정을 따르고, 헤더의 토글로 덮어쓰면
+  `localStorage` 에 남습니다. 두 팔레트 모두 `tokens.css` 에만 있습니다 — 다크는 파일 끝의
+  `:root[data-theme='dark']` 블록입니다. 다크는 라이트를 뒤집은 게 아니라 따로 고른 값입니다
+  (종이 위에서 '그은 선'처럼 보이던 얇은 테두리가 검정 위에서는 긁힌 자국이 되기 때문입니다).
+  첫 페인트 전에 테마를 정하는 인라인 스크립트가 `app.html` 에 있고, 같은 규칙이
+  `src/lib/theme.svelte.ts` 에도 있습니다 — **둘은 같이 고쳐야 합니다.**
+
+- **배경에 액체 레이어가 깔려 있습니다.** `Liquid.svelte` — 크게 블러 처리한 브랜드색 덩어리
+  네 개가 아주 느리게 움직이고, 겹치는 곳에서 섞입니다. `position: fixed; z-index: -1` 이라
+  본문 상자들 뒤에 깔립니다. 카드가 반투명(`.glass`)인 것과 한 세트입니다 — 깊이는 배경이
+  아니라 그 위를 무엇이 덮느냐에서 나옵니다. 움직임은 `transform` 만 건드리고,
+  `prefers-reduced-motion` 이면 멈춥니다.
+
+- **카드는 `.glass` 입니다.** `base.css` 에 있고, 반투명·블러·윗변 하이라이트가 한 묶음입니다.
+  `backdrop-filter` 를 지원하지 않으면 예전처럼 불투명한 `--surface` 로 떨어집니다 — 블러 없는
+  반투명은 그냥 안 읽히는 카드라서, 흐릿하게 반쯤 적용되느니 통째로 빠지는 편이 낫습니다.
 - **스크롤 리빌은 CSS만 씁니다.** `.reveal` 클래스 하나이고 `animation-timeline: view()` 로 돕니다.
   기본값이 "보임" 이라서 JS가 죽든, 뷰 타임라인 미지원이든, `prefers-reduced-motion` 이든
   전부 그냥 보이는 쪽으로 떨어집니다.

@@ -5,18 +5,17 @@
 	let { data } = $props();
 	const d = $derived(data.dict);
 
-	// The join CTA is whichever channel is an address, so the button and the
-	// listed contact can never drift apart.
-	const emailHref = $derived(
-		d.join.channels.find((c) => c.href.startsWith('mailto:'))?.href ?? '#'
-	);
+	// Recruiting runs on a Google Form, so the button leaves the site. The mail
+	// address stays in the channel list below rather than on the button: someone
+	// with a question and someone ready to apply want different things, and the
+	// form is the one with a deadline attached.
 </script>
 
 <Seo
 	dict={d}
 	locale={data.locale}
 	path="/join/"
-	title="{d.join.heading} — VLAB"
+	title="{d.join.heading} — Vlab"
 	description={d.join.body}
 />
 
@@ -33,9 +32,15 @@
 		<p class="join-lead">{d.join.lead}</p>
 		<p class="join-text">{d.join.body}</p>
 
-		<!-- The club is not running an application form, so the mail address
-		     is the call to action rather than a recruiting link. -->
-		<a class="btn btn-primary" href={emailHref}>{d.join.cta}</a>
+		<!-- External, and it says so: the arrow and the line underneath both
+		     exist because a button that silently throws you onto a Google Form
+		     is a worse experience than one that warns you first. `noopener` is
+		     not optional on a target=_blank link. -->
+		<a class="btn btn-primary" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
+			{d.join.cta}
+			<span class="ext" aria-hidden="true">↗</span>
+		</a>
+		<p class="cta-note">{d.join.ctaNote}</p>
 
 		<dl class="channels">
 			{#each d.join.channels as channel (channel.label)}
@@ -116,6 +121,28 @@
 		margin: 0;
 		font-size: 0.92rem;
 		font-weight: 700;
+	}
+
+	.ext {
+		display: inline-block;
+		margin-left: 0.4em;
+		font-size: 0.9em;
+		/* Optical: the glyph sits high in its box and drags the label up with it. */
+		transform: translateY(1px);
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+
+	/* Up and to the right, matching where the glyph points — "this leaves the
+	   site" said with motion instead of another line of text. */
+	.btn-primary:hover .ext,
+	.btn-primary:focus-visible .ext {
+		transform: translate(2px, -1px);
+	}
+
+	.cta-note {
+		margin-top: var(--space-3);
+		font-size: var(--text-xs);
+		color: var(--text-faint);
 	}
 
 	.channels a:hover {

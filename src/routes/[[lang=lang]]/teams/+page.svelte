@@ -6,12 +6,17 @@
 	let { data } = $props();
 	const d = $derived(data.dict);
 
-	// Alternating rows: the quiz team leads with its photo, the AI team with its
+	// AI leads. The club's own ordering: the AI event is what Vlab won most
+	// recently and what most of the work on the projects page is for, so it goes
+	// first here and in every paired mention in the copy (meta title, hero lead,
+	// footer blurb, join). Half a swap would read as an oversight.
+	//
+	// Alternating rows: the first team leads with its photo, the second with its
 	// text. Same components, mirrored — which is what stops two structurally
 	// identical blocks from reading as a copy-paste.
 	const teamRows = $derived([
-		{ id: 'quiz', team: d.teams.quiz, image: 'quiz-2025' as const, mirrored: false },
-		{ id: 'ai', team: d.teams.ai, image: 'rocketleague' as const, mirrored: true }
+		{ id: 'ai', team: d.teams.ai, image: 'rocketleague' as const, mirrored: false },
+		{ id: 'quiz', team: d.teams.quiz, image: 'quiz-2025' as const, mirrored: true }
 	]);
 </script>
 
@@ -19,7 +24,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/teams/"
-	title="{d.teams.heading} — VLAB"
+	title="{d.teams.heading} — Vlab"
 	description={d.teams.lead}
 />
 

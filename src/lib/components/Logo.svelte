@@ -1,7 +1,7 @@
 <script lang="ts">
 	interface Props {
 		size?: number;
-		/** Hide from assistive tech when adjacent text already says "VLAB". */
+		/** Hide from assistive tech when adjacent text already says "Vlab". */
 		decorative?: boolean;
 	}
 
@@ -13,7 +13,7 @@
 </script>
 
 <!--
-  The VLAB "V": three overlapping colour blobs seen through a V-shaped window.
+  The Vlab "V": three overlapping colour blobs seen through a V-shaped window.
 
   The original artwork achieved this with an opaque white rectangle that had the
   V knocked out of it by `fill-rule: evenodd`, which meant the mark only ever
@@ -27,7 +27,7 @@
 	height={size * (900 / 940)}
 	xmlns="http://www.w3.org/2000/svg"
 	role={decorative ? 'presentation' : 'img'}
-	aria-label={decorative ? undefined : 'VLAB'}
+	aria-label={decorative ? undefined : 'Vlab'}
 	aria-hidden={decorative ? 'true' : undefined}
 >
 	<defs>

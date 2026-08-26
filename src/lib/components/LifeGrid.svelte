@@ -57,10 +57,7 @@
 						? '(max-width: 560px) 92vw, (max-width: 900px) 92vw, 730px'
 						: '(max-width: 560px) 92vw, (max-width: 900px) 46vw, 355px'}
 				/>
-				<figcaption>
-					<span class="title">{item.title}</span>
-					<span class="subtitle">{item.subtitle}</span>
-				</figcaption>
+				<figcaption>{item.title}</figcaption>
 			</figure>
 		</li>
 	{/each}
@@ -101,20 +98,14 @@
 		aspect-ratio: 1.76;
 	}
 
+	/* One line, the plain name of the occasion. The second line these captions
+	   used to carry was the chatty one ("you fight better on a full stomach");
+	   with it gone the grid reads as a record of the club rather than as a
+	   scrapbook. What each photo actually shows still lives in `alt`. */
 	figcaption {
-		display: flex;
-		flex-direction: column;
-		line-height: var(--leading-snug);
-	}
-
-	.title {
 		font-size: 0.95rem;
 		font-weight: 700;
-	}
-
-	.subtitle {
-		font-size: 0.82rem;
-		color: var(--text-faint);
+		line-height: var(--leading-snug);
 	}
 
 	@media (max-width: 900px) {

@@ -34,11 +34,50 @@
 					</li>
 				{/each}
 			</ul>
+
+			<!-- The one block on the site addressed to companies rather than to
+			     students, so it lives in the band they would already be looking at.
+			     A question, one line of answer, and a button: an underlined 12px
+			     link was findable only by someone already looking for it, which is
+			     the wrong bar for the audience that pays for things.
+
+			     Outlined rather than filled — the filled treatment belongs to the
+			     student CTA ("지원하기"), and two solid buttons on one page means
+			     neither is the primary action. -->
+			<div class="contact">
+				<p class="contact-heading">{dict.sponsors.contact.heading}</p>
+				<p class="contact-body">{dict.sponsors.contact.body}</p>
+				<a class="btn btn-ghost" href={dict.sponsors.contact.href}>
+					{dict.sponsors.contact.label}
+				</a>
+			</div>
 		</div>
 	</section>
 {/if}
 
 <style>
+	.contact {
+		margin-top: var(--space-7);
+		padding-top: var(--space-6);
+		/* A rule rather than more whitespace: the logos above are a credit and
+		   this is a pitch, and without the line the button reads as belonging to
+		   the sponsor whose mark sits directly above it. */
+		border-top: 1px solid var(--border);
+	}
+
+	.contact-heading {
+		font-size: var(--text-lg);
+		font-weight: 700;
+		letter-spacing: var(--tracking-heading);
+	}
+
+	.contact-body {
+		margin-top: var(--space-2);
+		margin-bottom: var(--space-5);
+		font-size: var(--text-sm);
+		color: var(--text-muted);
+	}
+
 	/* The join section above sits on plain paper, so this band draws its own
 	   rule; without it the sponsor logo floats in the gap between the club's
 	   last words and the footer. */
@@ -83,8 +122,13 @@
 
 	/* Sponsor marks sit quiet by default and come up on hover: this is a credit,
 	   not an advertisement, and it should not out-shout the club's own content.
-	   Opacity only — never a colour filter, which would alter someone's brand. */
-	a {
+	   Opacity only — never a colour filter, which would alter someone's brand.
+
+	   `li a`, not a bare `a`: the "후원하기" link below is an anchor in this same
+	   component, and at 0.65 opacity its 12px text measured 3.18:1 on the dark
+	   ground — a contrast failure produced entirely by a selector meant for
+	   logos. Opacity dims text as happily as it dims an image. */
+	li a {
 		display: block;
 		opacity: 0.65;
 		transition:
@@ -92,8 +136,8 @@
 			transform var(--dur-base) var(--ease-out);
 	}
 
-	a:hover,
-	a:focus-visible {
+	li a:hover,
+	li a:focus-visible {
 		opacity: 1;
 		transform: translateY(-2px);
 	}
