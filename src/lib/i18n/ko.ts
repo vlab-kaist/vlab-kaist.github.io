@@ -238,9 +238,9 @@ export const ko: Dict = {
 				logo: 'elice.png',
 				href: 'https://elice.io/'
 			},
-			// 로고 파일이 아직 없습니다 — 받으면 CONTENT-TODO.md 의 절차대로 넣으세요.
 			{
 				name: 'KAIST 전산학부',
+				logo: 'kaist-cs.png',
 				href: 'https://cs.kaist.ac.kr/'
 			}
 		]

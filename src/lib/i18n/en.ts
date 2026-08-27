@@ -228,9 +228,9 @@ export const en: Dict = {
 				logo: 'elice.png',
 				href: 'https://elice.io/'
 			},
-			// No logo asset yet — see CONTENT-TODO.md.
 			{
 				name: 'KAIST School of Computing',
+				logo: 'kaist-cs.png',
 				href: 'https://cs.kaist.ac.kr/'
 			}
 		]

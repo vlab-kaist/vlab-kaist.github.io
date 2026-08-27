@@ -14,6 +14,17 @@
 import sharp from 'sharp';
 import pngToIco from 'png-to-ico';
 import { readFileSync, writeFileSync, mkdirSync, statSync, existsSync } from 'node:fs';
+
+/*
+ * `--only=sponsors` regenerates just the sponsor logos.
+ *
+ * A full run re-encodes every photo derivative, and the AVIF encoder is not
+ * byte-deterministic across versions — adding one 3KB logo produced a 93-file
+ * diff. The photos have not changed; only their bytes had. This flag exists so
+ * that stops happening.
+ */
+const ONLY = process.argv.find((a) => a.startsWith('--only='))?.slice('--only='.length);
+const shouldRun = (stage) => !ONLY || ONLY === stage;
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -57,7 +68,13 @@ const IMAGES = {
  * below for why that is not just "make white transparent".
  */
 const SPONSORS = {
-	elice: { file: 'elice-logo.png', height: 120, cutWhite: true }
+	elice: { file: 'elice-logo.png', height: 120, cutWhite: true },
+	// Official mark from cs.kaist.ac.kr. Already transparent, so no background
+	// cut. It is the monochrome English lockup — the school publishes no SVG and
+	// no Korean variant on that site — which is why the band inverts it in dark
+	// mode; see the note in Sponsors.svelte. Replace this file with the colour
+	// Korean version if the department supplies one and nothing else changes.
+	'kaist-cs': { file: 'kaist-cs-logo.png', height: 120 }
 };
 
 const AVIF = { quality: 50, effort: 6 };
@@ -143,7 +160,7 @@ if (missing.length) {
 let bytes = 0;
 const manifest = {};
 
-for (const [name, cfg] of Object.entries(IMAGES)) {
+for (const [name, cfg] of shouldRun('photos') ? Object.entries(IMAGES) : []) {
 	const input = join(SRC, cfg.file);
 	const raw = await sharp(input).metadata();
 
@@ -200,13 +217,15 @@ export const images = ${JSON.stringify(manifest, null, '\t')} as const satisfies
 
 export type ImageName = keyof typeof images;
 `;
-writeFileSync(join(ROOT, 'src', 'lib', 'data', 'images.ts'), ts);
+// Only on a full pass: on `--only=sponsors` the manifest is empty and writing
+// it would blank the file Picture.svelte reads its dimensions from.
+if (shouldRun('photos')) writeFileSync(join(ROOT, 'src', 'lib', 'data', 'images.ts'), ts);
 
 // ---- Sponsor logos ----
 const SPONSOR_OUT = join(ROOT, 'static', 'sponsors');
 mkdirSync(SPONSOR_OUT, { recursive: true });
 
-for (const [name, cfg] of Object.entries(SPONSORS)) {
+for (const [name, cfg] of shouldRun('sponsors') ? Object.entries(SPONSORS) : []) {
 	const input = join(SRC, cfg.file);
 	if (!existsSync(input)) {
 		console.error(`Missing sponsor logo: images.source/${cfg.file}`);
@@ -223,59 +242,62 @@ for (const [name, cfg] of Object.entries(SPONSORS)) {
 	console.log(`  ${name.padEnd(14)} sponsor logo (${(statSync(dest).size / 1024).toFixed(1)} KB)`);
 }
 
-// ---- Icons ----
-const favicon = readFileSync(join(ROOT, 'static', 'favicon.svg'));
+// ---- Icons (full pass only; `npm run og` covers the share card on its own) ----
+if (shouldRun('icons')) {
+	const favicon = readFileSync(join(ROOT, 'static', 'favicon.svg'));
 
-// Maskable/apple icons are composited onto an opaque field: iOS ignores
-// transparency and would otherwise render the mark on black.
-await sharp({
-	create: { width: 180, height: 180, channels: 4, background: '#0a0a10' }
-})
-	.composite([{ input: await sharp(favicon).resize(140, 140).png().toBuffer(), gravity: 'center' }])
-	.png()
-	.toFile(join(ROOT, 'static', 'apple-touch-icon.png'));
-
-for (const size of [192, 512]) {
-	await sharp({ create: { width: size, height: size, channels: 4, background: '#0a0a10' } })
+	// Maskable/apple icons are composited onto an opaque field: iOS ignores
+	// transparency and would otherwise render the mark on black.
+	await sharp({
+		create: { width: 180, height: 180, channels: 4, background: '#0a0a10' }
+	})
 		.composite([
-			{
-				input: await sharp(favicon)
-					.resize(Math.round(size * 0.78), Math.round(size * 0.78))
-					.png()
-					.toBuffer(),
-				gravity: 'center'
-			}
+			{ input: await sharp(favicon).resize(140, 140).png().toBuffer(), gravity: 'center' }
 		])
 		.png()
-		.toFile(join(ROOT, 'static', `icon-${size}.png`));
-}
+		.toFile(join(ROOT, 'static', 'apple-touch-icon.png'));
 
-// The previous favicon.ico was 121 KB because it embedded 256px and 128px
-// frames — for a 16px tab slot. 32+16 is all anything actually reads.
-const icoFrames = await Promise.all(
-	[32, 16].map(async (s) =>
-		sharp({ create: { width: s, height: s, channels: 4, background: '#0a0a10' } })
+	for (const size of [192, 512]) {
+		await sharp({ create: { width: size, height: size, channels: 4, background: '#0a0a10' } })
 			.composite([
 				{
 					input: await sharp(favicon)
-						.resize(Math.round(s * 0.82), Math.round(s * 0.82))
+						.resize(Math.round(size * 0.78), Math.round(size * 0.78))
 						.png()
 						.toBuffer(),
 					gravity: 'center'
 				}
 			])
 			.png()
-			.toBuffer()
-	)
-);
-writeFileSync(join(ROOT, 'static', 'favicon.ico'), await pngToIco(icoFrames));
+			.toFile(join(ROOT, 'static', `icon-${size}.png`));
+	}
 
-// ---- OG share card ----
-// The old site had no og:image at all, so every link shared into KakaoTalk or
-// Discord — i.e. every recruiting link — previewed as a bare grey URL.
-// Gradients use userSpaceOnUse: librsvg's handling of objectBoundingBox units
-// on <circle> is unreliable and produced a speckled artifact instead of a glow.
-const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+	// The previous favicon.ico was 121 KB because it embedded 256px and 128px
+	// frames — for a 16px tab slot. 32+16 is all anything actually reads.
+	const icoFrames = await Promise.all(
+		[32, 16].map(async (s) =>
+			sharp({ create: { width: s, height: s, channels: 4, background: '#0a0a10' } })
+				.composite([
+					{
+						input: await sharp(favicon)
+							.resize(Math.round(s * 0.82), Math.round(s * 0.82))
+							.png()
+							.toBuffer(),
+						gravity: 'center'
+					}
+				])
+				.png()
+				.toBuffer()
+		)
+	);
+	writeFileSync(join(ROOT, 'static', 'favicon.ico'), await pngToIco(icoFrames));
+
+	// ---- OG share card ----
+	// The old site had no og:image at all, so every link shared into KakaoTalk or
+	// Discord — i.e. every recruiting link — previewed as a bare grey URL.
+	// Gradients use userSpaceOnUse: librsvg's handling of objectBoundingBox units
+	// on <circle> is unreliable and produced a speckled artifact instead of a glow.
+	const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <linearGradient id="wordmark" gradientUnits="userSpaceOnUse" x1="80" y1="130" x2="470" y2="250">
       <stop offset="0" stop-color="#e0246f"/>
@@ -306,10 +328,11 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
   <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">활동 인원</text>
   <text x="1120" y="570" text-anchor="end" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="20" fill="#6b6b80">vlab-kaist.github.io</text>
 </svg>`;
-await sharp(Buffer.from(og))
-	.png({ quality: 90 })
-	.toFile(join(ROOT, 'static', 'og.png'));
-bytes += statSync(join(ROOT, 'static', 'og.png')).size;
+	await sharp(Buffer.from(og))
+		.png({ quality: 90 })
+		.toFile(join(ROOT, 'static', 'og.png'));
+	bytes += statSync(join(ROOT, 'static', 'og.png')).size;
+}
 
 console.log(
 	`\nDerivatives: ${(bytes / 1048576).toFixed(2)} MB total across all sizes and formats.`

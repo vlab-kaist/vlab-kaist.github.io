@@ -35,17 +35,27 @@ Answered items are already in the site. What follows is what remains.
 
 - [ ] Flex를 보여줄 더 나은 이미지 (에이전트 플레이 장면, Flex 로고, 학습 곡선 등)
 
-### 4. KAIST 전산학부 로고 — 파일 없음
+### 4. KAIST 전산학부 로고 — 더 나은 파일 필요
 
-후원 배너에 **KAIST 전산학부**를 넣었습니다. 로고 파일이 없어서 지금은 이름을 글자로만
-띄웁니다 (`sponsors.items` 에서 `logo` 를 비워 두면 그렇게 동작합니다).
+지금은 `cs.kaist.ac.kr` 이 쓰는 공식 파일을 그대로 받아 넣었습니다
+(`images.source/kaist-cs-logo.png`). 동작은 하지만 두 가지가 아쉽습니다.
 
-- [ ] 전산학부 로고 파일 (가능하면 투명 배경 SVG 또는 큰 PNG)
+- **영문 락업입니다.** "KAIST School of Computing" 이라서 한국어 페이지에도 영문이 나옵니다.
+  전산학부 로고에는 한글 버전이 있는데, 학부 사이트에는 올라와 있지 않습니다.
+- **작습니다.** 원본이 256×69 라 트림 후 251×43 입니다. 38px 높이로 쓰니 2배율 화면에서
+  살짝 흐립니다. 120px 이상이면 선명해집니다.
+- **다크 모드는 반전 처리 중입니다.** 공식 파일이 어두운 단색이라 잉크 배경에서 안 보여서
+  `filter: invert(1)` 로 밝게 뒤집습니다. 색은 건드리지 않지만 임시 방편입니다.
+
+- [ ] 한글이 들어간 컬러 로고 (SVG 가 가장 좋고, 아니면 긴 변 1000px 이상 PNG)
+- [ ] 다크 배경용 밝은 버전이 따로 있으면 같이
 - [ ] 로고·명칭 사용에 대해 학부 쪽 확인 — 엘리스와 같은 질문입니다
 - [ ] 링크는 `https://cs.kaist.ac.kr/` 로 걸어 두었습니다. 다른 주소를 원하면 알려주세요.
 
-> 받으면: `images.source/` 에 넣고 → `scripts/build-images.js` 의 `SPONSORS` 에 한 줄 추가 →
-> `npm run images` → `ko.ts`·`en.ts` 의 해당 항목에 `logo: '파일이름.png'` 추가. 끝입니다.
+> 파일을 받으면: `images.source/kaist-cs-logo.png` 를 덮어쓰고 →
+> `node scripts/build-images.js --only=sponsors` → 끝입니다.
+> (`--only=sponsors` 는 사진 93장을 다시 안 쓰기 위한 것입니다. 전체 실행은 AVIF 인코더가
+> 매번 다른 바이트를 내놓아서 로고 하나 바꾸는데 93개 파일이 diff 에 올라옵니다.)
 
 ### 5. 엘리스 로고 — 지금은 PNG
 

@@ -130,6 +130,8 @@
 	/* Sponsor marks sit quiet by default and come up on hover: this is a credit,
 	   not an advertisement, and it should not out-shout the club's own content.
 	   Opacity only — never a colour filter, which would alter someone's brand.
+	   (The one exception is directly below, and it is the exception that proves
+	   the rule.)
 
 	   `li a`, not a bare `a`: the "후원하기" link below is an anchor in this same
 	   component, and at 0.65 opacity its 12px text measured 3.18:1 on the dark
@@ -171,6 +173,17 @@
 		width: auto;
 		max-width: 240px;
 		object-fit: contain;
+	}
+
+	/* KAIST's School of Computing publishes only a monochrome dark lockup, which
+	   is invisible on ink. Inverting a greyscale mark is the standard way to get
+	   the light-on-dark version of it — it moves value, not hue, so nothing that
+	   is part of the brand's colour is being changed. It is still a workaround:
+	   the real fix is the department's own light or colour artwork, which is
+	   logged in CONTENT-TODO.md. Scoped by attribute so it can never catch a
+	   sponsor whose logo is already in colour. */
+	:global(:root[data-theme='dark']) img[src*='kaist-cs'] {
+		filter: invert(1);
 	}
 
 	.note {
