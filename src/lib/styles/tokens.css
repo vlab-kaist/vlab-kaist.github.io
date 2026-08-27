@@ -195,7 +195,7 @@
 	   the same site with depth. 0.13 keeps the colour perceptible where two
 	   blooms overlap and leaves the paper as the ground everywhere else.
 	   Ink can carry three times as much before it turns to soup. */
-	--liquid-opacity: 0.13;
+	--liquid-opacity: 0.07;
 	--liquid-blur: 100px;
 }
 
@@ -252,5 +252,5 @@
 	--glass-bg: color-mix(in srgb, var(--surface) 66%, transparent);
 	--glass-bg-hover: color-mix(in srgb, var(--surface) 80%, transparent);
 
-	--liquid-opacity: 0.42;
+	--liquid-opacity: 0.22;
 }
