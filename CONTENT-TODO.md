@@ -3,7 +3,7 @@
 동아리가 답해준 것은 반영했습니다. 아래는 아직 남은 것들입니다.
 Answered items are already in the site. What follows is what remains.
 
-**현재 사이트는 로컬 확인용입니다. 공개하기 전에 6번(사진 속 인물 동의)을 정리해야 합니다.**
+**현재 사이트는 로컬 확인용입니다. 공개하기 전에 7번(사진 속 인물 동의)을 정리해야 합니다.**
 
 ---
 
@@ -35,7 +35,19 @@ Answered items are already in the site. What follows is what remains.
 
 - [ ] Flex를 보여줄 더 나은 이미지 (에이전트 플레이 장면, Flex 로고, 학습 곡선 등)
 
-### 4. 엘리스 로고 — 지금은 PNG
+### 4. KAIST 전산학부 로고 — 파일 없음
+
+후원 배너에 **KAIST 전산학부**를 넣었습니다. 로고 파일이 없어서 지금은 이름을 글자로만
+띄웁니다 (`sponsors.items` 에서 `logo` 를 비워 두면 그렇게 동작합니다).
+
+- [ ] 전산학부 로고 파일 (가능하면 투명 배경 SVG 또는 큰 PNG)
+- [ ] 로고·명칭 사용에 대해 학부 쪽 확인 — 엘리스와 같은 질문입니다
+- [ ] 링크는 `https://cs.kaist.ac.kr/` 로 걸어 두었습니다. 다른 주소를 원하면 알려주세요.
+
+> 받으면: `images.source/` 에 넣고 → `scripts/build-images.js` 의 `SPONSORS` 에 한 줄 추가 →
+> `npm run images` → `ko.ts`·`en.ts` 의 해당 항목에 `logo: '파일이름.png'` 추가. 끝입니다.
+
+### 5. 엘리스 로고 — 지금은 PNG
 
 받은 파일이 **흰 배경 PNG**라서, 그대로 쓰면 어두운 배경에 흰 네모가 생깁니다.
 그래서 빌드 스크립트에서 바깥쪽 흰색만 투명하게 처리했습니다 (`scripts/build-images.js` 의
@@ -46,12 +58,12 @@ Answered items are already in the site. What follows is what remains.
 - [ ] 후원 표기 방식이 엘리스와 합의된 것인지 확인 (로고만 / "후원" 문구 / 별도 표기 요구사항)
 - [ ] 링크는 `https://elice.io/` 로 걸어두었습니다. 다른 주소를 원하면 알려주세요.
 
-### 5. 커스텀 도메인
+### 6. 커스텀 도메인
 
 - [ ] 원하는 주소가 정해지면 알려주세요. `src/lib/config.ts` 의 `SITE_URL` 한 줄과 `static/CNAME`
       추가로 끝납니다. (OG 태그·사이트맵·canonical이 전부 이 값을 씁니다.)
 
-### 6. 공개 전: 사진 속 인물 동의
+### 7. 공개 전: 사진 속 인물 동의
 
 `team-2025`(여수 단체 사진), `win-2025`(트로피), 그리고 **'생활' 섹션의 5장**
 (`life-practice` 동아리방, `life-festival` 학생문화제, `life-picnic`·`life-strawberry` 딸기 파티,
@@ -63,7 +75,7 @@ Answered items are already in the site. What follows is what remains.
 > 참고: 예전 사이트에는 `img.png`(20MB, 4032×3024 인물 사진)가 **아무 페이지에도 연결되지 않은 채**
 > 서버에 올라가 있었습니다. 아무도 그게 거기 있는지 몰랐을 겁니다. 이번에 삭제했습니다.
 
-### 7. 라이선스 — 보류 중
+### 8. 라이선스 — 보류 중
 
 `LICENSE` 에 MIT를 기본값으로 넣어두었습니다. 코드만 MIT이고 사진·로고는 제외로 적어두었습니다.
 다르게 하고 싶으면 말씀해 주세요.

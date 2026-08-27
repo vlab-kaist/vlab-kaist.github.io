@@ -227,6 +227,11 @@ export const en: Dict = {
 				name: 'Elice',
 				logo: 'elice.png',
 				href: 'https://elice.io/'
+			},
+			// No logo asset yet — see CONTENT-TODO.md.
+			{
+				name: 'KAIST School of Computing',
+				href: 'https://cs.kaist.ac.kr/'
 			}
 		]
 	},

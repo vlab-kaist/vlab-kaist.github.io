@@ -26,7 +26,14 @@
 							rel="noopener noreferrer sponsored"
 							title={sponsor.note ?? sponsor.name}
 						>
-							<img src="{base}/sponsors/{sponsor.logo}" alt={sponsor.name} loading="lazy" />
+							{#if sponsor.logo}
+								<img src="{base}/sponsors/{sponsor.logo}" alt={sponsor.name} loading="lazy" />
+							{:else}
+								<!-- No artwork yet. Set the name rather than leaving a hole: a
+								     supporter who is credited in type still reads as credited,
+								     and it keeps the band from collapsing to one logo. -->
+								<span class="wordmark">{sponsor.name}</span>
+							{/if}
 						</a>
 						{#if sponsor.note}
 							<p class="note">{sponsor.note}</p>
@@ -140,6 +147,20 @@
 	li a:focus-visible {
 		opacity: 1;
 		transform: translateY(-2px);
+	}
+
+	/* Placeholder credit. Sized to sit on the same optical line as a logo, and
+	   deliberately quiet — it is a name, not a mark, and should not out-shout
+	   the sponsors who did send artwork. */
+	.wordmark {
+		display: block;
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: var(--tracking-heading);
+		/* Matches the logo height below, so a name and a mark occupy the same
+		   band and the row keeps one optical line however they are mixed. */
+		line-height: 38px;
+		color: var(--text);
 	}
 
 	/* Sized against the wordmark, not the file. Elice's mark is lettering inside

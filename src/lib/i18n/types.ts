@@ -22,8 +22,13 @@ export interface TimelineEntry {
 
 export interface Sponsor {
 	name: string;
-	/** Path under static/sponsors/. Supply a logo that reads on a dark field. */
-	logo: string;
+	/**
+	 * Path under static/sponsors/. Supply a logo that reads on a dark field.
+	 * Optional: a supporter can be credited before their artwork arrives, and a
+	 * set wordmark is a better placeholder than a broken image or an empty slot.
+	 * See CONTENT-TODO.md for how to add the asset once it does.
+	 */
+	logo?: string;
 	href: string;
 	/** Optional one-liner on what they actually provide. */
 	note?: string;
