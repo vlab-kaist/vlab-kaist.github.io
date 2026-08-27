@@ -17,17 +17,18 @@ Node 20 이상이 필요합니다.
 
 ## 명령어
 
-| 명령                  | 설명                                                                |
-| --------------------- | ------------------------------------------------------------------- |
-| `npm run dev`         | 개발 서버                                                           |
-| `npm run build`       | `build/` 에 정적 사이트 생성                                        |
-| `npm run preview`     | 빌드 결과 미리보기                                                  |
-| `npm run images`      | `images.source/` 에서 `static/img/` 의 모든 이미지·아이콘·OG 재생성 |
-| `npm run og`          | 공유 카드(`static/og.png`)만 재생성 — 문구만 바꿀 때                |
-| `npm run check`       | 타입 검사                                                           |
-| `npm run check:links` | 빌드 결과에 깨진 내부 링크가 없는지 확인                            |
-| `npm run lint`        | 포맷 검사                                                           |
-| `npm run format`      | 포맷 적용                                                           |
+| 명령                                           | 설명                                                                |
+| ---------------------------------------------- | ------------------------------------------------------------------- |
+| `npm run dev`                                  | 개발 서버                                                           |
+| `npm run build`                                | `build/` 에 정적 사이트 생성                                        |
+| `npm run preview`                              | 빌드 결과 미리보기                                                  |
+| `npm run images`                               | `images.source/` 에서 `static/img/` 의 모든 이미지·아이콘·OG 재생성 |
+| `npm run og`                                   | 공유 카드(`static/og.png`)만 재생성 — 문구만 바꿀 때                |
+| `node scripts/build-images.js --only=sponsors` | 후원 로고만 재생성                                                  |
+| `npm run check`                                | 타입 검사                                                           |
+| `npm run check:links`                          | 빌드 결과에 깨진 내부 링크가 없는지 확인                            |
+| `npm run lint`                                 | 포맷 검사                                                           |
+| `npm run format`                               | 포맷 적용                                                           |
 
 ## 배포
 
