@@ -172,9 +172,9 @@
 	--z-modal: 200;
 
 	/* ---- Glass ----------------------------------------------------------- */
-	/* Cards are translucent so the mark behind the page shows through them. The
-	   blur is what keeps that legible: without it, a photo or an extrusion edge
-	   passing under a card competes with the text sitting on it.
+	/* Cards are translucent so the liquid field behind the page shows through
+	   them. The blur is what keeps that legible: without it, a photo or a bloom
+	   edge passing under a card competes with the text sitting on it.
 	   Every one of these is an *enhancement* — see the @supports guard on
 	   `.glass` in base.css. Where backdrop-filter is unavailable the same cards
 	   fall back to the opaque --surface they used before. */
@@ -187,11 +187,16 @@
 	--glass-sheen: rgb(255 255 255 / 0.55);
 	--glass-blur: 14px;
 
-	/* ---- Ambient mark --------------------------------------------------- */
-	/* The extruded logo behind the page (LogoDepth.svelte) owns its own opacity
-	   and bloom, per theme, in that component. This replaced a drifting colour
-	   field whose opacity lived here; if that ever comes back, its tokens belong
-	   in this slot. */
+	/* ---- Liquid field ---------------------------------------------------- */
+	/* Opacity of the drifting blooms behind everything.
+	   Paper wants a whisper. At 0.26 the field read as a pastel wash and the
+	   warm off-white ground — the thing the whole light theme is built on —
+	   disappeared under it; the page looked like a different site rather than
+	   the same site with depth. 0.13 keeps the colour perceptible where two
+	   blooms overlap and leaves the paper as the ground everywhere else.
+	   Ink can carry three times as much before it turns to soup. */
+	--liquid-opacity: 0.13;
+	--liquid-blur: 100px;
 }
 
 /* ==========================================================================
@@ -246,4 +251,6 @@
 	--glass-sheen: rgb(176 131 255 / 0.22);
 	--glass-bg: color-mix(in srgb, var(--surface) 66%, transparent);
 	--glass-bg-hover: color-mix(in srgb, var(--surface) 80%, transparent);
+
+	--liquid-opacity: 0.42;
 }

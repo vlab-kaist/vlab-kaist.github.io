@@ -23,7 +23,7 @@
 <main class="wrap" id="main">
 	<!-- The one page people reach by accident, and the only one with room for
 	     the mark to be the subject rather than the wallpaper. -->
-	<LogoDepth placement="feature" />
+	<LogoDepth />
 
 	<a class="mark" href="/" aria-label="Vlab">
 		<Logo size={56} decorative />

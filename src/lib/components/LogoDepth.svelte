@@ -1,47 +1,39 @@
 <script lang="ts">
 	/**
-	 * The Vlab mark, extruded and turning with the scroll.
+	 * The Vlab mark, extruded, as the 404 page's subject.
+	 *
+	 * Scoped to the 404 on purpose. It was briefly the background of every page
+	 * and it was too much there — a large moving object competing with the copy
+	 * on pages that have real work to do. A 404 has no work to do. It is the one
+	 * page people reach by accident, with room for the mark to be the thing you
+	 * look at rather than the wallpaper.
 	 *
 	 * Not WebGL. The mark is a flat vector silhouette, and an extruded flat
-	 * silhouette is exactly what CSS 3D transforms are for: a stack of copies
-	 * pushed apart on Z inside a `preserve-3d` parent is a solid object as far
-	 * as the compositor is concerned. three.js would have cost ~150KB gzipped
-	 * plus a render loop plus a canvas that has to be kept in sync with the
-	 * theme, to draw a shape that has no curvature, no lighting model and no
-	 * camera moves. This costs one component and no JavaScript at all.
+	 * silhouette is what CSS 3D transforms are for: 14 copies of the path pushed
+	 * apart on Z inside a `preserve-3d` parent, with the gradient mark on the
+	 * front face. three.js would have cost ~150KB gzipped plus a render loop
+	 * plus a canvas kept in sync with the theme, to draw a shape with no
+	 * curvature, no lighting model and no camera moves. This ships no
+	 * JavaScript.
 	 *
-	 * The rotation is driven by `animation-timeline: scroll()`, not by time.
-	 * That matters for more than novelty: a time-based loop is autoplaying
-	 * motion that never stops, which the interface guidelines say needs a pause
-	 * control once it runs past five seconds. Scroll-driven motion has a pause
-	 * control already — it is called not scrolling. Every frame is something
-	 * the visitor asked for.
+	 * The turn is a one-shot entrance that settles, never a loop. A 404 has no
+	 * scroll to drive anything, and a permanently spinning mark on an otherwise
+	 * empty page is a loading spinner by another name. Under
+	 * prefers-reduced-motion it holds the settled pose from the first frame.
 	 *
-	 * Degradation, in order of how much the browser supports:
-	 *   scroll timelines           → turns as you scroll
-	 *   no scroll-timeline support → holds the static angled pose below
-	 *   prefers-reduced-motion     → holds the static angled pose
-	 *   no 3D transforms at all    → a single flat mark at low opacity
-	 * The pose is set on the element itself and the animation only overrides it,
-	 * so every fallback lands on something deliberate rather than on a flat
-	 * front-facing shape.
+	 * It sits in the lower-right, bleeding off both edges, and never behind the
+	 * copy. Centred, it put 14px muted text on top of the bright violet body —
+	 * and axe-core passed that in both themes, because axe compares text against
+	 * the background *colour* and cannot see an SVG sibling painted behind it.
 	 */
-
 	interface Props {
 		/** How many extrusion slices. More is smoother and costs more raster. */
 		layers?: number;
 		/** Z distance between slices, in px. */
 		step?: number;
-		/**
-		 * `ambient` — fixed behind the whole page, turning with the scroll.
-		 * `feature` — the object itself, centred. Used on the 404, which has no
-		 *   scroll to drive anything and nothing else on it to look at, so the
-		 *   turn there is a one-shot entrance that settles rather than a loop.
-		 */
-		placement?: 'ambient' | 'feature';
 	}
 
-	let { layers = 14, step = 5, placement = 'ambient' }: Props = $props();
+	let { layers = 14, step = 5 }: Props = $props();
 
 	// Same path as Logo.svelte, and it has to stay the same. fill-rule evenodd is
 	// load-bearing: under the default nonzero rule this fills in as a solid
@@ -52,7 +44,7 @@
 	const slices = $derived(Array.from({ length: layers }, (_, i) => i));
 </script>
 
-<div class="stage {placement}" aria-hidden="true">
+<div class="stage" aria-hidden="true">
 	<!-- The path is defined once and referenced by every slice. Inlining it per
 	     slice cost 5.2KB of HTML on every page, for fifteen copies of the same
 	     230-character string — on a site that self-hosts its fonts to save one
@@ -88,29 +80,26 @@
 </div>
 
 <style>
+	/* Lower-right and bleeding off both edges rather than centred: centred put
+	   14px muted text on top of the bright violet body. See the note at the top
+	   of this file for why no automated check caught that. */
 	.stage {
-		position: fixed;
-		/* Off the right edge and vertically centred: the hero's own photo owns
-		   the right column, so the mark sits behind and past it rather than
-		   competing for the same rectangle. */
-		top: 50%;
-		right: -11vw;
-		width: min(32vw, 430px);
+		position: absolute;
+		bottom: -14vh;
+		right: -12vw;
+		width: min(72vw, 560px);
 		aspect-ratio: 940 / 900;
-		translate: 0 -50%;
 		z-index: -1;
 		pointer-events: none;
 		perspective: 1400px;
-		/* Fades out before the footer so the page still ends on solid ground
-		   rather than trailing off into a shape. */
-		mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+		opacity: 0.26;
 	}
 
-	/* The object's own bloom. With the liquid field gone this is the only colour
-	   on an otherwise plain page, which matters most in light mode — paper with
-	   a faint grey mark on it is the "boring plain screen" we started from. It
-	   belongs to the mark rather than being a second ambient system: it is
-	   anchored to the object, scales with it, and dies with it. */
+	:global(:root[data-theme='dark']) .stage {
+		opacity: 0.42;
+	}
+
+	/* The object's own bloom — the only colour on an otherwise empty page. */
 	.stage::before {
 		content: '';
 		position: absolute;
@@ -122,7 +111,7 @@
 			transparent 62%
 		);
 		filter: blur(60px);
-		opacity: var(--bloom-opacity, 0.5);
+		opacity: 0.5;
 	}
 
 	.mark {
@@ -170,50 +159,15 @@
 		--depth-shade: #1a1730;
 	}
 
-	.stage {
-		/* Low enough that it never competes with a text block that happens to
-		   scroll past it. It is an object in the room, not a graphic on the
-		   page. */
-		opacity: var(--depth-opacity, 0.16);
-	}
-
-	:global(:root[data-theme='dark']) .stage {
-		--depth-opacity: 0.34;
-	}
-
 	:global(:root[data-theme='dark']) .slice {
 		--depth-shade: #05040a;
-	}
-
-	/* 404: the mark is the subject, but it is not allowed behind the copy.
-	   Centring it put muted 14px text on top of the bright violet body — axe
-	   passes that, because axe compares text against the background *colour*
-	   and cannot see an SVG sibling painted behind it, which is exactly the
-	   kind of contrast failure an automated check will never catch. So it sits
-	   in the lower-right instead, bleeding off both edges: still the largest
-	   thing on the page, still the first thing you see, and never underneath a
-	   word. */
-	.stage.feature {
-		position: absolute;
-		top: auto;
-		bottom: -14vh;
-		left: auto;
-		right: -12vw;
-		width: min(72vw, 560px);
-		translate: none;
-		opacity: 0.26;
-		mask-image: none;
-	}
-
-	:global(:root[data-theme='dark']) .stage.feature {
-		opacity: 0.42;
 	}
 
 	/* One-shot, not a loop: it turns in once and settles on the static pose.
 	   A 404 has no scroll to drive anything, and a permanently spinning mark on
 	   a page with nothing else on it is a loading spinner by another name. */
 	@media (prefers-reduced-motion: no-preference) {
-		.feature .mark {
+		.mark {
 			animation: settle 2.4s var(--ease-out) both;
 		}
 	}
@@ -227,27 +181,6 @@
 		}
 	}
 
-	/* Scroll-driven rotation. `scroll(root)` maps the document's whole scroll
-	   range onto the animation, so the mark makes exactly one pass from top of
-	   page to bottom no matter how long the page is. */
-	@media (prefers-reduced-motion: no-preference) {
-		@supports (animation-timeline: scroll()) {
-			.ambient .mark {
-				animation: turn linear both;
-				animation-timeline: scroll(root);
-			}
-		}
-	}
-
-	@keyframes turn {
-		from {
-			transform: rotateX(10deg) rotateY(-40deg) rotateZ(-4deg);
-		}
-		to {
-			transform: rotateX(-6deg) rotateY(26deg) rotateZ(3deg);
-		}
-	}
-
 	/* Without 3D support the stack collapses to one flat mark; drop the slices
 	   so it does not render as a smear. */
 	@supports not (transform-style: preserve-3d) {
@@ -258,13 +191,14 @@
 
 	@media (max-width: 800px) {
 		.stage {
-			width: 56vw;
-			right: -24vw;
-			--depth-opacity: 0.07;
+			width: 88vw;
+			right: -26vw;
+			bottom: -10vh;
+			opacity: 0.2;
 		}
 
 		:global(:root[data-theme='dark']) .stage {
-			--depth-opacity: 0.22;
+			opacity: 0.34;
 		}
 	}
 </style>
