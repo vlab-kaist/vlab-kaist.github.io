@@ -69,12 +69,14 @@ const IMAGES = {
  */
 const SPONSORS = {
 	elice: { file: 'elice-logo.png', height: 120, cutWhite: true },
-	// Official mark from cs.kaist.ac.kr. Already transparent, so no background
-	// cut. It is the monochrome English lockup — the school publishes no SVG and
-	// no Korean variant on that site — which is why the band inverts it in dark
-	// mode; see the note in Sponsors.svelte. Replace this file with the colour
-	// Korean version if the department supplies one and nothing else changes.
-	'kaist-cs': { file: 'kaist-cs-logo.png', height: 120 }
+	// Colour Korean lockup, already transparent, so no background cut.
+	// `reverse` additionally emits a white knockout for the ink theme: the mark
+	// is #004191 across most of its pixels and measures 1.95:1 on ink, and the
+	// school publishes no reverse version. A white knockout is the standard
+	// treatment for a dark mark on a dark ground and keeps the background
+	// transparent, where a plate does not and a brightness filter invents a
+	// colour the school does not use.
+	'kaist-cs': { file: 'kaist-cs-logo.png', height: 120, reverse: true }
 };
 
 const AVIF = { quality: 50, effort: 6 };
@@ -240,6 +242,32 @@ for (const [name, cfg] of shouldRun('sponsors') ? Object.entries(SPONSORS) : [])
 		.toFile(dest);
 	bytes += statSync(dest).size;
 	console.log(`  ${name.padEnd(14)} sponsor logo (${(statSync(dest).size / 1024).toFixed(1)} KB)`);
+
+	if (!cfg.reverse) continue;
+
+	// White knockout: keep the artwork's alpha exactly, replace every colour
+	// with white. Shape and spacing are untouched — only value changes, which
+	// is what a reverse lockup is.
+	const src = sharp(prepared).ensureAlpha();
+	const { width, height } = await src.metadata();
+	const alpha = await src.extractChannel('alpha').raw().toBuffer();
+	const knockout = await sharp({
+		create: { width, height, channels: 3, background: '#ffffff' }
+	})
+		.joinChannel(alpha, { raw: { width, height, channels: 1 } })
+		.png()
+		.toBuffer();
+
+	const reverseDest = join(SPONSOR_OUT, `${name}-reverse.png`);
+	await sharp(knockout)
+		.trim({ threshold: 1 })
+		.resize({ height: cfg.height, withoutEnlargement: true })
+		.png({ compressionLevel: 9, palette: true })
+		.toFile(reverseDest);
+	bytes += statSync(reverseDest).size;
+	console.log(
+		`  ${(name + '-reverse').padEnd(14)} sponsor logo (${(statSync(reverseDest).size / 1024).toFixed(1)} KB)`
+	);
 }
 
 // ---- Icons (full pass only; `npm run og` covers the share card on its own) ----

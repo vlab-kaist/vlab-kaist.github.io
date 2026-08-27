@@ -231,7 +231,7 @@ export const en: Dict = {
 			{
 				name: 'KAIST School of Computing',
 				logo: 'kaist-cs.png',
-				plateOnDark: true,
+				logoDark: 'kaist-cs-reverse.png',
 				href: 'https://cs.kaist.ac.kr/'
 			}
 		]

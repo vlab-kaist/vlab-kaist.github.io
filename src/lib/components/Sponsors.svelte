@@ -25,10 +25,28 @@
 							target="_blank"
 							rel="noopener noreferrer sponsored"
 							title={sponsor.note ?? sponsor.name}
-							class:plate={sponsor.plateOnDark}
 						>
 							{#if sponsor.logo}
-								<img src="{base}/sponsors/{sponsor.logo}" alt={sponsor.name} loading="lazy" />
+								<!-- Both variants render and CSS picks one from `:root[data-theme]`,
+								     the same trick the theme toggle uses: the theme is resolved by an
+								     inline script before first paint, but this component is prerendered
+								     with no theme to read, so anything driven by state would render the
+								     light logo into the HTML and swap it once hydration lands. The
+								     hidden one has no layout box, so it is not fetched. -->
+								<img
+									class:on-light={sponsor.logoDark}
+									src="{base}/sponsors/{sponsor.logo}"
+									alt={sponsor.name}
+									loading="lazy"
+								/>
+								{#if sponsor.logoDark}
+									<img
+										class="on-dark"
+										src="{base}/sponsors/{sponsor.logoDark}"
+										alt={sponsor.name}
+										loading="lazy"
+									/>
+								{/if}
 							{:else}
 								<!-- No artwork yet. Set the name rather than leaving a hole: a
 								     supporter who is credited in type still reads as credited,
@@ -176,18 +194,16 @@
 		object-fit: contain;
 	}
 
-	/* KAIST's School of Computing mark is #004191 across 74% of its pixels: 9.4:1
-	   on paper and 1.95:1 on ink. Lifting it with `filter: brightness(1.8)`
-	   would clear 4.5:1, and would also turn that navy into #0075ff — a colour
-	   the department does not use. So the mark keeps its own colours and gets
-	   the white field its brand guidelines assume instead, which measures 9.7:1
-	   and is a treatment the owner would recognise.
-
-	   Light mode needs none of this: the plate would be white on near-white. */
-	:global(:root[data-theme='dark']) .plate {
-		background: #fff;
-		padding: 7px 12px;
-		border-radius: var(--radius-md);
+	/* This mark is #004191 across 74% of its pixels: 9.4:1 on paper, 1.95:1 on
+	   ink. The fixes that keep its colours are a white plate behind it or a
+	   reverse version of it, and only the second keeps the background
+	   transparent — so the ink theme gets a white knockout generated from the
+	   same source. `filter: brightness()` was the third option and is the wrong
+	   one: it would clear the contrast bar by turning that navy into #0075ff, a
+	   colour the school does not use. */
+	:global(:root[data-theme='dark']) .on-light,
+	:global(:root:not([data-theme='dark'])) .on-dark {
+		display: none;
 	}
 
 	.note {
