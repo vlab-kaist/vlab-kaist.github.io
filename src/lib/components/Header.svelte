@@ -61,7 +61,7 @@
 	<nav aria-label="Primary">
 		<a class="brand" href={localeHref(locale)} onclick={() => (open = false)}>
 			<Logo size={24} decorative />
-			<span class="wordmark">Vlab</span>
+			<span class="wordmark" translate="no">Vlab</span>
 		</a>
 
 		<ul class="links">
@@ -313,7 +313,17 @@
 		inset: var(--header-h) 0 0 0;
 		z-index: calc(var(--z-header) - 1);
 		background: var(--bg);
-		padding: var(--space-5) var(--gutter);
+		/* Safe-area insets, because this is the one full-bleed fixed layer on the
+		   site: on a notched phone in landscape the left inset is where the
+		   camera housing sits, and in portrait the bottom inset is the home
+		   indicator. Without these the last nav item can end up under it. */
+		padding: var(--space-5) calc(var(--gutter) + env(safe-area-inset-right))
+			calc(var(--space-5) + env(safe-area-inset-bottom))
+			calc(var(--gutter) + env(safe-area-inset-left));
+		/* The sheet is taller than the viewport on a small phone; without this,
+		   scrolling past its end chains to the page behind and moves it. */
+		overscroll-behavior: contain;
+		overflow-y: auto;
 		animation: fade var(--dur-base) var(--ease-out);
 	}
 

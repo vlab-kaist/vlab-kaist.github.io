@@ -24,7 +24,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/teams/"
-	title="{d.teams.heading} — Vlab"
+	title="{d.teams.heading} · Vlab"
 	description={d.teams.lead}
 />
 

@@ -13,7 +13,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/projects/"
-	title="{d.projects.heading} — Vlab"
+	title="{d.projects.heading} · Vlab"
 	description={d.projects.lead}
 />
 
@@ -30,7 +30,7 @@
 					<li>{tag}</li>
 				{/each}
 			</ul>
-			<h2>{featured.name}</h2>
+			<h2 translate="no">{featured.name}</h2>
 			<p class="featured-tagline">{featured.tagline}</p>
 			<p class="featured-text">{featured.body}</p>
 		</article>
@@ -40,7 +40,7 @@
 		{#each rest as project (project.id)}
 			<li class="reveal">
 				<article class="card glass">
-					<h2>{project.name}</h2>
+					<h2 translate="no">{project.name}</h2>
 					<p class="card-tagline">{project.tagline}</p>
 					<p class="card-text">{project.body}</p>
 					<ul class="tags tags-sm">

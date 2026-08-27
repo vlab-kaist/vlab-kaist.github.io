@@ -39,7 +39,7 @@
 		<div class="brand">
 			<Logo size={26} decorative />
 			<div>
-				<p class="name">Vlab</p>
+				<p class="name" translate="no">Vlab</p>
 				<p class="blurb">{dict.footer.blurb}</p>
 			</div>
 		</div>

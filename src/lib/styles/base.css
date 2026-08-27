@@ -81,6 +81,29 @@ a {
 	text-decoration: none;
 }
 
+/* ---- Touch --------------------------------------------------------------- */
+/* Three things every interactive element on a touchscreen needs, and none of
+   which have a sensible default:
+
+   - `touch-action: manipulation` drops the ~300ms double-tap-to-zoom wait that
+     mobile browsers otherwise hold every tap for. Pinch zoom is untouched; only
+     double-tap zoom goes, and nothing here is small enough to need it.
+   - `-webkit-tap-highlight-color` is set deliberately rather than left to the
+     browser's grey flash, because these elements already answer a press with
+     their own :active state. Removing it without providing feedback would be
+     the wrong trade; we provide feedback.
+   - `overscroll-behavior` lives on the mobile menu sheet, in Header.svelte,
+     where the scroll chaining it prevents actually exists. */
+
+a,
+button,
+summary,
+label,
+[role='button'] {
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
+}
+
 ul,
 ol {
 	list-style: none;
@@ -137,17 +160,6 @@ ol {
 
 .skip-link:focus {
 	transform: translateY(0);
-}
-
-/* Gradient text lockup for the Vlab wordmark.
-   `background-clip: text` is unprefixed and Baseline since 2023 — the old site
-   used only -webkit-linear-gradient, which left the text invisible in Firefox
-   for anyone who fell outside the prefix. */
-.gradient-text {
-	background: var(--brand-gradient);
-	background-clip: text;
-	-webkit-background-clip: text;
-	color: transparent;
 }
 
 /* ---- Layout primitives -------------------------------------------------- */

@@ -11,7 +11,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/life/"
-	title="{d.life.heading} — Vlab"
+	title="{d.life.heading} · Vlab"
 	description={d.life.lead}
 />
 

@@ -63,7 +63,10 @@ export interface Dict {
 		themeToDark: string;
 	};
 	hero: {
-		eyebrow: string;
+		/** Pill above the headline. It links out to the application form, so it
+		 *  has to read as an announcement ("we are recruiting"), not as a label
+		 *  ("a KAIST club") — the identity line moved down into `lead`. */
+		badge: string;
 		title: string;
 		titleAccent: string;
 		lead: string;

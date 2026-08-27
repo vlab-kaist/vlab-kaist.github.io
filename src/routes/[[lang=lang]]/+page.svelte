@@ -25,7 +25,16 @@
 	<div class="container hero-inner">
 		<div class="hero-copy">
 			<span class="rule rule-gradient" aria-hidden="true"></span>
-			<p class="eyebrow">{d.hero.eyebrow}</p>
+			<!-- The eyebrow used to read "KAIST 학술동아리", which the lead sentence
+			     directly below already says. Trading a label for a live link costs
+			     nothing and gives the one visitor who arrived already decided a
+			     direct path to the form. It points at the form rather than at
+			     /join/ on purpose: the 함께하기 button below goes to /join/, and two
+			     hero elements with the same destination is one too many. -->
+			<a class="hero-badge" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
+				{d.hero.badge}
+				<span class="badge-arrow" aria-hidden="true">↗</span>
+			</a>
 			<h1>
 				{d.hero.title}<br />{d.hero.titleAccent}
 			</h1>
@@ -128,8 +137,40 @@
 		min-width: min(320px, 100%);
 	}
 
-	.hero-copy .eyebrow {
+	/* Quiet by construction: a tinted pill at --text-xs, not a filled button.
+	   It sits above the headline and must not compete with the two real CTAs
+	   underneath it. */
+	.hero-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
 		margin-bottom: 0.875rem;
+		padding: 5px 12px;
+		border: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
+		border-radius: var(--radius-full);
+		background: var(--brand-soft);
+		color: var(--brand);
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: var(--tracking-wide);
+		transition:
+			background-color var(--dur-fast) var(--ease-out),
+			border-color var(--dur-fast) var(--ease-out);
+	}
+
+	.hero-badge:hover {
+		background: color-mix(in srgb, var(--brand) 14%, var(--brand-soft));
+		border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+	}
+
+	.badge-arrow {
+		display: inline-block;
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+
+	.hero-badge:hover .badge-arrow,
+	.hero-badge:focus-visible .badge-arrow {
+		transform: translate(2px, -1px);
 	}
 
 	h1 {

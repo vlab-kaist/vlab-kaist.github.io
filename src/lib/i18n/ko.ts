@@ -21,10 +21,10 @@ import type { Dict } from './types';
  */
 export const ko: Dict = {
 	meta: {
-		title: 'Vlab — KAIST 인공지능 · 과학퀴즈 학술동아리',
+		title: 'Vlab: KAIST 인공지능 · 과학퀴즈 학술동아리',
 		description:
 			'KAIST 학술동아리 Vlab입니다. 카포전 AI 종목과 과학퀴즈에 나갑니다. 2025년 AI 종목은 3:0으로 이겼고, 과학퀴즈는 2023·2024년에 이겼습니다.',
-		ogAlt: 'Vlab — 카포전을 이기는 동아리'
+		ogAlt: 'Vlab: 카포전을 이기는 동아리'
 	},
 	nav: {
 		teams: '팀',
@@ -40,7 +40,7 @@ export const ko: Dict = {
 		themeToDark: '어두운 테마로 바꾸기'
 	},
 	hero: {
-		eyebrow: 'KAIST 학술동아리',
+		badge: '신입 부원 모집 중',
 		title: '카포전을',
 		titleAccent: '이깁니다.',
 		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리입니다. 2022년에 만들어졌고, 그 뒤로 매년 두 종목에 모두 나가고 있습니다.',
@@ -153,7 +153,7 @@ export const ko: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: '2025 카포전 — AI 종목 승리',
+				title: '2025 카포전: AI 종목 승리',
 				body: 'AI 종목에서 POSTECH을 3:0으로 이겼습니다. 과학퀴즈는 졌습니다.',
 				highlight: true
 			},
@@ -164,12 +164,12 @@ export const ko: Dict = {
 			},
 			{
 				date: '2024.09',
-				title: '2024 카포전 — 과학퀴즈 승리',
+				title: '2024 카포전: 과학퀴즈 승리',
 				body: '과학퀴즈는 이겼고, AI 종목은 졌습니다.'
 			},
 			{
 				date: '2023.09',
-				title: '2023 카포전 — 과학퀴즈 승리',
+				title: '2023 카포전: 과학퀴즈 승리',
 				body: '과학퀴즈는 이겼고, AI 종목은 졌습니다.'
 			},
 			{ date: '2022.09', title: '2022 카포전 과학퀴즈 · AI 종목 우승', highlight: true },

@@ -12,10 +12,10 @@ import type { Dict } from './types';
  */
 export const en: Dict = {
 	meta: {
-		title: 'Vlab — KAIST AI & Science Quiz Club',
+		title: 'Vlab: KAIST AI & Science Quiz Club',
 		description:
 			'Vlab is a student club at KAIST. We enter the AI and Science Quiz events of the Kapo Science War against POSTECH. We won the AI event 3–0 in 2025, and the Science Quiz in 2023 and 2024.',
-		ogAlt: 'Vlab — the club that wins the Kapo Science War'
+		ogAlt: 'Vlab: the club that wins the Kapo Science War'
 	},
 	nav: {
 		teams: 'Teams',
@@ -31,7 +31,7 @@ export const en: Dict = {
 		themeToDark: 'Switch to dark theme'
 	},
 	hero: {
-		eyebrow: 'A KAIST academic club',
+		badge: 'Recruiting new members',
 		title: 'We win the',
 		titleAccent: 'Kapo Science War.',
 		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War. We started in 2022 and have entered both events every year since.',
@@ -65,7 +65,7 @@ export const en: Dict = {
 		ai: {
 			name: 'AI Team',
 			tagline: 'We build the program that plays the game.',
-			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League — so we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
+			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League, so we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
 			points: [
 				'Once the season’s task is announced, we design a new agent around it.',
 				'We build the simulators and training infrastructure ourselves.',
@@ -143,7 +143,7 @@ export const en: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: '2025 Kapo Science War — won the AI event',
+				title: '2025 Kapo Science War: won the AI event',
 				body: 'Beat POSTECH 3–0 in the AI event. Lost the Science Quiz.',
 				highlight: true
 			},
@@ -154,12 +154,12 @@ export const en: Dict = {
 			},
 			{
 				date: '2024.09',
-				title: '2024 Kapo Science War — won the Science Quiz',
+				title: '2024 Kapo Science War: won the Science Quiz',
 				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{
 				date: '2023.09',
-				title: '2023 Kapo Science War — won the Science Quiz',
+				title: '2023 Kapo Science War: won the Science Quiz',
 				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{ date: '2022.09', title: 'Won both the Science Quiz and the AI event', highlight: true },

@@ -10,7 +10,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/history/"
-	title="{d.history.heading} — Vlab"
+	title="{d.history.heading} · Vlab"
 	description={d.history.lead}
 />
 

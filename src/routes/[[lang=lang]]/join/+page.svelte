@@ -15,7 +15,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/join/"
-	title="{d.join.heading} — Vlab"
+	title="{d.join.heading} · Vlab"
 	description={d.join.body}
 />
 
@@ -52,7 +52,9 @@
 							target={channel.href.startsWith('mailto:') ? undefined : '_blank'}
 							rel={channel.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
 						>
-							{channel.value}
+							<!-- Handles and addresses, not prose: auto-translate mangles
+							     them into things that do not resolve. -->
+							<span translate="no">{channel.value}</span>
 						</a>
 					</dd>
 				</div>

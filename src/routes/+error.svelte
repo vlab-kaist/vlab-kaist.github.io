@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>{page.status} — Vlab</title>
+	<title>{page.status} · Vlab</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
