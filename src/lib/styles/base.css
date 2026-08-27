@@ -352,7 +352,7 @@ ol {
 /* ---- Glass -------------------------------------------------------------- */
 /* The card treatment, used by the home index, the project cards and the join
    panel. A card is a translucent pane over the drifting field from
-   Liquid.svelte: tinted surface, blurred backdrop, and a lit top edge.
+   LogoDepth.svelte: tinted surface, blurred backdrop, and a lit top edge.
 
    Progressive by construction. The base rule is the opaque card the site had
    before; the translucency is applied only inside @supports, because a

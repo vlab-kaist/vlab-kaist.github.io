@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Logo from '$components/Logo.svelte';
+	import LogoDepth from '$components/LogoDepth.svelte';
 	import { ko } from '$i18n/ko';
 	import { en } from '$i18n/en';
 
@@ -20,6 +21,10 @@
      region. A 404 is the page a lost visitor lands on; it is the worst one to
      make hard to navigate. -->
 <main class="wrap" id="main">
+	<!-- The one page people reach by accident, and the only one with room for
+	     the mark to be the subject rather than the wallpaper. -->
+	<LogoDepth placement="feature" />
+
 	<a class="mark" href="/" aria-label="Vlab">
 		<Logo size={56} decorative />
 	</a>
@@ -37,6 +42,8 @@
 
 <style>
 	.wrap {
+		position: relative;
+		overflow: hidden;
 		min-height: 100dvh;
 		display: flex;
 		flex-direction: column;

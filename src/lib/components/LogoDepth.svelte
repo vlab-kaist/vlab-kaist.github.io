@@ -32,9 +32,16 @@
 		layers?: number;
 		/** Z distance between slices, in px. */
 		step?: number;
+		/**
+		 * `ambient` — fixed behind the whole page, turning with the scroll.
+		 * `feature` — the object itself, centred. Used on the 404, which has no
+		 *   scroll to drive anything and nothing else on it to look at, so the
+		 *   turn there is a one-shot entrance that settles rather than a loop.
+		 */
+		placement?: 'ambient' | 'feature';
 	}
 
-	let { layers = 14, step = 5 }: Props = $props();
+	let { layers = 14, step = 5, placement = 'ambient' }: Props = $props();
 
 	// Same path as Logo.svelte, and it has to stay the same. fill-rule evenodd is
 	// load-bearing: under the default nonzero rule this fills in as a solid
@@ -45,7 +52,7 @@
 	const slices = $derived(Array.from({ length: layers }, (_, i) => i));
 </script>
 
-<div class="stage" aria-hidden="true">
+<div class="stage {placement}" aria-hidden="true">
 	<!-- The path is defined once and referenced by every slice. Inlining it per
 	     slice cost 5.2KB of HTML on every page, for fifteen copies of the same
 	     230-character string — on a site that self-hosts its fonts to save one
@@ -94,9 +101,28 @@
 		z-index: -1;
 		pointer-events: none;
 		perspective: 1400px;
-		/* Fades out before the footer, like the liquid field it shares a slot
-		   with, so the page still ends on solid ground. */
+		/* Fades out before the footer so the page still ends on solid ground
+		   rather than trailing off into a shape. */
 		mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+	}
+
+	/* The object's own bloom. With the liquid field gone this is the only colour
+	   on an otherwise plain page, which matters most in light mode — paper with
+	   a faint grey mark on it is the "boring plain screen" we started from. It
+	   belongs to the mark rather than being a second ambient system: it is
+	   anchored to the object, scales with it, and dies with it. */
+	.stage::before {
+		content: '';
+		position: absolute;
+		inset: -30%;
+		z-index: -1;
+		background: radial-gradient(
+			circle at 45% 45%,
+			color-mix(in srgb, var(--brand-violet) 55%, transparent),
+			transparent 62%
+		);
+		filter: blur(60px);
+		opacity: var(--bloom-opacity, 0.5);
 	}
 
 	.mark {
@@ -148,7 +174,7 @@
 		/* Low enough that it never competes with a text block that happens to
 		   scroll past it. It is an object in the room, not a graphic on the
 		   page. */
-		opacity: var(--depth-opacity, 0.1);
+		opacity: var(--depth-opacity, 0.16);
 	}
 
 	:global(:root[data-theme='dark']) .stage {
@@ -159,12 +185,54 @@
 		--depth-shade: #05040a;
 	}
 
+	/* 404: the mark is the subject, but it is not allowed behind the copy.
+	   Centring it put muted 14px text on top of the bright violet body — axe
+	   passes that, because axe compares text against the background *colour*
+	   and cannot see an SVG sibling painted behind it, which is exactly the
+	   kind of contrast failure an automated check will never catch. So it sits
+	   in the lower-right instead, bleeding off both edges: still the largest
+	   thing on the page, still the first thing you see, and never underneath a
+	   word. */
+	.stage.feature {
+		position: absolute;
+		top: auto;
+		bottom: -14vh;
+		left: auto;
+		right: -12vw;
+		width: min(72vw, 560px);
+		translate: none;
+		opacity: 0.26;
+		mask-image: none;
+	}
+
+	:global(:root[data-theme='dark']) .stage.feature {
+		opacity: 0.42;
+	}
+
+	/* One-shot, not a loop: it turns in once and settles on the static pose.
+	   A 404 has no scroll to drive anything, and a permanently spinning mark on
+	   a page with nothing else on it is a loading spinner by another name. */
+	@media (prefers-reduced-motion: no-preference) {
+		.feature .mark {
+			animation: settle 2.4s var(--ease-out) both;
+		}
+	}
+
+	@keyframes settle {
+		from {
+			transform: rotateX(16deg) rotateY(-62deg) rotateZ(-6deg);
+		}
+		to {
+			transform: rotateX(8deg) rotateY(-26deg) rotateZ(-3deg);
+		}
+	}
+
 	/* Scroll-driven rotation. `scroll(root)` maps the document's whole scroll
 	   range onto the animation, so the mark makes exactly one pass from top of
 	   page to bottom no matter how long the page is. */
 	@media (prefers-reduced-motion: no-preference) {
 		@supports (animation-timeline: scroll()) {
-			.mark {
+			.ambient .mark {
 				animation: turn linear both;
 				animation-timeline: scroll(root);
 			}
