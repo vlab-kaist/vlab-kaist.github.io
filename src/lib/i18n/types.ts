@@ -32,6 +32,14 @@ export interface Sponsor {
 	href: string;
 	/** Optional one-liner on what they actually provide. */
 	note?: string;
+	/**
+	 * Set when the artwork is a dark monochrome or near-monochrome mark that
+	 * disappears on the ink theme, and the owner publishes no light variant.
+	 * The band then sets it on a white plate in dark mode — which is what brand
+	 * guidelines prescribe for exactly this case, and is honest in a way that
+	 * filtering the logo's colour is not.
+	 */
+	plateOnDark?: boolean;
 }
 
 export interface Project {

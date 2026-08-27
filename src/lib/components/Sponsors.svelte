@@ -25,6 +25,7 @@
 							target="_blank"
 							rel="noopener noreferrer sponsored"
 							title={sponsor.note ?? sponsor.name}
+							class:plate={sponsor.plateOnDark}
 						>
 							{#if sponsor.logo}
 								<img src="{base}/sponsors/{sponsor.logo}" alt={sponsor.name} loading="lazy" />
@@ -175,15 +176,18 @@
 		object-fit: contain;
 	}
 
-	/* KAIST's School of Computing publishes only a monochrome dark lockup, which
-	   is invisible on ink. Inverting a greyscale mark is the standard way to get
-	   the light-on-dark version of it — it moves value, not hue, so nothing that
-	   is part of the brand's colour is being changed. It is still a workaround:
-	   the real fix is the department's own light or colour artwork, which is
-	   logged in CONTENT-TODO.md. Scoped by attribute so it can never catch a
-	   sponsor whose logo is already in colour. */
-	:global(:root[data-theme='dark']) img[src*='kaist-cs'] {
-		filter: invert(1);
+	/* KAIST's School of Computing mark is #004191 across 74% of its pixels: 9.4:1
+	   on paper and 1.95:1 on ink. Lifting it with `filter: brightness(1.8)`
+	   would clear 4.5:1, and would also turn that navy into #0075ff — a colour
+	   the department does not use. So the mark keeps its own colours and gets
+	   the white field its brand guidelines assume instead, which measures 9.7:1
+	   and is a treatment the owner would recognise.
+
+	   Light mode needs none of this: the plate would be white on near-white. */
+	:global(:root[data-theme='dark']) .plate {
+		background: #fff;
+		padding: 7px 12px;
+		border-radius: var(--radius-md);
 	}
 
 	.note {
