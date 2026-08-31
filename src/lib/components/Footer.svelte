@@ -17,6 +17,21 @@
 	// absolute and pass through untouched.
 	const href = (link: { href: string; external?: boolean }) =>
 		link.external ? link.href : localeHref(locale, link.href);
+
+	// Everyone who has built a version of this site, oldest first: seo-rii wrote
+	// the original, and the 2026 redesign came from Micron-726 on top of
+	// MoonlightWarrior's branch. Names link to GitHub because that is where the
+	// work is; the display name is the handle, so nobody's legal name goes on a
+	// public page without them putting it there themselves.
+	const AUTHORS = [
+		{ handle: 'seo-rii', url: 'https://github.com/seo-rii' },
+		{ handle: 'Micron-726', url: 'https://github.com/Micron-726' },
+		{ handle: 'MoonlightWarrior', url: 'https://github.com/MoonlightWarrior' }
+	];
+
+	const authorsHtml = AUTHORS.map(
+		(a) => `<a href="${a.url}" target="_blank" rel="noopener noreferrer">${a.handle}</a>`
+	).join(' · ');
 </script>
 
 <footer>
@@ -24,7 +39,7 @@
 		<div class="brand">
 			<Logo size={26} decorative />
 			<div>
-				<p class="name">VLAB</p>
+				<p class="name" translate="no">Vlab</p>
 				<p class="blurb">{dict.footer.blurb}</p>
 			</div>
 		</div>
@@ -45,12 +60,11 @@
 
 		<div class="legal">
 			<p>{fill(dict.footer.copyright, { year })}</p>
-			<p>
-				<!-- rel="noopener" was missing on this link in the old footer. -->
-				{@html fill(dict.footer.builtBy, {
-					author:
-						'<a href="https://seo-rii.github.io/" target="_blank" rel="noopener noreferrer">seo-rii</a>'
-				})}
+			<p class="authors">
+				<!-- rel="noopener" was missing on this link in the old footer. The
+				     handles are a fixed list in this component, not visitor input,
+				     so there is nothing here for {@html} to smuggle. -->
+				{@html fill(dict.footer.builtBy, { authors: authorsHtml })}
 			</p>
 		</div>
 	</div>
@@ -84,6 +98,7 @@
 
 	.name {
 		font-weight: 800;
+		letter-spacing: var(--tracking-lat);
 		letter-spacing: 0.02em;
 	}
 

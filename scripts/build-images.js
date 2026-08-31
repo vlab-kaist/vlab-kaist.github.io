@@ -14,6 +14,17 @@
 import sharp from 'sharp';
 import pngToIco from 'png-to-ico';
 import { readFileSync, writeFileSync, mkdirSync, statSync, existsSync } from 'node:fs';
+
+/*
+ * `--only=sponsors` regenerates just the sponsor logos.
+ *
+ * A full run re-encodes every photo derivative, and the AVIF encoder is not
+ * byte-deterministic across versions — adding one 3KB logo produced a 93-file
+ * diff. The photos have not changed; only their bytes had. This flag exists so
+ * that stops happening.
+ */
+const ONLY = process.argv.find((a) => a.startsWith('--only='))?.slice('--only='.length);
+const shouldRun = (stage) => !ONLY || ONLY === stage;
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -57,7 +68,15 @@ const IMAGES = {
  * below for why that is not just "make white transparent".
  */
 const SPONSORS = {
-	elice: { file: 'elice-logo.png', height: 120, cutWhite: true }
+	elice: { file: 'elice-logo.png', height: 120, cutWhite: true },
+	// Colour Korean lockup, already transparent, so no background cut.
+	// `reverse` additionally emits a white knockout for the ink theme: the mark
+	// is #004191 across most of its pixels and measures 1.95:1 on ink, and the
+	// school publishes no reverse version. A white knockout is the standard
+	// treatment for a dark mark on a dark ground and keeps the background
+	// transparent, where a plate does not and a brightness filter invents a
+	// colour the school does not use.
+	'kaist-cs': { file: 'kaist-cs-logo.png', height: 120, reverse: true }
 };
 
 const AVIF = { quality: 50, effort: 6 };
@@ -143,7 +162,7 @@ if (missing.length) {
 let bytes = 0;
 const manifest = {};
 
-for (const [name, cfg] of Object.entries(IMAGES)) {
+for (const [name, cfg] of shouldRun('photos') ? Object.entries(IMAGES) : []) {
 	const input = join(SRC, cfg.file);
 	const raw = await sharp(input).metadata();
 
@@ -200,13 +219,15 @@ export const images = ${JSON.stringify(manifest, null, '\t')} as const satisfies
 
 export type ImageName = keyof typeof images;
 `;
-writeFileSync(join(ROOT, 'src', 'lib', 'data', 'images.ts'), ts);
+// Only on a full pass: on `--only=sponsors` the manifest is empty and writing
+// it would blank the file Picture.svelte reads its dimensions from.
+if (shouldRun('photos')) writeFileSync(join(ROOT, 'src', 'lib', 'data', 'images.ts'), ts);
 
 // ---- Sponsor logos ----
 const SPONSOR_OUT = join(ROOT, 'static', 'sponsors');
 mkdirSync(SPONSOR_OUT, { recursive: true });
 
-for (const [name, cfg] of Object.entries(SPONSORS)) {
+for (const [name, cfg] of shouldRun('sponsors') ? Object.entries(SPONSORS) : []) {
 	const input = join(SRC, cfg.file);
 	if (!existsSync(input)) {
 		console.error(`Missing sponsor logo: images.source/${cfg.file}`);
@@ -221,61 +242,90 @@ for (const [name, cfg] of Object.entries(SPONSORS)) {
 		.toFile(dest);
 	bytes += statSync(dest).size;
 	console.log(`  ${name.padEnd(14)} sponsor logo (${(statSync(dest).size / 1024).toFixed(1)} KB)`);
+
+	if (!cfg.reverse) continue;
+
+	// White knockout: keep the artwork's alpha exactly, replace every colour
+	// with white. Shape and spacing are untouched — only value changes, which
+	// is what a reverse lockup is.
+	const src = sharp(prepared).ensureAlpha();
+	const { width, height } = await src.metadata();
+	const alpha = await src.extractChannel('alpha').raw().toBuffer();
+	const knockout = await sharp({
+		create: { width, height, channels: 3, background: '#ffffff' }
+	})
+		.joinChannel(alpha, { raw: { width, height, channels: 1 } })
+		.png()
+		.toBuffer();
+
+	const reverseDest = join(SPONSOR_OUT, `${name}-reverse.png`);
+	await sharp(knockout)
+		.trim({ threshold: 1 })
+		.resize({ height: cfg.height, withoutEnlargement: true })
+		.png({ compressionLevel: 9, palette: true })
+		.toFile(reverseDest);
+	bytes += statSync(reverseDest).size;
+	console.log(
+		`  ${(name + '-reverse').padEnd(14)} sponsor logo (${(statSync(reverseDest).size / 1024).toFixed(1)} KB)`
+	);
 }
 
-// ---- Icons ----
-const favicon = readFileSync(join(ROOT, 'static', 'favicon.svg'));
+// ---- Icons (full pass only; `npm run og` covers the share card on its own) ----
+if (shouldRun('icons')) {
+	const favicon = readFileSync(join(ROOT, 'static', 'favicon.svg'));
 
-// Maskable/apple icons are composited onto an opaque field: iOS ignores
-// transparency and would otherwise render the mark on black.
-await sharp({
-	create: { width: 180, height: 180, channels: 4, background: '#0a0a10' }
-})
-	.composite([{ input: await sharp(favicon).resize(140, 140).png().toBuffer(), gravity: 'center' }])
-	.png()
-	.toFile(join(ROOT, 'static', 'apple-touch-icon.png'));
-
-for (const size of [192, 512]) {
-	await sharp({ create: { width: size, height: size, channels: 4, background: '#0a0a10' } })
+	// Maskable/apple icons are composited onto an opaque field: iOS ignores
+	// transparency and would otherwise render the mark on black.
+	await sharp({
+		create: { width: 180, height: 180, channels: 4, background: '#0a0a10' }
+	})
 		.composite([
-			{
-				input: await sharp(favicon)
-					.resize(Math.round(size * 0.78), Math.round(size * 0.78))
-					.png()
-					.toBuffer(),
-				gravity: 'center'
-			}
+			{ input: await sharp(favicon).resize(140, 140).png().toBuffer(), gravity: 'center' }
 		])
 		.png()
-		.toFile(join(ROOT, 'static', `icon-${size}.png`));
-}
+		.toFile(join(ROOT, 'static', 'apple-touch-icon.png'));
 
-// The previous favicon.ico was 121 KB because it embedded 256px and 128px
-// frames — for a 16px tab slot. 32+16 is all anything actually reads.
-const icoFrames = await Promise.all(
-	[32, 16].map(async (s) =>
-		sharp({ create: { width: s, height: s, channels: 4, background: '#0a0a10' } })
+	for (const size of [192, 512]) {
+		await sharp({ create: { width: size, height: size, channels: 4, background: '#0a0a10' } })
 			.composite([
 				{
 					input: await sharp(favicon)
-						.resize(Math.round(s * 0.82), Math.round(s * 0.82))
+						.resize(Math.round(size * 0.78), Math.round(size * 0.78))
 						.png()
 						.toBuffer(),
 					gravity: 'center'
 				}
 			])
 			.png()
-			.toBuffer()
-	)
-);
-writeFileSync(join(ROOT, 'static', 'favicon.ico'), await pngToIco(icoFrames));
+			.toFile(join(ROOT, 'static', `icon-${size}.png`));
+	}
 
-// ---- OG share card ----
-// The old site had no og:image at all, so every link shared into KakaoTalk or
-// Discord — i.e. every recruiting link — previewed as a bare grey URL.
-// Gradients use userSpaceOnUse: librsvg's handling of objectBoundingBox units
-// on <circle> is unreliable and produced a speckled artifact instead of a glow.
-const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+	// The previous favicon.ico was 121 KB because it embedded 256px and 128px
+	// frames — for a 16px tab slot. 32+16 is all anything actually reads.
+	const icoFrames = await Promise.all(
+		[32, 16].map(async (s) =>
+			sharp({ create: { width: s, height: s, channels: 4, background: '#0a0a10' } })
+				.composite([
+					{
+						input: await sharp(favicon)
+							.resize(Math.round(s * 0.82), Math.round(s * 0.82))
+							.png()
+							.toBuffer(),
+						gravity: 'center'
+					}
+				])
+				.png()
+				.toBuffer()
+		)
+	);
+	writeFileSync(join(ROOT, 'static', 'favicon.ico'), await pngToIco(icoFrames));
+
+	// ---- OG share card ----
+	// The old site had no og:image at all, so every link shared into KakaoTalk or
+	// Discord — i.e. every recruiting link — previewed as a bare grey URL.
+	// Gradients use userSpaceOnUse: librsvg's handling of objectBoundingBox units
+	// on <circle> is unreliable and produced a speckled artifact instead of a glow.
+	const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <linearGradient id="wordmark" gradientUnits="userSpaceOnUse" x1="80" y1="130" x2="470" y2="250">
       <stop offset="0" stop-color="#e0246f"/>
@@ -296,20 +346,21 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
   <rect width="1200" height="630" fill="#0a0a10"/>
   <rect width="1200" height="630" fill="url(#glow1)"/>
   <rect width="1200" height="630" fill="url(#glow2)"/>
-  <text x="80" y="250" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="128" font-weight="800" fill="url(#wordmark)" letter-spacing="-4">VLAB</text>
+  <text x="80" y="250" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="128" font-weight="800" fill="url(#wordmark)" letter-spacing="-4">Vlab</text>
   <text x="80" y="332" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="42" font-weight="600" fill="#f2f2f7">카포전을 이기는 동아리</text>
-  <text x="80" y="394" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="28" font-weight="400" fill="#a2a2b8">KAIST 과학퀴즈 · 인공지능 학술동아리</text>
+  <text x="80" y="394" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="28" font-weight="400" fill="#a2a2b8">KAIST 인공지능 · 과학퀴즈 학술동아리</text>
   <rect x="80" y="466" width="420" height="1" fill="#2e2e40"/>
-  <text x="80" y="534" font-family="ui-monospace, monospace" font-size="36" font-weight="700" fill="#f2f2f7">3 : 0</text>
+  <text x="80" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">3 : 0</text>
   <text x="80" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">2025 AI 종목</text>
-  <text x="300" y="534" font-family="ui-monospace, monospace" font-size="36" font-weight="700" fill="#f2f2f7">200+</text>
-  <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">Flex 학습량</text>
+  <text x="300" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">29</text>
+  <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">활동 인원</text>
   <text x="1120" y="570" text-anchor="end" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="20" fill="#6b6b80">vlab-kaist.github.io</text>
 </svg>`;
-await sharp(Buffer.from(og))
-	.png({ quality: 90 })
-	.toFile(join(ROOT, 'static', 'og.png'));
-bytes += statSync(join(ROOT, 'static', 'og.png')).size;
+	await sharp(Buffer.from(og))
+		.png({ quality: 90 })
+		.toFile(join(ROOT, 'static', 'og.png'));
+	bytes += statSync(join(ROOT, 'static', 'og.png')).size;
+}
 
 console.log(
 	`\nDerivatives: ${(bytes / 1048576).toFixed(2)} MB total across all sizes and formats.`

@@ -58,11 +58,15 @@ select {
 	color: inherit;
 }
 
+/* 700, not 800. Pretendard's 800 is a genuinely heavy face, and hangul carries
+   far more strokes per glyph than Latin — at display sizes the counters close up
+   and a headline turns into a dark block. 700 keeps the authority and gives the
+   glyphs their air back. (kaist.run runs 600-700 on the same typeface.) */
 h1,
 h2,
 h3,
 h4 {
-	font-weight: 800;
+	font-weight: 700;
 	line-height: var(--leading-tight);
 	letter-spacing: var(--tracking-heading);
 	text-wrap: balance;
@@ -75,6 +79,29 @@ p {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+/* ---- Touch --------------------------------------------------------------- */
+/* Three things every interactive element on a touchscreen needs, and none of
+   which have a sensible default:
+
+   - `touch-action: manipulation` drops the ~300ms double-tap-to-zoom wait that
+     mobile browsers otherwise hold every tap for. Pinch zoom is untouched; only
+     double-tap zoom goes, and nothing here is small enough to need it.
+   - `-webkit-tap-highlight-color` is set deliberately rather than left to the
+     browser's grey flash, because these elements already answer a press with
+     their own :active state. Removing it without providing feedback would be
+     the wrong trade; we provide feedback.
+   - `overscroll-behavior` lives on the mobile menu sheet, in Header.svelte,
+     where the scroll chaining it prevents actually exists. */
+
+a,
+button,
+summary,
+label,
+[role='button'] {
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
 }
 
 ul,
@@ -133,17 +160,6 @@ ol {
 
 .skip-link:focus {
 	transform: translateY(0);
-}
-
-/* Gradient text lockup for the VLAB wordmark.
-   `background-clip: text` is unprefixed and Baseline since 2023 — the old site
-   used only -webkit-linear-gradient, which left the text invisible in Firefox
-   for anyone who fell outside the prefix. */
-.gradient-text {
-	background: var(--brand-gradient);
-	background-clip: text;
-	-webkit-background-clip: text;
-	color: transparent;
 }
 
 /* ---- Layout primitives -------------------------------------------------- */
@@ -214,6 +230,27 @@ ol {
 
 /* ---- Buttons ------------------------------------------------------------ */
 
+/* Buttons carry the only interaction motion on the site, so it is worth
+   spending real attention on. Three states, three different speeds:
+
+   - hover: lift 2px over --dur-snap (160ms) and grow a shadow over --dur-base.
+     Fast enough to feel like an answer, slow enough not to twitch.
+   - press: drop back down and scale to 0.97, over 70ms. Deliberately much
+     faster than the hover. A press that eases in feels laggy no matter how
+     quick the underlying action is; a press that snaps feels like the click
+     landed even before anything has happened.
+   - release: back to hover, at hover speed.
+
+   The lift is behind `@media (hover: hover)`. On a touchscreen `:hover` sticks
+   after a tap — the button would stay raised until you touched something else,
+   which reads as a stuck state rather than as feedback. Touch gets the press
+   state only, which is the one that matters there.
+
+   Everything animated is `transform`, `box-shadow` and colour, so none of it
+   triggers layout. Under prefers-reduced-motion the global block at the bottom
+   of this file collapses every duration: the states still change, they just
+   arrive instantly. */
+
 .btn {
 	display: inline-flex;
 	align-items: center;
@@ -222,23 +259,78 @@ ol {
 	border-radius: var(--radius-md);
 	font-weight: 600;
 	font-size: 0.95rem;
+	/* Stops the label from being selected on a double-tap, which on mobile is
+	   the difference between "button" and "text that happens to be in a box". */
+	user-select: none;
 	transition:
 		background-color var(--dur-fast) var(--ease-out),
 		border-color var(--dur-fast) var(--ease-out),
-		transform var(--dur-fast) var(--ease-out);
+		/* The shadow blooms slower than the lift on purpose: the button arrives,
+		   then its shadow settles under it. Matching the two makes the pair read
+		   as one flat slide. */
+		box-shadow var(--dur-base) var(--ease-out),
+		transform var(--dur-snap) var(--ease-out);
+}
+
+@media (hover: hover) {
+	.btn:hover {
+		transform: translateY(-2px);
+	}
 }
 
 .btn:active {
-	transform: translateY(1px);
+	transform: translateY(0) scale(0.97);
+	transition-duration: 70ms;
 }
 
 .btn-primary {
+	/* Own stacking context, for the sheen below. */
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
 	background: var(--brand);
 	color: var(--brand-contrast);
+	box-shadow: 0 1px 2px color-mix(in srgb, var(--brand) 30%, transparent);
+}
+
+/* A band of light that crosses the fill once per hover. z-index -1 keeps it
+   above the button's own background but below the label — a negative-index
+   child paints over the background of the element that establishes the
+   stacking context, and under its in-flow content. No extra element, no JS,
+   and it cannot land on top of the text. */
+.btn-primary::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(
+		100deg,
+		transparent 25%,
+		rgb(255 255 255 / 0.24) 48%,
+		transparent 72%
+	);
+	transform: translateX(-130%);
+	transition: transform var(--dur-slow) var(--ease-out);
 }
 
 .btn-primary:hover {
 	background: var(--brand-strong);
+}
+
+@media (hover: hover) {
+	.btn-primary:hover {
+		/* Tinted rather than neutral: a grey shadow under a saturated violet
+		   button reads as dirt on the paper. */
+		box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--brand) 62%, transparent);
+	}
+
+	.btn-primary:hover::after {
+		transform: translateX(130%);
+	}
+}
+
+.btn-primary:active {
+	box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--brand) 55%, transparent);
 }
 
 .btn-ghost {
@@ -249,6 +341,59 @@ ol {
 .btn-ghost:hover {
 	border-color: var(--text-faint);
 	background: var(--surface);
+}
+
+@media (hover: hover) {
+	.btn-ghost:hover {
+		box-shadow: var(--shadow-md);
+	}
+}
+
+/* ---- Glass -------------------------------------------------------------- */
+/* The card treatment, used by the home index, the project cards and the join
+   panel. A card is a translucent pane over the drifting field from
+   Liquid.svelte: tinted surface, blurred backdrop, and a lit top edge.
+
+   Progressive by construction. The base rule is the opaque card the site had
+   before; the translucency is applied only inside @supports, because a
+   translucent panel with no blur behind it is not a softer card, it is an
+   unreadable one. Browsers without backdrop-filter — and anything under
+   forced-colors, where it is ignored — keep the solid surface.
+
+   The sheen is an inset box-shadow rather than a border so it stays a hairline
+   of light on the top edge only, and does not fight the 1px border that
+   defines the card's actual shape. */
+
+.glass {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	transition:
+		background-color var(--dur-base) var(--ease-out),
+		border-color var(--dur-base) var(--ease-out),
+		box-shadow var(--dur-base) var(--ease-out);
+}
+
+.glass:hover {
+	border-color: var(--border-strong);
+	box-shadow: var(--shadow-md);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+	.glass {
+		background: var(--glass-bg);
+		border-color: var(--glass-border);
+		backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+		-webkit-backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+		box-shadow: inset 0 1px 0 var(--glass-sheen);
+	}
+
+	.glass:hover {
+		background: var(--glass-bg-hover);
+		border-color: var(--glass-border-hover);
+		box-shadow:
+			inset 0 1px 0 var(--glass-sheen),
+			var(--shadow-md);
+	}
 }
 
 /* ---- Tags --------------------------------------------------------------- */

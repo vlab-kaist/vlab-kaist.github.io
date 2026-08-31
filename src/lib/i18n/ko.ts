@@ -3,6 +3,10 @@ import type { Dict } from './types';
 /*
  * Korean copy — the source of truth. en.ts mirrors this shape.
  *
+ * Team ordering: 인공지능 first, 과학퀴즈 second, everywhere the two are named
+ * together (meta, hero, teams, join, footer). The club asked for it. If you add
+ * copy that names both, follow it.
+ *
  * The 카포전 record below came from the club directly. Note that it does NOT
  * match the scoreboard visible in quiz-2025.jpg (KAIST 80 : 75 POSTECH): that
  * capture is a mid-match frame, not the final result. Do not "correct" this
@@ -17,10 +21,10 @@ import type { Dict } from './types';
  */
 export const ko: Dict = {
 	meta: {
-		title: 'VLAB — KAIST 과학퀴즈 · 인공지능 학술동아리',
+		title: 'Vlab: KAIST 인공지능 · 과학퀴즈 학술동아리',
 		description:
-			'KAIST 학술동아리 VLAB입니다. 카포전 과학퀴즈와 AI 종목에 나갑니다. 2025년 AI 종목은 3:0으로 이겼고, 과학퀴즈는 2023·2024년에 이겼습니다.',
-		ogAlt: 'VLAB — 카포전을 이기는 동아리'
+			'KAIST 학술동아리 Vlab입니다. 카포전 AI 종목과 과학퀴즈에 나갑니다. 2025년 AI 종목은 3:0으로 이겼고, 과학퀴즈는 2023·2024년에 이겼습니다.',
+		ogAlt: 'Vlab: 카포전을 이기는 동아리'
 	},
 	nav: {
 		teams: '팀',
@@ -31,30 +35,31 @@ export const ko: Dict = {
 		skipToContent: '본문 바로가기',
 		menu: '메뉴 열기',
 		close: '메뉴 닫기',
-		language: '언어'
+		language: '언어',
+		themeToLight: '밝은 테마로 바꾸기',
+		themeToDark: '어두운 테마로 바꾸기'
 	},
 	hero: {
-		eyebrow: 'KAIST 학술동아리',
+		badge: '신입 부원 모집 중',
 		title: '카포전을',
 		titleAccent: '이깁니다.',
-		lead: '카포전 과학퀴즈와 AI 종목에 나가는 KAIST 학술동아리입니다. 2022년에 만들어졌고, 그 뒤로 매년 두 종목에 모두 나가고 있습니다.',
+		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리입니다. 2022년에 만들어졌고, 그 뒤로 매년 두 종목에 모두 나가고 있습니다.',
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
-		imageAlt: '여수 바다가 내려다보이는 정자에서 함께 찍은 VLAB 단체 사진',
-		imageCaption: 'VLAB 단체 사진 — 여수'
+		imageAlt: '여수 바다가 내려다보이는 정자에서 함께 찍은 Vlab 단체 사진'
 	},
 	stats: {
 		heading: '기록',
 		items: [
 			{ value: '3 : 0', label: '2025 AI 종목', note: 'vs POSTECH · 승' },
-			{ value: '200+', label: 'Flex 학습량', note: '인게임 연 단위' },
+			{ value: '29', label: '활동 인원', note: '2026년 현재' },
 			{ value: 'ML 결승', label: 'RLBot Championship', note: '2025 · 국제 대회' },
-			{ value: '2022', label: 'VLAB 설립', note: '4년째 활동 중' }
+			{ value: '2022', label: 'Vlab 설립', note: '4년째 활동 중' }
 		]
 	},
 	teams: {
-		heading: '과학퀴즈팀과 인공지능팀',
-		lead: '하는 일은 거의 겹치지 않습니다. 과학퀴즈팀은 매주 모여 문제를 풀고, 인공지능팀은 그 시간에 코드를 씁니다.',
+		heading: '인공지능팀과 과학퀴즈팀',
+		lead: '하는 일은 거의 겹치지 않습니다. 인공지능팀은 매주 모여 코드를 쓰고, 과학퀴즈팀은 그 시간에 문제를 풉니다.',
 		quiz: {
 			name: '과학퀴즈팀',
 			tagline: '범위가 없는 시험을 매주 준비합니다.',
@@ -76,7 +81,7 @@ export const ko: Dict = {
 				'CS101만 들었으면 따라올 수 있는 세미나를 엽니다.'
 			],
 			imageAlt:
-				'2025 카포전 AI 종목 로켓리그 경기 화면. VLAB 에이전트가 POSTECH을 상대로 앞서고 있다.'
+				'2025 카포전 AI 종목 로켓리그 경기 화면. Vlab 에이전트가 POSTECH을 상대로 앞서고 있다.'
 		}
 	},
 	projects: {
@@ -148,7 +153,7 @@ export const ko: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: '2025 카포전 — AI 종목 승리',
+				title: '2025 카포전: AI 종목 승리',
 				body: 'AI 종목에서 POSTECH을 3:0으로 이겼습니다. 과학퀴즈는 졌습니다.',
 				highlight: true
 			},
@@ -159,16 +164,16 @@ export const ko: Dict = {
 			},
 			{
 				date: '2024.09',
-				title: '2024 카포전 — 과학퀴즈 승리',
+				title: '2024 카포전: 과학퀴즈 승리',
 				body: '과학퀴즈는 이겼고, AI 종목은 졌습니다.'
 			},
 			{
 				date: '2023.09',
-				title: '2023 카포전 — 과학퀴즈 승리',
+				title: '2023 카포전: 과학퀴즈 승리',
 				body: '과학퀴즈는 이겼고, AI 종목은 졌습니다.'
 			},
 			{ date: '2022.09', title: '2022 카포전 과학퀴즈 · AI 종목 우승', highlight: true },
-			{ date: '2022.04', title: 'VLAB 설립' }
+			{ date: '2022.04', title: 'Vlab 설립' }
 		]
 	},
 	life: {
@@ -177,62 +182,77 @@ export const ko: Dict = {
 		captions: [
 			{
 				title: '카포전 연습',
-				subtitle: '화이트보드가 가득 찰 때까지',
-				alt: '동아리방에서 노트북과 화이트보드를 두고 카포전을 준비하는 VLAB 부원들'
+				alt: '동아리방에서 노트북과 화이트보드를 두고 카포전을 준비하는 Vlab 부원들'
 			},
 			{
 				title: '학생문화제',
-				subtitle: '부스를 열고 사람들을 만납니다',
-				alt: 'KAIST 학생문화제에서 VLAB 부스 앞에 모여 사진을 찍는 부원들'
+				alt: 'KAIST 학생문화제에서 Vlab 부스 앞에 모여 사진을 찍는 부원들'
 			},
 			{
 				title: '딸기 파티',
-				subtitle: '벚꽃 아래, 잔디밭에서',
-				alt: '벚꽃이 핀 봄 캠퍼스 잔디밭에서 딸기를 나눠 먹는 VLAB 부원들'
+				alt: '벚꽃이 핀 봄 캠퍼스 잔디밭에서 딸기를 나눠 먹는 Vlab 부원들'
 			},
 			{
 				title: '회식',
-				subtitle: '잘 싸우려면 잘 먹어야죠',
-				alt: '밤에 다 같이 모여 고기를 구워 먹는 VLAB 회식'
+				alt: '밤에 다 같이 모여 고기를 구워 먹는 Vlab 회식'
 			},
 			{
 				title: '봄 소풍',
-				subtitle: '다 같이 모이는 날',
-				alt: 'KAIST 캠퍼스 잔디밭에서 돗자리를 펴고 다 함께 모인 VLAB 부원들'
+				alt: 'KAIST 캠퍼스 잔디밭에서 돗자리를 펴고 다 함께 모인 Vlab 부원들'
 			}
 		]
 	},
 	join: {
 		heading: '함께할 사람을 찾습니다',
 		lead: '한 문제를 오래 붙잡고 있는 걸 싫어하지 않는 사람이면 좋겠습니다.',
-		body: '전공은 상관없습니다. 과학퀴즈팀은 과학을 좋아하면 되고, 인공지능팀은 CS101 정도만 들었으면 시작할 수 있습니다. 나머지는 들어와서 배우면 됩니다. 궁금한 게 있으면 메일 주세요.',
-		cta: '메일 보내기',
-		imageAlt: '2025 카포전 AI 종목에서 승리한 뒤 트로피를 들어올리는 VLAB 부원들',
+		body: '전공은 상관없습니다. 인공지능팀은 CS101 정도만 들었으면 시작할 수 있고, 과학퀴즈팀은 과학을 좋아하면 됩니다. 나머지는 들어와서 배우면 됩니다. 궁금한 게 있으면 메일 주세요.',
+		cta: '지원하기',
+		ctaNote: '구글 폼으로 이동합니다.',
+		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
+		imageAlt: '2025 카포전 AI 종목에서 승리한 뒤 트로피를 들어올리는 Vlab 부원들',
 		channels: [
 			{
 				label: '이메일',
 				value: 'kaist.victorylab@gmail.com',
 				href: 'mailto:kaist.victorylab@gmail.com'
 			},
-			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' }
+			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' },
+			{
+				label: 'Instagram',
+				value: '@vlab.kaist',
+				href: 'https://www.instagram.com/vlab.kaist/'
+			}
 		]
 	},
 	sponsors: {
 		heading: '후원',
+		contact: {
+			heading: '후원에 관심이 있으신가요?',
+			body: 'Vlab을 후원하고 싶은 기업의 연락을 기다립니다.',
+			label: '후원 문의하기',
+			href: 'mailto:kaist.victorylab@gmail.com?subject=Vlab%20%ED%9B%84%EC%9B%90%20%EB%AC%B8%EC%9D%98'
+		},
 		items: [
 			{
 				name: '엘리스',
 				logo: 'elice.png',
 				href: 'https://elice.io/'
+			},
+			{
+				name: 'KAIST 전산학부',
+				logo: 'kaist-cs.png',
+				logoDark: 'kaist-cs-reverse.png',
+				href: 'https://cs.kaist.ac.kr/'
 			}
 		]
 	},
 	footer: {
-		blurb: 'KAIST 과학퀴즈 · 인공지능 학술동아리',
-		copyright: '© {year} VLAB. All rights reserved.',
-		builtBy: 'Made with ❤️ by {author}',
+		blurb: 'KAIST 인공지능 · 과학퀴즈 학술동아리',
+		copyright: '© {year} Vlab. All rights reserved.',
+		builtBy: 'Made with ❤️ by {authors}',
 		links: [
 			{ label: 'GitHub', href: 'https://github.com/vlab-kaist', external: true },
+			{ label: 'Instagram', href: 'https://www.instagram.com/vlab.kaist/', external: true },
 			{ label: '함께하기', href: '/join/' }
 		]
 	},

@@ -26,7 +26,33 @@
 							rel="noopener noreferrer sponsored"
 							title={sponsor.note ?? sponsor.name}
 						>
-							<img src="{base}/sponsors/{sponsor.logo}" alt={sponsor.name} loading="lazy" />
+							{#if sponsor.logo}
+								<!-- Both variants render and CSS picks one from `:root[data-theme]`,
+								     the same trick the theme toggle uses: the theme is resolved by an
+								     inline script before first paint, but this component is prerendered
+								     with no theme to read, so anything driven by state would render the
+								     light logo into the HTML and swap it once hydration lands. The
+								     hidden one has no layout box, so it is not fetched. -->
+								<img
+									class:on-light={sponsor.logoDark}
+									src="{base}/sponsors/{sponsor.logo}"
+									alt={sponsor.name}
+									loading="lazy"
+								/>
+								{#if sponsor.logoDark}
+									<img
+										class="on-dark"
+										src="{base}/sponsors/{sponsor.logoDark}"
+										alt={sponsor.name}
+										loading="lazy"
+									/>
+								{/if}
+							{:else}
+								<!-- No artwork yet. Set the name rather than leaving a hole: a
+								     supporter who is credited in type still reads as credited,
+								     and it keeps the band from collapsing to one logo. -->
+								<span class="wordmark">{sponsor.name}</span>
+							{/if}
 						</a>
 						{#if sponsor.note}
 							<p class="note">{sponsor.note}</p>
@@ -34,11 +60,50 @@
 					</li>
 				{/each}
 			</ul>
+
+			<!-- The one block on the site addressed to companies rather than to
+			     students, so it lives in the band they would already be looking at.
+			     A question, one line of answer, and a button: an underlined 12px
+			     link was findable only by someone already looking for it, which is
+			     the wrong bar for the audience that pays for things.
+
+			     Outlined rather than filled — the filled treatment belongs to the
+			     student CTA ("지원하기"), and two solid buttons on one page means
+			     neither is the primary action. -->
+			<div class="contact">
+				<p class="contact-heading">{dict.sponsors.contact.heading}</p>
+				<p class="contact-body">{dict.sponsors.contact.body}</p>
+				<a class="btn btn-ghost" href={dict.sponsors.contact.href}>
+					{dict.sponsors.contact.label}
+				</a>
+			</div>
 		</div>
 	</section>
 {/if}
 
 <style>
+	.contact {
+		margin-top: var(--space-7);
+		padding-top: var(--space-6);
+		/* A rule rather than more whitespace: the logos above are a credit and
+		   this is a pitch, and without the line the button reads as belonging to
+		   the sponsor whose mark sits directly above it. */
+		border-top: 1px solid var(--border);
+	}
+
+	.contact-heading {
+		font-size: var(--text-lg);
+		font-weight: 700;
+		letter-spacing: var(--tracking-heading);
+	}
+
+	.contact-body {
+		margin-top: var(--space-2);
+		margin-bottom: var(--space-5);
+		font-size: var(--text-sm);
+		color: var(--text-muted);
+	}
+
 	/* The join section above sits on plain paper, so this band draws its own
 	   rule; without it the sponsor logo floats in the gap between the club's
 	   last words and the footer. */
@@ -83,8 +148,15 @@
 
 	/* Sponsor marks sit quiet by default and come up on hover: this is a credit,
 	   not an advertisement, and it should not out-shout the club's own content.
-	   Opacity only — never a colour filter, which would alter someone's brand. */
-	a {
+	   Opacity only — never a colour filter, which would alter someone's brand.
+	   (The one exception is directly below, and it is the exception that proves
+	   the rule.)
+
+	   `li a`, not a bare `a`: the "후원하기" link below is an anchor in this same
+	   component, and at 0.65 opacity its 12px text measured 3.18:1 on the dark
+	   ground — a contrast failure produced entirely by a selector meant for
+	   logos. Opacity dims text as happily as it dims an image. */
+	li a {
 		display: block;
 		opacity: 0.65;
 		transition:
@@ -92,10 +164,24 @@
 			transform var(--dur-base) var(--ease-out);
 	}
 
-	a:hover,
-	a:focus-visible {
+	li a:hover,
+	li a:focus-visible {
 		opacity: 1;
 		transform: translateY(-2px);
+	}
+
+	/* Placeholder credit. Sized to sit on the same optical line as a logo, and
+	   deliberately quiet — it is a name, not a mark, and should not out-shout
+	   the sponsors who did send artwork. */
+	.wordmark {
+		display: block;
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: var(--tracking-heading);
+		/* Matches the logo height below, so a name and a mark occupy the same
+		   band and the row keeps one optical line however they are mixed. */
+		line-height: 38px;
+		color: var(--text);
 	}
 
 	/* Sized against the wordmark, not the file. Elice's mark is lettering inside
@@ -106,6 +192,18 @@
 		width: auto;
 		max-width: 240px;
 		object-fit: contain;
+	}
+
+	/* This mark is #004191 across 74% of its pixels: 9.4:1 on paper, 1.95:1 on
+	   ink. The fixes that keep its colours are a white plate behind it or a
+	   reverse version of it, and only the second keeps the background
+	   transparent — so the ink theme gets a white knockout generated from the
+	   same source. `filter: brightness()` was the third option and is the wrong
+	   one: it would clear the contrast bar by turning that navy into #0075ff, a
+	   colour the school does not use. */
+	:global(:root[data-theme='dark']) .on-light,
+	:global(:root:not([data-theme='dark'])) .on-dark {
+		display: none;
 	}
 
 	.note {

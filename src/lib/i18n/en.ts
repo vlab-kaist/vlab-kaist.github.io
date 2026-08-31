@@ -12,10 +12,10 @@ import type { Dict } from './types';
  */
 export const en: Dict = {
 	meta: {
-		title: 'VLAB — KAIST Science Quiz & AI Club',
+		title: 'Vlab: KAIST AI & Science Quiz Club',
 		description:
-			'VLAB is a student club at KAIST. We enter the Science Quiz and AI events of the Kapo Science War against POSTECH. We won the AI event 3–0 in 2025, and the Science Quiz in 2023 and 2024.',
-		ogAlt: 'VLAB — the club that wins the Kapo Science War'
+			'Vlab is a student club at KAIST. We enter the AI and Science Quiz events of the Kapo Science War against POSTECH. We won the AI event 3–0 in 2025, and the Science Quiz in 2023 and 2024.',
+		ogAlt: 'Vlab: the club that wins the Kapo Science War'
 	},
 	nav: {
 		teams: 'Teams',
@@ -26,30 +26,31 @@ export const en: Dict = {
 		skipToContent: 'Skip to content',
 		menu: 'Open menu',
 		close: 'Close menu',
-		language: 'Language'
+		language: 'Language',
+		themeToLight: 'Switch to light theme',
+		themeToDark: 'Switch to dark theme'
 	},
 	hero: {
-		eyebrow: 'A KAIST academic club',
+		badge: 'Recruiting new members',
 		title: 'We win the',
 		titleAccent: 'Kapo Science War.',
-		lead: 'A KAIST student club that enters the Science Quiz and AI events of the Kapo Science War. We started in 2022 and have entered both events every year since.',
+		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War. We started in 2022 and have entered both events every year since.',
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
-		imageAlt: 'VLAB members together at a pavilion overlooking the sea in Yeosu',
-		imageCaption: 'VLAB group photo — Yeosu'
+		imageAlt: 'Vlab members together at a pavilion overlooking the sea in Yeosu'
 	},
 	stats: {
 		heading: 'Record',
 		items: [
 			{ value: '3 : 0', label: '2025 AI event', note: 'vs POSTECH · won' },
-			{ value: '200+', label: 'Flex training', note: 'in-game years' },
+			{ value: '29', label: 'Active members', note: 'as of 2026' },
 			{ value: 'ML final', label: 'RLBot Championship', note: '2025 · international' },
 			{ value: '2022', label: 'Founded', note: 'four years running' }
 		]
 	},
 	teams: {
-		heading: 'The Science Quiz team and the AI team',
-		lead: 'The two barely overlap. The quiz team meets every week to work through problems; the AI team spends that time writing code.',
+		heading: 'The AI team and the Science Quiz team',
+		lead: 'The two barely overlap. The AI team meets every week to write code; the quiz team spends that time working through problems.',
 		quiz: {
 			name: 'Science Quiz Team',
 			tagline: 'Preparing every week for an exam with no syllabus.',
@@ -64,13 +65,13 @@ export const en: Dict = {
 		ai: {
 			name: 'AI Team',
 			tagline: 'We build the program that plays the game.',
-			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League — so we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
+			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League, so we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
 			points: [
 				'Once the season’s task is announced, we design a new agent around it.',
 				'We build the simulators and training infrastructure ourselves.',
 				'Seminars pitched so that CS101 is enough to follow along.'
 			],
-			imageAlt: '2025 AI event, Rocket League. The VLAB agent leads against POSTECH.'
+			imageAlt: '2025 AI event, Rocket League. The Vlab agent leads against POSTECH.'
 		}
 	},
 	projects: {
@@ -142,7 +143,7 @@ export const en: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: '2025 Kapo Science War — won the AI event',
+				title: '2025 Kapo Science War: won the AI event',
 				body: 'Beat POSTECH 3–0 in the AI event. Lost the Science Quiz.',
 				highlight: true
 			},
@@ -153,16 +154,16 @@ export const en: Dict = {
 			},
 			{
 				date: '2024.09',
-				title: '2024 Kapo Science War — won the Science Quiz',
+				title: '2024 Kapo Science War: won the Science Quiz',
 				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{
 				date: '2023.09',
-				title: '2023 Kapo Science War — won the Science Quiz',
+				title: '2023 Kapo Science War: won the Science Quiz',
 				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{ date: '2022.09', title: 'Won both the Science Quiz and the AI event', highlight: true },
-			{ date: '2022.04', title: 'VLAB founded' }
+			{ date: '2022.04', title: 'Vlab founded' }
 		]
 	},
 	life: {
@@ -171,62 +172,77 @@ export const en: Dict = {
 		captions: [
 			{
 				title: 'Practice',
-				subtitle: 'Until the whiteboard is full',
-				alt: 'VLAB members preparing for the Kapo Science War in the club room, laptops and a whiteboard'
+				alt: 'Vlab members preparing for the Kapo Science War in the club room, laptops and a whiteboard'
 			},
 			{
 				title: 'Culture Festival',
-				subtitle: 'We run a booth and meet people',
-				alt: 'Members gathered in front of the VLAB booth at the KAIST student culture festival'
+				alt: 'Members gathered in front of the Vlab booth at the KAIST student culture festival'
 			},
 			{
 				title: 'Strawberry Party',
-				subtitle: 'On the lawn, under the blossoms',
-				alt: 'VLAB members sharing strawberries on the spring campus lawn under cherry blossoms'
+				alt: 'Vlab members sharing strawberries on the spring campus lawn under cherry blossoms'
 			},
 			{
 				title: 'Team Dinner',
-				subtitle: 'You fight better on a full stomach',
-				alt: 'VLAB members grilling and sharing a meal together at night'
+				alt: 'Vlab members grilling and sharing a meal together at night'
 			},
 			{
 				title: 'Spring Picnic',
-				subtitle: 'The day everyone shows up',
-				alt: 'VLAB members gathered together on a picnic mat on the KAIST campus lawn'
+				alt: 'Vlab members gathered together on a picnic mat on the KAIST campus lawn'
 			}
 		]
 	},
 	join: {
 		heading: 'We are looking for people',
 		lead: 'Ideally someone who does not mind sitting with one problem for a long time.',
-		body: 'Your major does not matter. For the quiz team, liking science is enough; for the AI team, CS101 is enough to start. You can pick up the rest here. Email us if you want to ask anything.',
-		cta: 'Email us',
-		imageAlt: 'VLAB members lifting the trophy after winning the 2025 AI event',
+		body: 'Your major does not matter. For the AI team, CS101 is enough to start; for the quiz team, liking science is enough. You can pick up the rest here. Email us if you want to ask anything.',
+		cta: 'Apply',
+		ctaNote: 'Opens a Google Form.',
+		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
+		imageAlt: 'Vlab members lifting the trophy after winning the 2025 AI event',
 		channels: [
 			{
 				label: 'Email',
 				value: 'kaist.victorylab@gmail.com',
 				href: 'mailto:kaist.victorylab@gmail.com'
 			},
-			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' }
+			{ label: 'GitHub', value: 'vlab-kaist', href: 'https://github.com/vlab-kaist' },
+			{
+				label: 'Instagram',
+				value: '@vlab.kaist',
+				href: 'https://www.instagram.com/vlab.kaist/'
+			}
 		]
 	},
 	sponsors: {
 		heading: 'Supported by',
+		contact: {
+			heading: 'Interested in sponsoring us?',
+			body: 'We would like to hear from companies that want to grow alongside Vlab.',
+			label: 'Get in touch',
+			href: 'mailto:kaist.victorylab@gmail.com?subject=Vlab%20sponsorship'
+		},
 		items: [
 			{
 				name: 'Elice',
 				logo: 'elice.png',
 				href: 'https://elice.io/'
+			},
+			{
+				name: 'KAIST School of Computing',
+				logo: 'kaist-cs.png',
+				logoDark: 'kaist-cs-reverse.png',
+				href: 'https://cs.kaist.ac.kr/'
 			}
 		]
 	},
 	footer: {
-		blurb: 'KAIST Science Quiz & AI club',
-		copyright: '© {year} VLAB. All rights reserved.',
-		builtBy: 'Made with ❤️ by {author}',
+		blurb: 'KAIST AI & Science Quiz club',
+		copyright: '© {year} Vlab. All rights reserved.',
+		builtBy: 'Made with ❤️ by {authors}',
 		links: [
 			{ label: 'GitHub', href: 'https://github.com/vlab-kaist', external: true },
+			{ label: 'Instagram', href: 'https://www.instagram.com/vlab.kaist/', external: true },
 			{ label: 'Join', href: '/join/' }
 		]
 	},

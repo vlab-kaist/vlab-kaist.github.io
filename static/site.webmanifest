@@ -1,7 +1,7 @@
 {
-	"name": "VLAB — KAIST 과학퀴즈 · 인공지능 학술동아리",
-	"short_name": "VLAB",
-	"description": "카포전 과학퀴즈와 인공지능 종목에서 KAIST를 대표하는 학술동아리.",
+	"name": "Vlab — KAIST 인공지능 · 과학퀴즈 학술동아리",
+	"short_name": "Vlab",
+	"description": "카포전 인공지능과 과학퀴즈 종목에서 KAIST를 대표하는 학술동아리.",
 	"lang": "ko",
 	"start_url": "/",
 	"scope": "/",

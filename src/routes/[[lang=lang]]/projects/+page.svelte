@@ -13,7 +13,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/projects/"
-	title="{d.projects.heading} — VLAB"
+	title="{d.projects.heading} · Vlab"
 	description={d.projects.lead}
 />
 
@@ -24,13 +24,13 @@
 		<!-- The only element on the site that carries the full brand gradient as a
 		     device: one project is the reason the club is known, and it gets the
 		     one gradient edge. -->
-		<article class="featured reveal">
+		<article class="featured glass reveal">
 			<ul class="tags">
 				{#each featured.tags as tag (tag)}
 					<li>{tag}</li>
 				{/each}
 			</ul>
-			<h2>{featured.name}</h2>
+			<h2 translate="no">{featured.name}</h2>
 			<p class="featured-tagline">{featured.tagline}</p>
 			<p class="featured-text">{featured.body}</p>
 		</article>
@@ -39,8 +39,8 @@
 	<ul class="cards">
 		{#each rest as project (project.id)}
 			<li class="reveal">
-				<article class="card">
-					<h2>{project.name}</h2>
+				<article class="card glass">
+					<h2 translate="no">{project.name}</h2>
 					<p class="card-tagline">{project.tagline}</p>
 					<p class="card-text">{project.body}</p>
 					<ul class="tags tags-sm">
@@ -63,9 +63,9 @@
 <style>
 	.featured {
 		position: relative;
-		border: 1px solid var(--border);
+		/* Surface, border, blur and hover come from `.glass` in base.css; the
+		   gradient top edge below is the only thing this rule still owns. */
 		border-radius: var(--radius-lg);
-		background: var(--surface);
 		padding: clamp(1.5rem, 4vw, 2.25rem);
 		margin-bottom: var(--space-5);
 		overflow: hidden;
@@ -106,18 +106,9 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		border: 1px solid var(--border);
+		/* Surface, border, blur and hover: `.glass` in base.css. */
 		border-radius: var(--radius-photo);
-		background: var(--surface);
 		padding: var(--space-5);
-		transition:
-			border-color var(--dur-base) var(--ease-out),
-			box-shadow var(--dur-base) var(--ease-out);
-	}
-
-	.card:hover {
-		border-color: var(--border-strong);
-		box-shadow: var(--shadow-md);
 	}
 
 	.card h2 {
@@ -152,9 +143,21 @@
 		color: var(--brand);
 	}
 
+	/* The arrow leads the hover: it moves, the label does not. Moving the whole
+	   line would reflow the card's last row against its neighbours. */
+	.card-link span {
+		display: inline-block;
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+
 	.card-link:hover {
 		color: var(--brand-strong);
 		text-decoration: underline;
 		text-underline-offset: 3px;
+	}
+
+	.card-link:hover span,
+	.card-link:focus-visible span {
+		transform: translateX(4px);
 	}
 </style>

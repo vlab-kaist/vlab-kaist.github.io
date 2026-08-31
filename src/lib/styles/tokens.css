@@ -1,21 +1,28 @@
 /*
- * VLAB design tokens.
+ * Vlab design tokens.
  *
  * Every colour, space and type value in the site resolves to something here.
  * If you are tempted to write a raw hex or a magic px value in a component,
  * add a token instead — that is the whole point of this file.
  *
- * The brand ramp derives from the three gradient blobs in the VLAB "V" mark:
+ * The brand ramp derives from the three gradient blobs in the Vlab "V" mark:
  *   crimson #C41162 · violet #A445F2 · cyan #0CA4DD
  *
- * The 2026 redesign is a single light theme on warm paper. There is no dark
- * counterpart on purpose: the layout leans on hairline rules and generous
- * white space, both of which need a paper ground to read as intended, and a
- * half-tuned dark palette was worse than none. If dark ever comes back, it
- * belongs here as a `:root[data-theme='dark']` block and nowhere else.
+ * Two themes: warm paper (light) and ink (dark). Light is the default and the
+ * one the layout was designed around — hairline rules on a paper ground. Dark
+ * is not an inversion of it: hairlines that read as "drawn" on paper turn into
+ * scratches on black, so the dark theme leans on raised surfaces and a slightly
+ * violet-cast ink instead, and every text token is re-picked for contrast on
+ * that ground rather than algorithmically flipped.
+ *
+ * Both themes live in this file and nowhere else. The dark values are in the
+ * `:root[data-theme='dark']` block at the bottom; the theme is resolved before
+ * first paint by the inline script in app.html and toggled by
+ * src/lib/theme.svelte.ts.
  */
 
-:root {
+:root,
+:root[data-theme='light'] {
 	color-scheme: light;
 
 	/* ---- Brand ---------------------------------------------------------- */
@@ -74,9 +81,19 @@
 	--font-sans:
 		'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
 		'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
-	/* Numbers and dates only: scores, training scale, timeline stamps. Mono
-	   makes a scoreboard read as a scoreboard. */
-	--font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, monospace;
+	/* There is deliberately no --font-mono.
+	   The scoreboard and the timeline dates used to be set in a system monospace
+	   stack (ui-monospace / SF Mono / Cascadia / DejaVu). That is not one
+	   typeface, it is a different typeface per visitor — and none of them is
+	   Pretendard, so the numbers rendered as a foreign face sitting next to
+	   their own labels. Measured on Linux the scores came out in DejaVu Sans
+	   Mono while every label beside them was Pretendard.
+	   Numbers now use the sans face with `font-variant-numeric: tabular-nums`,
+	   which is the one property mono was actually earning its place with:
+	   figures on a fixed advance so columns line up. Pretendard's default
+	   figures are proportional ("1111" measures 75px where "0000" measures
+	   106px at 40px/700); with tabular-nums both are 105px. */
+	--font-numeric: var(--font-sans);
 
 	/* Fluid type scale — clamp() means no breakpoint jumps. The display sizes
 	   are deliberately tamer than the previous dark design: this layout gets
@@ -94,11 +111,19 @@
 	--leading-snug: 1.35;
 	--leading-normal: 1.65;
 
-	/* Korean text needs looser tracking than Latin at display sizes;
-	   negative tracking on hangul quickly turns to mush. */
-	--tracking-display: -0.03em;
-	--tracking-heading: -0.02em;
-	--tracking-normal: -0.01em;
+	/* Korean text needs looser tracking than Latin at display sizes; negative
+	   tracking on hangul quickly turns to mush. The values below used to say
+	   that and then do the opposite — -0.03em on a 3.8rem hangul headline, which
+	   is exactly the case the note warns about.
+	   They now sit at or near zero, which is also what every Korean-first site
+	   that gets this right does (kaist.run, which uses this same typeface, sets
+	   `letter-spacing: normal` throughout). The small negative on --tracking-lat
+	   is kept for the places that really are Latin: the wordmark, the numeric
+	   scores, the uppercase eyebrows. */
+	--tracking-display: 0em;
+	--tracking-heading: 0em;
+	--tracking-normal: 0em;
+	--tracking-lat: -0.02em;
 	--tracking-wide: 0.1em;
 
 	/* ---- Space (4px base) ----------------------------------------------- */
@@ -137,7 +162,95 @@
 	--dur-fast: 120ms;
 	--dur-base: 240ms;
 	--dur-slow: 480ms;
+	/* Between fast and base, for the one thing that has to feel like it is
+	   answering you: a button's hover lift. 240ms is the right speed for a card
+	   growing a shadow and slightly too slow for a control that is meant to feel
+	   picked up. */
+	--dur-snap: 160ms;
 
 	--z-header: 100;
 	--z-modal: 200;
+
+	/* ---- Glass ----------------------------------------------------------- */
+	/* Cards are translucent so the liquid field behind the page shows through
+	   them. The blur is what keeps that legible: without it, a photo or a bloom
+	   edge passing under a card competes with the text sitting on it.
+	   Every one of these is an *enhancement* — see the @supports guard on
+	   `.glass` in base.css. Where backdrop-filter is unavailable the same cards
+	   fall back to the opaque --surface they used before. */
+	--glass-bg: color-mix(in srgb, var(--surface) 72%, transparent);
+	--glass-bg-hover: color-mix(in srgb, var(--surface) 84%, transparent);
+	--glass-border: color-mix(in srgb, var(--border) 70%, transparent);
+	--glass-border-hover: color-mix(in srgb, var(--border-strong) 85%, transparent);
+	/* The lit top edge that makes a glass panel read as a panel and not as a
+	   flat translucent rectangle. */
+	--glass-sheen: rgb(255 255 255 / 0.55);
+	--glass-blur: 14px;
+
+	/* ---- Liquid field ---------------------------------------------------- */
+	/* Opacity of the drifting blooms behind everything.
+	   Paper wants a whisper. At 0.26 the field read as a pastel wash and the
+	   warm off-white ground — the thing the whole light theme is built on —
+	   disappeared under it; the page looked like a different site rather than
+	   the same site with depth. 0.13 keeps the colour perceptible where two
+	   blooms overlap and leaves the paper as the ground everywhere else.
+	   Ink can carry three times as much before it turns to soup. */
+	--liquid-opacity: 0.13;
+	--liquid-blur: 100px;
+}
+
+/* ==========================================================================
+   Dark — "ink"
+   ==========================================================================
+   Not an inversion. Three things are re-decided rather than flipped:
+
+   - The ground is a cool near-black with a violet cast (#101017), so the brand
+     hue reads as belonging to the page instead of glowing on neutral grey.
+   - The accent lightens. #7a2ee0 on ink is 2.6:1 — unreadable as link text and
+     invisible as a hairline. Dark gets #b083ff, and the button flips to dark
+     text on that lighter violet instead of white text on a dark fill.
+   - Shadows stop pretending to be shadows. On paper they describe height; on
+     ink nothing is darker than the ground, so the raised surfaces separate by
+     being *lighter* (--surface sits above --bg) and the shadow only deepens
+     the edge.
+
+   Contrast is checked, not eyeballed. Every text token here clears WCAG AA
+   against both --bg and --surface; the small ones (--text-faint) clear 4.5:1
+   rather than 3:1, because everything wearing that token is small. */
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+
+	/* Brand ramp is unchanged — it is the logo. Only the *usable* accent moves. */
+	--brand: #b083ff;
+	--brand-strong: #c9aeff;
+	--brand-contrast: #14111c;
+	--brand-soft: #251c3a;
+
+	--bg: #101017;
+	--bg-subtle: #16161f;
+	/* Cards sit above the ground by being lighter, the opposite of the light
+	   theme where they are the one true white above warm paper. */
+	--surface: #1b1b25;
+	--surface-hover: #22222e;
+
+	--border: #2b2b39;
+	--border-strong: #3d3d4e;
+
+	--text: #f3f2f7;
+	--text-body: #d8d6e0;
+	--text-muted: #a8a5b6;
+	--text-faint: #918ea1;
+
+	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+	--shadow-md: 0 6px 20px -6px rgb(0 0 0 / 0.55);
+	--shadow-lg: 0 18px 44px -12px rgb(0 0 0 / 0.65);
+
+	/* A white sheen on a dark panel looks like a smudge; on ink the lit edge is
+	   the brand violet at low alpha. */
+	--glass-sheen: rgb(176 131 255 / 0.22);
+	--glass-bg: color-mix(in srgb, var(--surface) 66%, transparent);
+	--glass-bg-hover: color-mix(in srgb, var(--surface) 80%, transparent);
+
+	--liquid-opacity: 0.42;
 }

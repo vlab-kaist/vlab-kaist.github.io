@@ -10,7 +10,7 @@
 	dict={d}
 	locale={data.locale}
 	path="/history/"
-	title="{d.history.heading} — VLAB"
+	title="{d.history.heading} · Vlab"
 	description={d.history.lead}
 />
 
@@ -85,10 +85,15 @@
 		padding-bottom: 0;
 	}
 
+	/* Tabular figures so every stamp in the column is exactly as wide as the
+	   next — the alignment the old monospace stack was there for, without
+	   dragging in a second typeface to get it. */
 	.entry time {
 		display: block;
-		font-family: var(--font-mono);
+		font-family: var(--font-numeric);
+		font-variant-numeric: tabular-nums;
 		font-size: 12.5px;
+		letter-spacing: var(--tracking-lat);
 		color: var(--text-faint);
 		margin-bottom: var(--space-1);
 	}
