@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Seo from '$components/Seo.svelte';
 	import PageHead from '$components/PageHead.svelte';
+	import Picture from '$components/Picture.svelte';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
@@ -24,15 +25,29 @@
 		<!-- The only element on the site that carries the full brand gradient as a
 		     device: one project is the reason the club is known, and it gets the
 		     one gradient edge. -->
-		<article class="featured glass reveal">
-			<ul class="tags">
-				{#each featured.tags as tag (tag)}
-					<li>{tag}</li>
-				{/each}
-			</ul>
-			<h2 translate="no">{featured.name}</h2>
-			<p class="featured-tagline">{featured.tagline}</p>
-			<p class="featured-text">{featured.body}</p>
+		<article class="featured glass reveal" class:has-media={featured.image}>
+			<div class="featured-copy">
+				<ul class="tags">
+					{#each featured.tags as tag (tag)}
+						<li>{tag}</li>
+					{/each}
+				</ul>
+				<h2 translate="no">{featured.name}</h2>
+				<p class="featured-tagline">{featured.tagline}</p>
+				<p class="featured-text">{featured.body}</p>
+			</div>
+			<!-- The featured card is wide and its copy is short, so without a
+			     picture the right half sat empty. The match it won is the picture. -->
+			{#if featured.image}
+				<figure class="featured-media">
+					<Picture
+						name={featured.image}
+						alt={featured.imageAlt ?? ''}
+						sizes="(max-width: 900px) 88vw, 440px"
+						ratio={16 / 10}
+					/>
+				</figure>
+			{/if}
 		</article>
 	{/if}
 
@@ -77,6 +92,19 @@
 		inset: 0 0 auto 0;
 		height: 2px;
 		background: var(--brand-gradient);
+	}
+
+	.featured.has-media {
+		display: grid;
+		grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+		gap: clamp(1.5rem, 4vw, 2.5rem);
+		align-items: center;
+	}
+
+	.featured-media :global(picture) {
+		border-radius: var(--radius-photo);
+		border: 1px solid var(--border);
+		overflow: hidden;
 	}
 
 	.featured h2 {
@@ -159,5 +187,11 @@
 	.card-link:hover span,
 	.card-link:focus-visible span {
 		transform: translateX(4px);
+	}
+
+	@media (max-width: 900px) {
+		.featured.has-media {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

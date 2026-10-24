@@ -48,6 +48,15 @@
 		var(--brand-cyan) 100%
 	);
 
+	/* ---- Match colours --------------------------------------------------- */
+	/* The two schools, as the 카포전 broadcast paints them: KAIST blue on the
+	   left, POSTECH red on the right. Used only where a result is being shown —
+	   the scoreline's split edge and the side labels — never as an accent
+	   elsewhere, or a win stops looking like a win. Both clear 4.5:1 as text
+	   on --bg and --surface. */
+	--kaist: #1a56c9;
+	--postech: #c41d3c;
+
 	/* ---- Surface -------------------------------------------------------- */
 	/* Warm off-white rather than #fff: at these amounts of empty space pure
 	   white glares, and the paper tone is what makes the hairlines look drawn
@@ -226,6 +235,9 @@
 	--brand-strong: #c9aeff;
 	--brand-contrast: #14111c;
 	--brand-soft: #251c3a;
+
+	--kaist: #7aa7ff;
+	--postech: #ff7f92;
 
 	--bg: #101017;
 	--bg-subtle: #16161f;

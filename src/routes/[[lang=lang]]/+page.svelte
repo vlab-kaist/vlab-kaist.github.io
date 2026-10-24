@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Picture from '$components/Picture.svelte';
 	import Seo from '$components/Seo.svelte';
+	import KapoResult from '$components/KapoResult.svelte';
+	import KapoRecord from '$components/KapoRecord.svelte';
 	import { localeHref } from '$i18n';
 
 	let { data } = $props();
@@ -59,25 +61,19 @@
 	</div>
 </section>
 
-<!-- ---------------------------- SCOREBOARD ---------------------------- -->
-<!-- Vlab's story is numbers: scores, margins, training scale. Leading with them
-     says more in one glance than a paragraph of prose could. Set in tabular
-     figures and banded off from the hero so it reads as a record, not as body
-     copy. -->
-<section class="scoreboard" aria-labelledby="scoreboard-heading">
+<!-- ---------------------------- 카포전 ---------------------------- -->
+<!-- This used to be a band of four stats (a score, a headcount, a final, a
+     founding year). They were true but generic — the same big-number-small-
+     label strip any club page has. What Vlab actually has to show is a result,
+     so the band became the latest 카포전 itself, with the full record under it.
+     The headcount moved into the hero lead; the RLBot final lives on the
+     projects and history pages, where it has its own context. -->
+<div class="results">
 	<div class="container">
-		<h2 class="visually-hidden" id="scoreboard-heading">{d.stats.heading}</h2>
-		<ul>
-			{#each d.stats.items as stat (stat.label)}
-				<li>
-					<span class="stat-value">{stat.value}</span>
-					<span class="stat-label">{stat.label}</span>
-					{#if stat.note}<span class="stat-note">{stat.note}</span>{/if}
-				</li>
-			{/each}
-		</ul>
+		<KapoResult kapo={d.kapo} />
+		<KapoRecord kapo={d.kapo} />
 	</div>
-</section>
+</div>
 
 <!-- ---------------------------- SECTION INDEX ---------------------------- -->
 <!-- The header nav is behind a burger on mobile, so the home page cannot rely
@@ -91,7 +87,10 @@
 			{#each sections as section (section.path)}
 				<li class="reveal">
 					<a class="glass" href={localeHref(data.locale, section.path)}>
-						<span class="index-label">{section.label}</span>
+						<!-- Same rule as PageHead: "연혁" over "연혁" reads as a typo. -->
+						{#if section.label !== section.title}
+							<span class="index-label">{section.label}</span>
+						{/if}
 						<span class="index-title">{section.title}</span>
 						<span class="index-lead">{section.lead}</span>
 						<span class="index-go" aria-hidden="true">→</span>
@@ -205,59 +204,19 @@
 		box-shadow: var(--shadow-lg);
 	}
 
-	/* ---------------- Scoreboard ---------------- */
+	/* ---------------- Results ---------------- */
 
-	/* The band is translucent so the field behind the page drifts through it.
-	   The tint is still there, just thinner — enough to separate the record from
-	   the hero without sealing the section off from the background. */
-	.scoreboard {
+	/* Banded off from the hero the way the old stats strip was: a hairline
+	   above and below and a thin tint, translucent so the field behind the page
+	   still drifts through. */
+	.results {
+		padding-block: var(--section-gap);
 		border-block: 1px solid var(--border);
-		background: color-mix(in srgb, var(--brand-soft) 55%, transparent);
+		background: color-mix(in srgb, var(--bg-subtle) 60%, transparent);
 	}
 
-	@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-		.scoreboard {
-			background: color-mix(in srgb, var(--brand-soft) 38%, transparent);
-			backdrop-filter: blur(6px);
-			-webkit-backdrop-filter: blur(6px);
-		}
-	}
-
-	.scoreboard ul {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--space-5);
-		padding-block: var(--space-6);
-	}
-
-	/* One face for all four values, mixed-script ones included. `tabular-nums`
-	   is what keeps this a scoreboard: the figures sit on a fixed advance, so
-	   "3 : 0" and "2022" align on the same rhythm and nothing shifts if a
-	   number is edited later. See the note on --font-numeric in tokens.css for
-	   why this is no longer a monospace face. */
-	.stat-value {
-		display: block;
-		font-family: var(--font-numeric);
-		font-variant-numeric: tabular-nums;
-		font-size: 1.6rem;
-		font-weight: 700;
-		letter-spacing: var(--tracking-heading);
-		line-height: 1.2;
-	}
-
-	.stat-label {
-		display: block;
-		font-size: 0.9rem;
-		font-weight: 600;
-		margin-top: var(--space-1);
-		line-height: var(--leading-snug);
-	}
-
-	.stat-note {
-		display: block;
-		font-size: 0.78rem;
-		color: var(--text-faint);
-		line-height: var(--leading-snug);
+	.results :global(.record) {
+		margin-top: var(--space-8);
 	}
 
 	/* ---------------- Section index ---------------- */
@@ -320,13 +279,5 @@
 	.index a:hover .index-go {
 		transform: translateX(3px);
 		color: var(--brand);
-	}
-
-	/* ---------------- Narrow screens ---------------- */
-
-	@media (max-width: 720px) {
-		.scoreboard ul {
-			grid-template-columns: repeat(2, 1fr);
-		}
 	}
 </style>

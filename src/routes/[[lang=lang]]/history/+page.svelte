@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Seo from '$components/Seo.svelte';
 	import PageHead from '$components/PageHead.svelte';
+	import KapoRecord from '$components/KapoRecord.svelte';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
@@ -16,6 +17,13 @@
 
 <div class="container page">
 	<PageHead eyebrow={d.nav.history} title={d.history.heading} lead={d.history.lead} />
+
+	<!-- The record first: it is the timeline's 카포전 entries at a glance, so
+	     someone who only wants "how often do they win" does not have to read
+	     down the whole rail to count. -->
+	<div class="record-wrap">
+		<KapoRecord kapo={d.kapo} />
+	</div>
 
 	<ol class="timeline">
 		{#each d.history.entries as entry (entry.date + entry.title)}
@@ -35,6 +43,10 @@
 </div>
 
 <style>
+	.record-wrap {
+		margin-bottom: var(--space-8);
+	}
+
 	.timeline {
 		max-width: 680px;
 	}

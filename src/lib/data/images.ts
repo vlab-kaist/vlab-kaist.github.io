@@ -44,10 +44,10 @@ export const images = {
 		],
 		"fallback": 1600
 	},
-	"flex-rlbot": {
-		"width": 1910,
-		"height": 1100,
-		"ratio": 1.7364,
+	"kapo-2026-ai": {
+		"width": 1920,
+		"height": 1080,
+		"ratio": 1.7778,
 		"widths": [
 			640,
 			1024,
@@ -55,10 +55,10 @@ export const images = {
 		],
 		"fallback": 1600
 	},
-	"quiz-2025": {
-		"width": 1910,
-		"height": 1100,
-		"ratio": 1.7364,
+	"kapo-2026-quiz": {
+		"width": 1920,
+		"height": 1080,
+		"ratio": 1.7778,
 		"widths": [
 			640,
 			1024,

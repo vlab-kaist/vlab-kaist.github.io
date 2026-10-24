@@ -25,6 +25,18 @@ import { readFileSync, writeFileSync, mkdirSync, statSync, existsSync } from 'no
  */
 const ONLY = process.argv.find((a) => a.startsWith('--only='))?.slice('--only='.length);
 const shouldRun = (stage) => !ONLY || ONLY === stage;
+
+/*
+ * `--names=a,b` re-encodes just those photos — for when one photo is added or
+ * replaced. Same reason as `--only`: a full run rewrites every AVIF. The
+ * manifest is still written for every entry (reading metadata is cheap and
+ * does not touch static/img/), so it never loses the photos that were skipped.
+ */
+const NAMES = process.argv
+	.find((a) => a.startsWith('--names='))
+	?.slice('--names='.length)
+	.split(',');
+const shouldEncode = (name) => !NAMES || NAMES.includes(name);
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -36,18 +48,20 @@ const OUT = join(ROOT, 'static', 'img');
  * `widths` are the rendered widths we actually need — not arbitrary sizes.
  * Adding one costs ~2 files; adding a needless one costs bandwidth forever.
  *
- * `cropBottom` trims rows off the bottom of the source. Two of these images are
- * screengrabs of a YouTube page, and the player chrome — title bar, channel
- * avatar, subscribe button, like counter — was baked into the capture. Cropping
- * it here rather than in CSS means the bytes are never shipped at all.
- * TODO(owner): these are still third-party broadcast frames; see CONTENT-TODO.md.
+ * `cropBottom` trims rows off the bottom of the source, for screengrabs that
+ * have player chrome baked in. Cropping here rather than in CSS means the bytes
+ * are never shipped at all. (The two YouTube-page captures it was written for
+ * are gone; the 2026 frames below are clean stream frames and need no crop.)
  */
 const IMAGES = {
 	'team-2025': { file: 'team-2025.jpg', widths: [640, 1024, 1600, 2400] },
 	'win-2025': { file: 'win-2025.jpg', widths: [640, 1024, 1600] },
 	rocketleague: { file: 'rocketleague.jpg', widths: [640, 1024, 1600] },
-	'flex-rlbot': { file: 'flex-rlbot.jpg', widths: [640, 1024, 1600], cropBottom: 190 },
-	'quiz-2025': { file: 'quiz-2025.jpg', widths: [640, 1024, 1600], cropBottom: 204 },
+	// 2026 카포전, frames from the official stream (POSTECH PBS / KAIST VOK):
+	// AI at 30:00 of youtu.be/EzsDPWexwCY, quiz at 82:00 of youtu.be/RiqVfV2Fxsk
+	// — the stage with the final 280 : 210 on the board.
+	'kapo-2026-ai': { file: 'kapo-2026-ai.jpg', widths: [640, 1024, 1600] },
+	'kapo-2026-quiz': { file: 'kapo-2026-quiz.jpg', widths: [640, 1024, 1600] },
 	'win-2022': { file: 'win-2022.jpg', widths: [640, 1024, 1600] },
 	seminar: { file: 'seminar.jpg', widths: [640, 1024, 1440] },
 	wiki: { file: 'wiki.jpg', widths: [640, 1024, 1600] },
@@ -181,6 +195,8 @@ for (const [name, cfg] of shouldRun('photos') ? Object.entries(IMAGES) : []) {
 		widths,
 		fallback: Math.min(Math.max(...widths), raw.width)
 	};
+
+	if (!shouldEncode(name)) continue;
 
 	for (const w of widths) {
 		for (const [ext, opts] of [
@@ -350,10 +366,10 @@ if (shouldRun('icons')) {
   <text x="80" y="332" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="42" font-weight="600" fill="#f2f2f7">카포전을 이기는 동아리</text>
   <text x="80" y="394" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="28" font-weight="400" fill="#a2a2b8">KAIST 인공지능 · 과학퀴즈 학술동아리</text>
   <rect x="80" y="466" width="420" height="1" fill="#2e2e40"/>
-  <text x="80" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">3 : 0</text>
-  <text x="80" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">2025 AI 종목</text>
-  <text x="300" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">29</text>
-  <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">활동 인원</text>
+  <text x="80" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">2 : 0</text>
+  <text x="80" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">2026 AI 종목</text>
+  <text x="300" y="534" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="36" font-weight="700" fill="#f2f2f7">280 : 210</text>
+  <text x="300" y="570" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="19" fill="#6b6b80">2026 과학퀴즈</text>
   <text x="1120" y="570" text-anchor="end" font-family="Pretendard, 'Malgun Gothic', sans-serif" font-size="20" fill="#6b6b80">vlab-kaist.github.io</text>
 </svg>`;
 	await sharp(Buffer.from(og))

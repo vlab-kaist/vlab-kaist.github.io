@@ -14,7 +14,7 @@ export const en: Dict = {
 	meta: {
 		title: 'Vlab: KAIST AI & Science Quiz Club',
 		description:
-			'Vlab is a student club at KAIST. We enter the AI and Science Quiz events of the Kapo Science War against POSTECH. We won the AI event 3–0 in 2025, and the Science Quiz in 2023 and 2024.',
+			'Vlab is a student club at KAIST. We enter the AI and Science Quiz events of the Kapo Science War against POSTECH. In 2026 we won both: the AI event 2–0 and the Science Quiz 280–210.',
 		ogAlt: 'Vlab: the club that wins the Kapo Science War'
 	},
 	nav: {
@@ -34,19 +34,59 @@ export const en: Dict = {
 		badge: 'Recruiting new members',
 		title: 'We win the',
 		titleAccent: 'Kapo Science War.',
-		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War. We started in 2022 and have entered both events every year since.',
+		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War. We started in 2022 and are 29 people now. This year we won both events.',
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
 		imageAlt: 'Vlab members together at a pavilion overlooking the sea in Yeosu'
 	},
-	stats: {
-		heading: 'Record',
-		items: [
-			{ value: '3 : 0', label: '2025 AI event', note: 'vs POSTECH · won' },
-			{ value: '29', label: 'Active members', note: 'as of 2026' },
-			{ value: 'ML final', label: 'RLBot Championship', note: '2025 · international' },
-			{ value: '2022', label: 'Founded', note: 'four years running' }
-		]
+	kapo: {
+		heading: 'Kapo Science War 2026',
+		when: '18–19 September, at POSTECH in Pohang. We won both of the events we enter.',
+		us: 'KAIST',
+		them: 'POSTECH',
+		won: 'Won',
+		lost: 'Lost',
+		watch: 'Watch the broadcast',
+		credit: 'Images: broadcast frames (POSTECH PBS, KAIST VOK)',
+		matches: [
+			{
+				id: 'ai',
+				event: 'AI event',
+				score: [2, 0],
+				format: 'Mario Kart Wii, best of three',
+				body: 'Each school’s AI drives its own karts, with no one on the controller. We took rounds one and two, so round three was never played.',
+				image: 'kapo-2026-ai',
+				imageAlt:
+					'Broadcast of the 2026 AI event: Mario Kart Wii split four ways, each kart driven by one school’s AI.',
+				video: 'https://www.youtube.com/watch?v=EzsDPWexwCY'
+			},
+			{
+				id: 'quiz',
+				event: 'Science Quiz',
+				score: [280, 210],
+				format: 'A quiz with rock-paper-scissors chess on top',
+				body: 'A right answer lets you move a piece on the board. This year there were computer science questions too, on how printf behaves and on A* search.',
+				image: 'kapo-2026-quiz',
+				imageAlt:
+					'The 2026 Science Quiz stage. The board in the middle shows the final score, KAIST 280 to POSTECH 210, with the two teams seated either side.',
+				video: 'https://www.youtube.com/watch?v=RiqVfV2Fxsk'
+			}
+		],
+		record: {
+			heading: 'All-time record',
+			event: 'Event',
+			overall: 'Overall',
+			ai: 'AI event',
+			quiz: 'Science Quiz',
+			total: '{w}–{l}',
+			years: [
+				{ year: 2026, ai: 'win', quiz: 'win' },
+				{ year: 2025, ai: 'win', quiz: 'loss' },
+				{ year: 2024, ai: 'loss', quiz: 'win' },
+				{ year: 2023, ai: 'loss', quiz: 'win' },
+				{ year: 2022, ai: 'win', quiz: 'win' }
+			]
+		}
 	},
 	teams: {
 		heading: 'The AI team and the Science Quiz team',
@@ -54,24 +94,26 @@ export const en: Dict = {
 		quiz: {
 			name: 'Science Quiz Team',
 			tagline: 'Preparing every week for an exam with no syllabus.',
-			body: 'Physics, chemistry, biology, earth science and maths all come up. Nothing is off the table, so we collect the past papers, write up our own notes, and study from those.',
+			body: 'Physics, chemistry, biology, earth science and maths all come up, and lately computer science too. Nothing is off the table, so we collect the past papers, write up our own notes, and study from those.',
 			points: [
 				'Weekly sessions on past papers and likely questions.',
 				'Everything we write up goes into a wiki.',
 				'Mock rounds run in the real match format.'
 			],
-			imageAlt: 'Broadcast of the 2025 Kapo Science War quiz match'
+			imageAlt:
+				'The 2026 Science Quiz stage, the board showing the final score: KAIST 280, POSTECH 210.'
 		},
 		ai: {
 			name: 'AI Team',
 			tagline: 'We build the program that plays the game.',
-			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League, so we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
+			body: 'The AI event sets a different task each season. One year it was a board game, another it was Rocket League, and in 2026 it was Mario Kart. So we pick whatever suits it, reinforcement learning or a hand-written heuristic.',
 			points: [
 				'Once the season’s task is announced, we design a new agent around it.',
 				'We build the simulators and training infrastructure ourselves.',
 				'Seminars pitched so that CS101 is enough to follow along.'
 			],
-			imageAlt: '2025 AI event, Rocket League. The Vlab agent leads against POSTECH.'
+			imageAlt:
+				'Broadcast of the 2026 AI event: Mario Kart Wii split four ways, each kart driven by one school’s AI.'
 		}
 	},
 	projects: {
@@ -85,8 +127,8 @@ export const en: Dict = {
 				tagline: 'The Rocket League agent that won 2025 three–nil',
 				body: 'Trained against a pool of 100+ self-play models for over 200 in-game years, then refined with behaviour cloning and further fine-tuning. It beat POSTECH 3–0 in the 2025 AI event and made the ML finals of the RLBot Championship 2025.',
 				tags: ['Reinforcement learning', 'Self-play', 'Python'],
-				image: 'flex-rlbot',
-				imageAlt: 'RLBot Championship 2025 ML finals bracket showing Flex by KAIST AI Club.',
+				image: 'rocketleague',
+				imageAlt: 'The 2025 AI event, Rocket League. Flex leads POSTECH 1–0.',
 				featured: true
 			},
 			{
@@ -135,6 +177,12 @@ export const en: Dict = {
 		heading: 'History',
 		lead: 'From 2022 to now. The years we lost are in here too.',
 		entries: [
+			{
+				date: '2026.09',
+				title: '2026 Kapo Science War: won the AI event and the Science Quiz',
+				body: 'The AI event (Mario Kart Wii) 2–0, the Science Quiz 280–210. From 2023 we had taken one event a year; this time it was both.',
+				highlight: true
+			},
 			{
 				date: '2026.01',
 				title: 'AI Winter Camp',

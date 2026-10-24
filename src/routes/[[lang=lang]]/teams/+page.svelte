@@ -15,8 +15,8 @@
 	// text. Same components, mirrored — which is what stops two structurally
 	// identical blocks from reading as a copy-paste.
 	const teamRows = $derived([
-		{ id: 'ai', team: d.teams.ai, image: 'rocketleague' as const, mirrored: false },
-		{ id: 'quiz', team: d.teams.quiz, image: 'quiz-2025' as const, mirrored: true }
+		{ id: 'ai', team: d.teams.ai, image: 'kapo-2026-ai' as const, mirrored: false },
+		{ id: 'quiz', team: d.teams.quiz, image: 'kapo-2026-quiz' as const, mirrored: true }
 	]);
 </script>
 

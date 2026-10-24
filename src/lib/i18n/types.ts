@@ -1,14 +1,32 @@
+import type { ImageName } from '$data/images';
+
 export const locales = ['ko', 'en'] as const;
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'ko';
 
-export interface Stat {
-	/** Big number or score. Rendered in mono. */
-	value: string;
-	label: string;
-	/** Optional qualifier shown under the label. */
-	note?: string;
+export type Outcome = 'win' | 'loss';
+
+/** One event Vlab played at a 카포전. Scores are KAIST-first, always. */
+export interface KapoMatch {
+	id: 'ai' | 'quiz';
+	event: string;
+	/** [KAIST, POSTECH] */
+	score: [number, number];
+	/** What the game was that year — it changes. */
+	format: string;
+	body: string;
+	image: ImageName;
+	imageAlt: string;
+	/** Full broadcast on YouTube. */
+	video: string;
+}
+
+/** One row of the all-time record. Newest first, like the timeline. */
+export interface KapoYear {
+	year: number;
+	ai: Outcome;
+	quiz: Outcome;
 }
 
 export interface TimelineEntry {
@@ -49,7 +67,9 @@ export interface Project {
 	body: string;
 	tags: string[];
 	repo?: string;
-	image?: string;
+	/** Shown on the featured card only. A key of images.ts, so a typo or a
+	 *  removed photo fails the type check instead of rendering a broken image. */
+	image?: ImageName;
 	imageAlt?: string;
 	featured?: boolean;
 }
@@ -87,9 +107,33 @@ export interface Dict {
 		ctaSecondary: string;
 		imageAlt: string;
 	};
-	stats: {
+	/** The latest 카포전 and the all-time record. The home page leads with
+	 *  both; the history page reuses the record. */
+	kapo: {
 		heading: string;
-		items: Stat[];
+		/** When and where — one line under the heading. */
+		when: string;
+		us: string;
+		them: string;
+		won: string;
+		lost: string;
+		watch: string;
+		/** Credit for the broadcast frames. */
+		credit: string;
+		matches: KapoMatch[];
+		record: {
+			heading: string;
+			/** Column header over the event names (screen readers only). */
+			event: string;
+			/** Column header over the running totals. */
+			overall: string;
+			/** Row labels for the two events. */
+			ai: string;
+			quiz: string;
+			/** Contains `{w}` and `{l}`. */
+			total: string;
+			years: KapoYear[];
+		};
 	};
 	teams: {
 		heading: string;

@@ -17,18 +17,19 @@ Node 20 이상이 필요합니다.
 
 ## 명령어
 
-| 명령                                           | 설명                                                                |
-| ---------------------------------------------- | ------------------------------------------------------------------- |
-| `npm run dev`                                  | 개발 서버                                                           |
-| `npm run build`                                | `build/` 에 정적 사이트 생성                                        |
-| `npm run preview`                              | 빌드 결과 미리보기                                                  |
-| `npm run images`                               | `images.source/` 에서 `static/img/` 의 모든 이미지·아이콘·OG 재생성 |
-| `npm run og`                                   | 공유 카드(`static/og.png`)만 재생성 — 문구만 바꿀 때                |
-| `node scripts/build-images.js --only=sponsors` | 후원 로고만 재생성                                                  |
-| `npm run check`                                | 타입 검사                                                           |
-| `npm run check:links`                          | 빌드 결과에 깨진 내부 링크가 없는지 확인                            |
-| `npm run lint`                                 | 포맷 검사                                                           |
-| `npm run format`                               | 포맷 적용                                                           |
+| 명령                                                     | 설명                                                                |
+| -------------------------------------------------------- | ------------------------------------------------------------------- |
+| `npm run dev`                                            | 개발 서버                                                           |
+| `npm run build`                                          | `build/` 에 정적 사이트 생성                                        |
+| `npm run preview`                                        | 빌드 결과 미리보기                                                  |
+| `npm run images`                                         | `images.source/` 에서 `static/img/` 의 모든 이미지·아이콘·OG 재생성 |
+| `npm run og`                                             | 공유 카드(`static/og.png`)만 재생성 — 문구만 바꿀 때                |
+| `node scripts/build-images.js --only=sponsors`           | 후원 로고만 재생성                                                  |
+| `node scripts/build-images.js --only=photos --names=a,b` | 지정한 사진만 재인코딩 (사진 한두 장 추가할 때)                     |
+| `npm run check`                                          | 타입 검사                                                           |
+| `npm run check:links`                                    | 빌드 결과에 깨진 내부 링크가 없는지 확인                            |
+| `npm run lint`                                           | 포맷 검사                                                           |
+| `npm run format`                                         | 포맷 적용                                                           |
 
 ## 배포
 
@@ -50,6 +51,10 @@ Node 20 이상이 필요합니다.
 번역이 조용히 어긋나는 것을 막기 위한 장치입니다.
 
 연혁·프로젝트 목록도 이 파일 안에 있습니다 (`history.entries`, `projects.items`).
+
+**카포전이 끝나면** `kapo` 를 고칩니다. `kapo.matches` 가 홈의 결과 카드 두 장이고,
+`kapo.record.years` 맨 앞에 그해 줄을 추가하면 홈과 연혁의 전적표·통산이 같이 바뀝니다.
+연혁(`history.entries`)과 `meta.description`, 공유 카드(`build-images.js` 의 `og`)도 같이 고치세요.
 
 ## 사진 추가하기
 
@@ -78,7 +83,8 @@ src/
   app.html              문서 셸. <html lang> 은 hooks.server.ts 가 채웁니다.
   hooks.server.ts       페이지별 lang 속성 주입
   lib/
-    components/         Header, Footer, Sponsors, PageHead, LifeGrid, Picture, Logo, Seo
+    components/         Header, Footer, Sponsors, PageHead, LifeGrid, Picture, Logo, Seo,
+                        KapoResult(최근 카포전 결과 카드), KapoRecord(역대 전적표)
     data/images.ts      자동 생성 — 이미지 크기 정보
     i18n/               ko.ts, en.ts, types.ts  ← 문구는 전부 여기
     styles/
@@ -87,7 +93,7 @@ src/
   params/lang.ts        [[lang]] 매처
   routes/
     [[lang=lang]]/      / 와 /en/ 이 같은 컴포넌트를 씁니다
-      +page.svelte      홈 — 히어로, 기록, 섹션 목록
+      +page.svelte      홈 — 히어로, 최근 카포전 결과와 전적, 섹션 목록
       teams/            팀
       projects/         프로젝트
       life/             생활

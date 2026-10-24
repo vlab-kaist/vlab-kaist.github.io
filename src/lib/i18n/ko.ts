@@ -7,10 +7,10 @@ import type { Dict } from './types';
  * together (meta, hero, teams, join, footer). The club asked for it. If you add
  * copy that names both, follow it.
  *
- * The 카포전 record below came from the club directly. Note that it does NOT
- * match the scoreboard visible in quiz-2025.jpg (KAIST 80 : 75 POSTECH): that
- * capture is a mid-match frame, not the final result. Do not "correct" this
- * copy from that image.
+ * The 카포전 record below came from the club directly (2023–2025) and, for
+ * 2026, from the broadcast itself: the AI stream ends on a "2 : 0" card and
+ * the quiz stream on "280 : 210". Both match the press (한국경제, 2026-09-20).
+ * 2022 is still the old site's claim — see CONTENT-TODO.md.
  *
  * Voice: plain 습니다체, and deliberately uneven. The first draft of this file
  * was full of balanced pairs ("한 팀은 …, 다른 한 팀은 …"), three-part lists
@@ -23,7 +23,7 @@ export const ko: Dict = {
 	meta: {
 		title: 'Vlab: KAIST 인공지능 · 과학퀴즈 학술동아리',
 		description:
-			'KAIST 학술동아리 Vlab입니다. 카포전 AI 종목과 과학퀴즈에 나갑니다. 2025년 AI 종목은 3:0으로 이겼고, 과학퀴즈는 2023·2024년에 이겼습니다.',
+			'KAIST 학술동아리 Vlab입니다. 카포전 AI 종목과 과학퀴즈에 나갑니다. 2026년에는 AI 종목을 2:0, 과학퀴즈를 280:210으로 둘 다 이겼습니다.',
 		ogAlt: 'Vlab: 카포전을 이기는 동아리'
 	},
 	nav: {
@@ -43,19 +43,59 @@ export const ko: Dict = {
 		badge: '신입 부원 모집 중',
 		title: '카포전을',
 		titleAccent: '이깁니다.',
-		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리입니다. 2022년에 만들어졌고, 그 뒤로 매년 두 종목에 모두 나가고 있습니다.',
+		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리입니다. 2022년에 만들어져 지금은 29명이 활동합니다. 올해는 두 종목을 다 이겼습니다.',
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
 		imageAlt: '여수 바다가 내려다보이는 정자에서 함께 찍은 Vlab 단체 사진'
 	},
-	stats: {
-		heading: '기록',
-		items: [
-			{ value: '3 : 0', label: '2025 AI 종목', note: 'vs POSTECH · 승' },
-			{ value: '29', label: '활동 인원', note: '2026년 현재' },
-			{ value: 'ML 결승', label: 'RLBot Championship', note: '2025 · 국제 대회' },
-			{ value: '2022', label: 'Vlab 설립', note: '4년째 활동 중' }
-		]
+	kapo: {
+		heading: '2026 카포전',
+		when: '9월 18–19일, 포항 POSTECH. 저희가 나간 두 종목을 모두 가져왔습니다.',
+		us: 'KAIST',
+		them: 'POSTECH',
+		won: '승',
+		lost: '패',
+		watch: '중계 다시보기',
+		credit: '사진: 중계 화면 (POSTECH 방송국 PBS, KAIST 방송국 VOK)',
+		matches: [
+			{
+				id: 'ai',
+				event: 'AI 종목',
+				score: [2, 0],
+				format: '마리오카트 Wii, 3판 2선승',
+				body: '학생이 짜고 학습시킨 AI가 사람 손 없이 카트를 몹니다. 1라운드와 2라운드를 연달아 가져가서 3라운드는 열리지 않았습니다.',
+				image: 'kapo-2026-ai',
+				imageAlt:
+					'2026 카포전 AI 종목 중계 화면. 마리오카트 Wii 화면 네 개가 나뉘어 있고, 양교 AI가 각자 카트를 몰고 있다.',
+				video: 'https://www.youtube.com/watch?v=EzsDPWexwCY'
+			},
+			{
+				id: 'quiz',
+				event: '과학퀴즈',
+				score: [280, 210],
+				format: '퀴즈에 가위바위보 체스를 얹은 방식',
+				body: '문제를 맞히면 체스판의 말을 움직일 수 있습니다. 올해는 printf 동작이나 A* 탐색을 묻는 컴퓨터과학 문제도 나왔습니다.',
+				image: 'kapo-2026-quiz',
+				imageAlt:
+					'2026 카포전 과학퀴즈 무대. 가운데 전광판에 KAIST 280, POSTECH 210 최종 점수가 떠 있고 양쪽에 두 학교 팀이 앉아 있다.',
+				video: 'https://www.youtube.com/watch?v=RiqVfV2Fxsk'
+			}
+		],
+		record: {
+			heading: '역대 전적',
+			event: '종목',
+			overall: '통산',
+			ai: 'AI 종목',
+			quiz: '과학퀴즈',
+			total: '{w}승 {l}패',
+			years: [
+				{ year: 2026, ai: 'win', quiz: 'win' },
+				{ year: 2025, ai: 'win', quiz: 'loss' },
+				{ year: 2024, ai: 'loss', quiz: 'win' },
+				{ year: 2023, ai: 'loss', quiz: 'win' },
+				{ year: 2022, ai: 'win', quiz: 'win' }
+			]
+		}
 	},
 	teams: {
 		heading: '인공지능팀과 과학퀴즈팀',
@@ -63,25 +103,25 @@ export const ko: Dict = {
 		quiz: {
 			name: '과학퀴즈팀',
 			tagline: '범위가 없는 시험을 매주 준비합니다.',
-			body: '물리, 화학, 생물, 지구과학, 수학이 전부 나옵니다. 정해진 범위가 없어서 기출을 모아 저희끼리 정리해 두고, 그걸로 공부합니다.',
+			body: '물리, 화학, 생물, 지구과학, 수학이 전부 나오고, 요즘은 컴퓨터과학도 나옵니다. 정해진 범위가 없어서 기출을 모아 저희끼리 정리해 두고, 그걸로 공부합니다.',
 			points: [
 				'매주 모여 기출과 예상 문제를 풉니다.',
 				'정리한 기출과 개념은 위키에 쌓아 둡니다.',
 				'실전과 같은 형식으로 모의고사를 봅니다.'
 			],
-			imageAlt: '2025 카포전 과학퀴즈 경기 중계 화면'
+			imageAlt: '2026 카포전 과학퀴즈 무대. 전광판에 KAIST 280, POSTECH 210 최종 점수가 떠 있다.'
 		},
 		ai: {
 			name: '인공지능팀',
 			tagline: '게임을 이길 프로그램을 직접 만듭니다.',
-			body: '카포전 AI 종목은 시즌마다 과제가 바뀝니다. 보드게임이던 해도 있고 로켓리그였던 해도 있어서, 강화학습이든 휴리스틱이든 그 게임에 맞는 방법을 그때그때 골라 씁니다.',
+			body: '카포전 AI 종목은 시즌마다 과제가 바뀝니다. 보드게임이던 해도, 로켓리그였던 해도 있었고 2026년에는 마리오카트였습니다. 그래서 강화학습이든 휴리스틱이든 그 게임에 맞는 방법을 그때그때 골라 씁니다.',
 			points: [
 				'시즌 과제가 나오면 거기 맞춰 에이전트를 새로 설계합니다.',
 				'학습에 쓸 시뮬레이터와 인프라도 직접 만들어 씁니다.',
 				'CS101만 들었으면 따라올 수 있는 세미나를 엽니다.'
 			],
 			imageAlt:
-				'2025 카포전 AI 종목 로켓리그 경기 화면. Vlab 에이전트가 POSTECH을 상대로 앞서고 있다.'
+				'2026 카포전 AI 종목 중계 화면. 마리오카트 Wii 화면 네 개에서 양교 AI가 카트를 몰고 있다.'
 		}
 	},
 	projects: {
@@ -95,8 +135,9 @@ export const ko: Dict = {
 				tagline: '2025 카포전을 3:0으로 이긴 로켓리그 에이전트',
 				body: '셀프플레이 모델 100개 이상을 상대로 인게임 200년이 넘게 강화학습을 돌린 뒤, 행동 복제(BC)와 파인튜닝으로 다듬었습니다. 2025 카포전 AI 종목에서 POSTECH을 3:0으로 이겼고, RLBot Championship 2025 ML 부문 결승까지 올라갔습니다.',
 				tags: ['강화학습', 'Self-play', 'Python'],
-				image: 'flex-rlbot',
-				imageAlt: 'RLBot Championship 2025 ML 결승 대진표. KAIST AI Club의 Flex가 표시되어 있다.',
+				image: 'rocketleague',
+				imageAlt:
+					'2025 카포전 AI 종목 로켓리그 경기 화면. Flex가 POSTECH을 상대로 1:0으로 앞서고 있다.',
 				featured: true
 			},
 			{
@@ -145,6 +186,12 @@ export const ko: Dict = {
 		heading: '연혁',
 		lead: '2022년부터 지금까지입니다. 진 해도 그대로 적어 뒀습니다.',
 		entries: [
+			{
+				date: '2026.09',
+				title: '2026 카포전: AI 종목 · 과학퀴즈 모두 승리',
+				body: 'AI 종목(마리오카트 Wii)은 2:0, 과학퀴즈는 280:210으로 이겼습니다. 2023년부터는 매년 한 종목씩만 이겼는데, 올해는 둘 다 이겼습니다.',
+				highlight: true
+			},
 			{
 				date: '2026.01',
 				title: 'AI Winter Camp 개최',
