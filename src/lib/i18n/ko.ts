@@ -57,7 +57,8 @@ export const ko: Dict = {
 		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리.\n2022년 창설, 현재 부원 29명.\n2026년엔 두 종목 모두 승리.',
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
-		imageAlt: '2026 Vlab 단체 사진',
+		imageAlt:
+			'2026 카포전이 끝난 뒤 학생대제전 무대 앞에서 파란 티셔츠를 맞춰 입고 주먹을 쥐며 환호하는 Vlab 부원들',
 		photoSlot: '2026 단체 사진 들어갈 자리'
 	},
 	kapo: {

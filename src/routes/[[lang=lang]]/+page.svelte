@@ -73,9 +73,8 @@
 		</div>
 
 		<figure class="hero-media">
-			<!-- TODO(owner): 2026 단체 사진. Put it in images.source/, add it to
-			     IMAGES in build-images.js, and pass name="team-2026" here. -->
 			<PhotoSlot
+				name="team-2026"
 				alt={d.hero.imageAlt}
 				label={d.hero.photoSlot}
 				sizes="(max-width: 900px) 92vw, 520px"

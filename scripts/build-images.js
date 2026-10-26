@@ -55,6 +55,9 @@ const OUT = join(ROOT, 'static', 'img');
  */
 const IMAGES = {
 	'team-2025': { file: 'team-2025.jpg', widths: [640, 1024, 1600, 2400] },
+	// 2026 카포전, after the final — the hero photo. The original is a
+	// 1428px KakaoTalk export, so 1024 is the largest derivative it allows.
+	'team-2026': { file: 'team-2026.jpg', widths: [640, 1024] },
 	'win-2025': { file: 'win-2025.jpg', widths: [640, 1024, 1600] },
 	rocketleague: { file: 'rocketleague.jpg', widths: [640, 1024, 1600] },
 	// 2026 카포전, frames from the official stream (POSTECH PBS / KAIST VOK):

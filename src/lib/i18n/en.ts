@@ -38,7 +38,8 @@ export const en: Dict = {
 		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War.\nWe started in 2022 and are 29 people now.\nThis year we won both events.',
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
-		imageAlt: 'Vlab, 2026',
+		imageAlt:
+			'Vlab members in matching blue T-shirts cheering in front of the Kapo Science War stage after the 2026 finals',
 		photoSlot: 'Our 2026 group photo goes here'
 	},
 	kapo: {

@@ -22,6 +22,16 @@ export const images = {
 		],
 		"fallback": 2400
 	},
+	"team-2026": {
+		"width": 1428,
+		"height": 1071,
+		"ratio": 1.3333,
+		"widths": [
+			640,
+			1024
+		],
+		"fallback": 1024
+	},
 	"win-2025": {
 		"width": 1868,
 		"height": 1048,
