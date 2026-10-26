@@ -1,6 +1,7 @@
 <script lang="ts">
-	import Picture from '$components/Picture.svelte';
+	import PhotoSlot from '$components/PhotoSlot.svelte';
 	import Seo from '$components/Seo.svelte';
+	import { RECRUITING } from '$lib/config';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
@@ -36,11 +37,19 @@
 		     exist because a button that silently throws you onto a Google Form
 		     is a worse experience than one that warns you first. `noopener` is
 		     not optional on a target=_blank link. -->
-		<a class="btn btn-primary" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
-			{d.join.cta}
-			<span class="ext" aria-hidden="true">↗</span>
-		</a>
-		<p class="cta-note">{d.join.ctaNote}</p>
+		{#if RECRUITING}
+			<a class="btn btn-primary" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
+				{d.join.cta}
+				<span class="ext" aria-hidden="true">↗</span>
+			</a>
+			<p class="cta-note">{d.join.ctaNote}</p>
+		{:else}
+			<!-- Out of season: the button stays where people expect it, says why
+			     it does nothing, and does nothing. A real disabled <button>, so
+			     it is announced as unavailable rather than as a dead link. -->
+			<button class="btn btn-closed" type="button" disabled>{d.join.closed}</button>
+			<p class="cta-note">{d.join.closedNote}</p>
+		{/if}
 
 		<dl class="channels">
 			{#each d.join.channels as channel (channel.label)}
@@ -63,7 +72,14 @@
 	</div>
 
 	<div class="join-media reveal">
-		<Picture name="win-2025" alt={d.join.imageAlt} sizes="(max-width: 900px) 92vw, 440px" />
+		<!-- TODO(owner): 2026 시상 사진. Same steps as the hero photo, then
+		     pass its name here. -->
+		<PhotoSlot
+			alt={d.join.imageAlt}
+			label={d.join.photoSlot}
+			sizes="(max-width: 900px) 92vw, 440px"
+			ratio={1.35}
+		/>
 	</div>
 </div>
 
@@ -155,6 +171,20 @@
 		flex: 1;
 		min-width: min(280px, 100%);
 		max-width: 440px;
+		/* Inherited by the empty PhotoSlot frame. */
+		border-radius: var(--radius-lg);
+	}
+
+	/* Not a faded primary: that would still lift and shine on hover, i.e. look
+	   pressable. Dashed and muted reads as "not now" at a glance. */
+	.btn-closed,
+	.btn-closed:hover,
+	.btn-closed:active {
+		border: 1px dashed var(--border-strong);
+		background: transparent;
+		color: var(--text-muted);
+		cursor: not-allowed;
+		transform: none;
 	}
 
 	.join-media :global(picture) {

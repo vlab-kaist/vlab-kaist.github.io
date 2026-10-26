@@ -100,12 +100,17 @@ export interface Dict {
 		 *  has to read as an announcement ("we are recruiting"), not as a label
 		 *  ("a KAIST club") — the identity line moved down into `lead`. */
 		badge: string;
+		/** The same pill while RECRUITING is false. It no longer links out;
+		 *  pressing it reveals `join.closed` underneath. */
+		badgeClosed: string;
 		title: string;
 		titleAccent: string;
 		lead: string;
 		ctaPrimary: string;
 		ctaSecondary: string;
 		imageAlt: string;
+		/** Shown in the empty frame until the photo arrives. */
+		photoSlot: string;
 	};
 	/** The latest 카포전 and the all-time record. The home page leads with
 	 *  both; the history page reuses the record. */
@@ -185,7 +190,14 @@ export interface Dict {
 		/** Absolute URL. External on purpose: the club runs recruiting on a
 		 *  Google Form, not on this site. */
 		ctaHref: string;
+		/** Said instead of linking to the form while RECRUITING is false — on
+		 *  the join page and under the hero badge. */
+		closed: string;
+		/** One line under the disabled button: what happens next time. */
+		closedNote: string;
 		imageAlt: string;
+		/** Shown in the empty frame until the photo arrives. */
+		photoSlot: string;
 		channels: { label: string; value: string; href: string }[];
 	};
 	sponsors: {

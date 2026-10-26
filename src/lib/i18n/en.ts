@@ -32,12 +32,14 @@ export const en: Dict = {
 	},
 	hero: {
 		badge: 'Recruiting new members',
+		badgeClosed: 'New members',
 		title: 'We win the',
 		titleAccent: 'Kapo Science War.',
 		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War. We started in 2022 and are 29 people now. This year we won both events.',
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
-		imageAlt: 'Vlab members together at a pavilion overlooking the sea in Yeosu'
+		imageAlt: 'Vlab, 2026',
+		photoSlot: 'Our 2026 group photo goes here'
 	},
 	kapo: {
 		heading: 'Kapo Science War 2026',
@@ -130,6 +132,13 @@ export const en: Dict = {
 				image: 'rocketleague',
 				imageAlt: 'The 2025 AI event, Rocket League. Flex leads POSTECH 1–0.',
 				featured: true
+			},
+			{
+				id: 'mariokart',
+				name: 'Mario Kart AI',
+				tagline: 'The agent that won 2026 two–nil',
+				body: 'Drives Mario Kart Wii with no one on the controller. In the 2026 AI event it took rounds one and two back to back and beat POSTECH 2–0. The code is private.',
+				tags: ['Game AI', 'Mario Kart Wii']
 			},
 			{
 				id: 'rocketsim',
@@ -247,7 +256,10 @@ export const en: Dict = {
 		cta: 'Apply',
 		ctaNote: 'Opens a Google Form.',
 		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
-		imageAlt: 'Vlab members lifting the trophy after winning the 2025 AI event',
+		closed: 'Recruiting is closed right now',
+		closedNote: 'When a round opens, this button takes you straight to the form.',
+		imageAlt: 'Vlab at the 2026 award ceremony',
+		photoSlot: 'Our 2026 award photo goes here',
 		channels: [
 			{
 				label: 'Email',

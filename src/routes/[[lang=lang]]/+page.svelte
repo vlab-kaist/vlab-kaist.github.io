@@ -1,12 +1,15 @@
 <script lang="ts">
-	import Picture from '$components/Picture.svelte';
+	import PhotoSlot from '$components/PhotoSlot.svelte';
 	import Seo from '$components/Seo.svelte';
 	import KapoResult from '$components/KapoResult.svelte';
 	import KapoRecord from '$components/KapoRecord.svelte';
 	import { localeHref } from '$i18n';
+	import { RECRUITING } from '$lib/config';
 
 	let { data } = $props();
 	const d = $derived(data.dict);
+
+	let closedOpen = $state(false);
 
 	// The home page is now an entrance, not the whole site: hero, the record,
 	// and a way into each of the five sections. Everything that used to scroll
@@ -33,10 +36,30 @@
 			     direct path to the form. It points at the form rather than at
 			     /join/ on purpose: the 함께하기 button below goes to /join/, and two
 			     hero elements with the same destination is one too many. -->
-			<a class="hero-badge" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
-				{d.hero.badge}
-				<span class="badge-arrow" aria-hidden="true">↗</span>
-			</a>
+			<!-- Out of season the pill stays (people look for it) but stops
+			     linking to a form nobody is reading. Pressing it says so, in
+			     place, instead of sending the visitor somewhere to find out. -->
+			{#if RECRUITING}
+				<a class="hero-badge" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
+					{d.hero.badge}
+					<span class="badge-arrow" aria-hidden="true">↗</span>
+				</a>
+			{:else}
+				<div class="badge-row">
+					<button
+						type="button"
+						class="hero-badge"
+						aria-expanded={closedOpen}
+						aria-controls="recruit-closed"
+						onclick={() => (closedOpen = !closedOpen)}
+					>
+						{d.hero.badgeClosed}
+					</button>
+					<p id="recruit-closed" class="badge-closed" role="status" hidden={!closedOpen}>
+						{d.join.closed}
+					</p>
+				</div>
+			{/if}
 			<h1>
 				{d.hero.title}<br />{d.hero.titleAccent}
 			</h1>
@@ -50,9 +73,11 @@
 		</div>
 
 		<figure class="hero-media">
-			<Picture
-				name="team-2025"
+			<!-- TODO(owner): 2026 단체 사진. Put it in images.source/, add it to
+			     IMAGES in build-images.js, and pass name="team-2026" here. -->
+			<PhotoSlot
 				alt={d.hero.imageAlt}
+				label={d.hero.photoSlot}
 				sizes="(max-width: 900px) 92vw, 520px"
 				priority
 				ratio={1.5}
@@ -172,6 +197,27 @@
 		transform: translate(2px, -1px);
 	}
 
+	/* Closed-season variant: the pill is a button, and its answer sits on the
+	   same line so pressing it changes nothing else in the hero's layout. */
+	.badge-row {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-3);
+		margin-bottom: 0.875rem;
+	}
+
+	.badge-row .hero-badge {
+		margin-bottom: 0;
+		cursor: pointer;
+	}
+
+	.badge-closed {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--text-muted);
+	}
+
 	h1 {
 		font-size: var(--text-4xl);
 		letter-spacing: var(--tracking-display);
@@ -195,6 +241,8 @@
 		flex: 1;
 		min-width: min(300px, 100%);
 		max-width: 520px;
+		/* Inherited by the empty PhotoSlot frame. */
+		border-radius: var(--radius-lg);
 	}
 
 	.hero-media :global(picture) {
