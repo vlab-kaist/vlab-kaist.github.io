@@ -224,7 +224,9 @@
 		margin-bottom: var(--space-5);
 	}
 
+	/* pre-line: the copy carries its own line break (see hero.lead in ko.ts). */
 	.hero-lead {
+		white-space: pre-line;
 		font-size: 1.08rem;
 		color: var(--text-muted);
 		max-width: 46ch;

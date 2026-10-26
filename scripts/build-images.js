@@ -90,7 +90,12 @@ const SPONSORS = {
 	// treatment for a dark mark on a dark ground and keeps the background
 	// transparent, where a plate does not and a brightness filter invents a
 	// colour the school does not use.
-	'kaist-cs': { file: 'kaist-cs-logo.png', height: 120, reverse: true }
+	'kaist-cs': { file: 'kaist-cs-logo.png', height: 120, reverse: true },
+	// Two official files, both transparent: black for paper, and the club
+	// chose the brand-blue one for ink (`logoDark` in i18n) over a white
+	// knockout.
+	'jane-street': { file: 'jane-street-logo.png', height: 120 },
+	'jane-street-blue': { file: 'jane-street-logo-blue.png', height: 120 }
 };
 
 const AVIF = { quality: 50, effort: 6 };

@@ -35,7 +35,7 @@ export const en: Dict = {
 		badgeClosed: 'New members',
 		title: 'We win the',
 		titleAccent: 'Kapo Science War.',
-		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War. We started in 2022 and are 29 people now. This year we won both events.',
+		lead: 'A KAIST student club that enters the AI and Science Quiz events of the Kapo Science War.\nWe started in 2022 and are 29 people now.\nThis year we won both events.',
 		ctaPrimary: 'Get in touch',
 		ctaSecondary: 'See our work',
 		imageAlt: 'Vlab, 2026',
@@ -67,7 +67,7 @@ export const en: Dict = {
 				event: 'Science Quiz',
 				score: [280, 210],
 				format: 'A quiz with rock-paper-scissors chess on top',
-				body: 'A right answer lets you move a piece on the board. This year there were computer science questions too, on how printf behaves and on A* search.',
+				body: 'A right answer lets you move a piece on the board.',
 				image: 'kapo-2026-quiz',
 				imageAlt:
 					'The 2026 Science Quiz stage. The board in the middle shows the final score, KAIST 280 to POSTECH 210, with the two teams seated either side.',
@@ -120,7 +120,7 @@ export const en: Dict = {
 	},
 	projects: {
 		heading: 'What we build',
-		lead: 'Most of what we make ends up on GitHub. Here is some of it.',
+		lead: 'Most of what we make ends up on GitHub.',
 		viewRepo: 'View repository',
 		items: [
 			{
@@ -137,7 +137,7 @@ export const en: Dict = {
 				id: 'mariokart',
 				name: 'Mario Kart AI',
 				tagline: 'The agent that won 2026 two–nil',
-				body: 'Drives Mario Kart Wii with no one on the controller. In the 2026 AI event it took rounds one and two back to back and beat POSTECH 2–0. The code is private.',
+				body: 'Drives Mario Kart Wii with no one on the controller. In the 2026 AI event it took rounds one and two back to back and beat POSTECH 2–0.',
 				tags: ['Game AI', 'Mario Kart Wii']
 			},
 			{
@@ -184,7 +184,7 @@ export const en: Dict = {
 	},
 	history: {
 		heading: 'History',
-		lead: 'From 2022 to now. The years we lost are in here too.',
+		lead: 'From 2022 to now.',
 		entries: [
 			{
 				date: '2026.09',
@@ -225,7 +225,7 @@ export const en: Dict = {
 	},
 	life: {
 		heading: 'It is not all Kapo Science War',
-		lead: 'Most of our time goes on sitting in the club room. The rest of it, mostly, goes on eating.',
+		lead: 'Most of our time goes on sitting in the club room. The rest of it, mostly, goes on going out together.',
 		captions: [
 			{
 				title: 'Practice',
@@ -293,11 +293,19 @@ export const en: Dict = {
 				logo: 'kaist-cs.png',
 				logoDark: 'kaist-cs-reverse.png',
 				href: 'https://cs.kaist.ac.kr/'
+			},
+			{
+				name: 'Jane Street',
+				logo: 'jane-street.png',
+				logoDark: 'jane-street-blue.png',
+				height: 56,
+				href: 'https://www.janestreet.com/'
 			}
 		]
 	},
 	footer: {
 		blurb: 'KAIST AI & Science Quiz club',
+		email: 'kaist.victorylab@gmail.com',
 		copyright: '© {year} Vlab. All rights reserved.',
 		builtBy: 'Made with ❤️ by {authors}',
 		links: [

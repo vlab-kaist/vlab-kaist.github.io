@@ -41,6 +41,7 @@
 			<div>
 				<p class="name" translate="no">Vlab</p>
 				<p class="blurb">{dict.footer.blurb}</p>
+				<a class="email" href="mailto:{dict.footer.email}" translate="no">{dict.footer.email}</a>
 			</div>
 		</div>
 
@@ -105,6 +106,21 @@
 	.blurb {
 		font-size: var(--text-sm);
 		color: var(--text-muted);
+	}
+
+	.email {
+		display: inline-block;
+		margin-top: var(--space-1);
+		font-size: var(--text-sm);
+		color: var(--text-muted);
+		text-decoration: underline;
+		text-decoration-color: var(--border-strong);
+		text-underline-offset: 3px;
+	}
+
+	.email:hover {
+		color: var(--brand);
+		text-decoration-color: currentColor;
 	}
 
 	.links {

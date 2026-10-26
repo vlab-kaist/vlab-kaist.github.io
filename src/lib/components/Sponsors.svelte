@@ -38,6 +38,7 @@
 									src="{base}/sponsors/{sponsor.logo}"
 									alt={sponsor.name}
 									loading="lazy"
+									style:--logo-h={sponsor.height ? `${sponsor.height}px` : undefined}
 								/>
 								{#if sponsor.logoDark}
 									<img
@@ -45,6 +46,7 @@
 										src="{base}/sponsors/{sponsor.logoDark}"
 										alt={sponsor.name}
 										loading="lazy"
+										style:--logo-h={sponsor.height ? `${sponsor.height}px` : undefined}
 									/>
 								{/if}
 							{:else}
@@ -188,7 +190,7 @@
 	   a blob, so a good chunk of the height is the blob's own padding — at 30px
 	   the actual word came out smaller than the label above it. */
 	img {
-		height: 38px;
+		height: var(--logo-h, 38px);
 		width: auto;
 		max-width: 240px;
 		object-fit: contain;
@@ -217,7 +219,7 @@
 		}
 
 		img {
-			height: 32px;
+			height: calc(var(--logo-h, 38px) * 0.84);
 		}
 	}
 </style>

@@ -58,6 +58,12 @@ export interface Sponsor {
 	 * they publish one.
 	 */
 	logoDark?: string;
+	/**
+	 * Display height in px, when the default (38px, sized for single-line
+	 * lockups) makes this mark look small. A stacked two-line logo needs more
+	 * height to carry the same visual weight as its neighbours.
+	 */
+	height?: number;
 }
 
 export interface Project {
@@ -209,6 +215,8 @@ export interface Dict {
 	};
 	footer: {
 		blurb: string;
+		/** Shown under the blurb as a mailto link. */
+		email: string;
 		copyright: string;
 		/** Contains `{authors}` — Footer.svelte fills it with linked names. */
 		builtBy: string;

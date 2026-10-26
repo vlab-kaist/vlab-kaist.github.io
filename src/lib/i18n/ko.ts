@@ -51,7 +51,10 @@ export const ko: Dict = {
 		badgeClosed: '신입 부원 모집',
 		title: '카포전을',
 		titleAccent: '이깁니다.',
-		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리. 2022년 창설, 현재 부원 29명. 2026년엔 두 종목 모두 승리.',
+		// The \n is a deliberate line break (the lead is `white-space: pre-line`):
+		// identity on one line, facts on the next. Left to wrap on its own,
+		// the break landed between "2022년" and "창설".
+		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리.\n2022년 창설, 현재 부원 29명.\n2026년엔 두 종목 모두 승리.',
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
 		imageAlt: '2026 Vlab 단체 사진',
@@ -83,7 +86,7 @@ export const ko: Dict = {
 				event: '과학퀴즈',
 				score: [280, 210],
 				format: '퀴즈 + 가위바위보 체스',
-				body: '문제를 맞힌 팀이 체스판 위 말을 움직이는 방식. printf 동작이나 A* 탐색 같은 컴퓨터과학 문제도 출제.',
+				body: '문제를 맞힌 팀이 체스판 위 말을 움직이는 방식.',
 				image: 'kapo-2026-quiz',
 				imageAlt:
 					'2026 카포전 과학퀴즈 무대. 가운데 전광판에 KAIST 280, POSTECH 210 최종 점수가 떠 있고 양쪽에 두 학교 팀이 앉아 있다.',
@@ -134,7 +137,7 @@ export const ko: Dict = {
 	},
 	projects: {
 		heading: '만드는 것들',
-		lead: '만든 건 대부분 GitHub에 공개. 아래는 그중 일부.',
+		lead: '만든 건 대부분 GitHub에 공개.',
 		viewRepo: '저장소 보기',
 		items: [
 			{
@@ -154,7 +157,7 @@ export const ko: Dict = {
 				id: 'mariokart',
 				name: '마리오카트 AI',
 				tagline: '2026 카포전을 2:0으로 이긴 에이전트',
-				body: '마리오카트 Wii를 사람 손 없이 운전하는 AI. 2026 카포전 AI 종목에서 1·2라운드를 연달아 따내 POSTECH에 2:0 승리. 코드는 비공개.',
+				body: '마리오카트 Wii를 사람 손 없이 운전하는 AI. 2026 카포전 AI 종목에서 1·2라운드를 연달아 따내 POSTECH에 2:0 승리.',
 				tags: ['게임 AI', '마리오카트 Wii']
 			},
 			{
@@ -201,7 +204,7 @@ export const ko: Dict = {
 	},
 	history: {
 		heading: '연혁',
-		lead: '2022년부터 지금까지. 진 해도 빼지 않고 기록.',
+		lead: '2022년부터 지금까지.',
 		entries: [
 			{
 				date: '2026.09',
@@ -242,7 +245,7 @@ export const ko: Dict = {
 	},
 	life: {
 		heading: '카포전 말고도',
-		lead: '제일 긴 건 동아리방에 모여 있는 시간. 나머지는 대개 같이 먹으러 다니는 시간.',
+		lead: '제일 긴 건 동아리방에 모여 있는 시간. 나머지는 대개 같이 놀러 다니는 시간.',
 		captions: [
 			{
 				title: '카포전 연습',
@@ -267,14 +270,16 @@ export const ko: Dict = {
 		]
 	},
 	join: {
-		heading: '함께할 사람 찾는 중',
-		lead: '한 문제를 오래 붙잡고 있어도 괜찮은 사람이면 환영.',
-		body: '전공 무관. 인공지능팀은 CS101 정도면 시작 가능, 과학퀴즈팀은 과학을 좋아하면 충분. 나머지는 들어와서 배우면 됨. 궁금한 점은 메일로.',
+		// The one page in 존댓말 rather than 개조식: it is the page that talks
+		// to a person deciding whether to join. The club's own wording.
+		heading: '함께할 사람을 찾습니다',
+		lead: '한 문제를 오래 붙잡고 있어도 괜찮은 사람이면 환영합니다!',
+		body: '전공 무관. 인공지능팀은 CS101 정도면 시작 가능합니다! 과학퀴즈팀은 과학을 좋아하면 충분합니다! 나머지는 들어와서 배우세요! 궁금한 점은 메일로 문의 바랍니다.',
 		cta: '지원하기',
-		ctaNote: '구글 폼으로 이동',
+		ctaNote: '구글 폼으로 이동합니다.',
 		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
 		closed: '지금은 모집 기간이 아닙니다',
-		closedNote: '모집이 열리면 이 버튼으로 바로 지원 가능',
+		closedNote: '모집이 열리면 이 버튼으로 바로 지원할 수 있습니다.',
 		imageAlt: '2026 카포전 시상 사진',
 		photoSlot: '2026 시상 사진 들어갈 자리',
 		channels: [
@@ -310,11 +315,19 @@ export const ko: Dict = {
 				logo: 'kaist-cs.png',
 				logoDark: 'kaist-cs-reverse.png',
 				href: 'https://cs.kaist.ac.kr/'
+			},
+			{
+				name: 'Jane Street',
+				logo: 'jane-street.png',
+				logoDark: 'jane-street-blue.png',
+				height: 56,
+				href: 'https://www.janestreet.com/'
 			}
 		]
 	},
 	footer: {
 		blurb: 'KAIST 인공지능 · 과학퀴즈 학술동아리',
+		email: 'kaist.victorylab@gmail.com',
 		copyright: '© {year} Vlab. All rights reserved.',
 		builtBy: 'Made with ❤️ by {authors}',
 		links: [
