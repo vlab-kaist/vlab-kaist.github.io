@@ -12,19 +12,10 @@ import type { Dict } from './types';
  * the quiz stream on "280 : 210". Both match the press (한국경제, 2026-09-20).
  * 2022 is still the old site's claim — see CONTENT-TODO.md.
  *
- * Voice: 개조식. The club asked for it after reading the earlier 습니다체
- * draft, where every line ended "…나옵니다 / …합니다" and the page read like
- * a press release. So: short lines that end on a noun or a 명사형 (-음/-함),
- * the club's own words where they exist (수물화생정, 기출), and no filler
- * pronouns — "그걸로 공부." was the example of what not to do, a sentence
- * chopped off rather than written short.
- *
- * Kept in full sentences on purpose: the hero headline (a slogan), the
- * sponsor block (it addresses companies), and the "모집 기간이 아닙니다"
- * notice (the club's own wording).
- *
- * Checked against daleseo/korean-skills `humanizer`: no comma runs, no
- * three-beat lists where two or four would do, no ~적 chains.
+ * Voice: the club's own. Most of this copy was rewritten by the club by hand
+ * (2026-11-06) — a mix of 개조식 lines and 습니다체 sentences, page by page.
+ * Treat it as written, not drafted: when changing a line, match the register
+ * of the lines around it rather than normalising the whole page.
  */
 export const ko: Dict = {
 	meta: {
@@ -49,12 +40,12 @@ export const ko: Dict = {
 	hero: {
 		badge: '신입 부원 모집 중',
 		badgeClosed: '신입 부원 모집',
-		title: '카포전을',
-		titleAccent: '이깁니다.',
+		title: '카포전',
+		titleAccent: '승리를 위하여',
 		// The \n is a deliberate line break (the lead is `white-space: pre-line`):
 		// identity on one line, facts on the next. Left to wrap on its own,
 		// the break landed between "2022년" and "창설".
-		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 학술동아리.\n2022년 창설, 현재 부원 29명.\n2026년엔 두 종목 모두 승리.',
+		lead: '카포전 AI 종목과 과학퀴즈에 나가는 KAIST 이공학술동아리\n2022년 창설, 현재 부원 29명\n2026년 카포전 AI, 과학퀴즈 모두 승리',
 		ctaPrimary: '함께하기',
 		ctaSecondary: '프로젝트 보기',
 		imageAlt:
@@ -63,7 +54,7 @@ export const ko: Dict = {
 	},
 	kapo: {
 		heading: '2026 카포전',
-		when: '9월 18–19일, 포항 POSTECH. 출전한 두 종목 모두 승리.',
+		when: '9월 18–19일, 포항 POSTECH. 출전한 종목 모두 승리.',
 		us: 'KAIST',
 		them: 'POSTECH',
 		won: '승',
@@ -76,7 +67,7 @@ export const ko: Dict = {
 				event: 'AI 종목',
 				score: [2, 0],
 				format: '마리오카트 Wii, 3판 2선승',
-				body: '직접 짜고 학습시킨 AI가 사람 손 없이 카트를 운전. 1·2라운드를 연달아 따내서 3라운드 없이 경기 종료.',
+				body: '직접 학습시킨 AI가 스스로 카트를 운전. 1, 2라운드를 연달아 따내며 완벽한 승리',
 				image: 'kapo-2026-ai',
 				imageAlt:
 					'2026 카포전 AI 종목 중계 화면. 마리오카트 Wii 화면 네 개가 나뉘어 있고, 양교 AI가 각자 카트를 몰고 있다.',
@@ -87,7 +78,7 @@ export const ko: Dict = {
 				event: '과학퀴즈',
 				score: [280, 210],
 				format: '퀴즈 + 가위바위보 체스',
-				body: '문제를 맞힌 팀이 체스판 위 말을 움직이는 방식.',
+				body: '문제를 맞힌 팀이 체스판 위 말을 움직이는 방식. 280 vs 210으로 KAIST 승리',
 				image: 'kapo-2026-quiz',
 				imageAlt:
 					'2026 카포전 과학퀴즈 무대. 가운데 전광판에 KAIST 280, POSTECH 210 최종 점수가 떠 있고 양쪽에 두 학교 팀이 앉아 있다.',
@@ -112,40 +103,39 @@ export const ko: Dict = {
 	},
 	teams: {
 		heading: '인공지능팀과 과학퀴즈팀',
-		lead: '두 팀이 하는 일은 거의 안 겹침. 인공지능팀은 매주 코드, 과학퀴즈팀은 매주 문제 풀이.',
+		lead: 'Vlab에는 인공지능팀과 과학퀴즈팀이 존재합니다. 인공지능팀은 더 똑똑한 AI를 만들기 위해, 과학퀴즈팀은 더 많은 지식을 얻기 위해 노력합니다.',
 		quiz: {
 			name: '과학퀴즈팀',
-			tagline: '범위 없는 시험을 매주 준비하는 팀',
-			body: '수물화생정 전 과목 출제, 범위 제한 없음. 교재는 부원들이 기출을 모아 직접 정리한 노트.',
+			tagline: '다양한 분야의 과학 지식과 게임 전략을 준비하는 팀',
+			body: '수물화생정 모든 과목에서 정해진 범위없이 출제되는 문제를 풀기 위해 공부합니다. 또한 같이 진행되는 게임을 이기기 위한 전략 탐구까지!',
 			points: [
-				'매주 기출·예상 문제 풀이',
-				'정리한 기출과 개념은 위키에 누적',
-				'실전과 같은 형식의 모의고사'
+				'주기적으로 기출, 연습 문제 풀이',
+				'현재까지의 기출과 공부할 내용이 담겨져 있는 고유의 데이터베이스',
+				'직접 게임을 해보며 이기기 위한 게임 전략 탐색'
 			],
 			imageAlt: '2026 카포전 과학퀴즈 무대. 전광판에 KAIST 280, POSTECH 210 최종 점수가 떠 있다.'
 		},
 		ai: {
 			name: '인공지능팀',
-			tagline: '게임을 이기는 프로그램을 직접 만드는 팀',
-			body: 'AI 종목 과제는 해마다 다름. 보드게임이던 해도, 로켓리그였던 해도 있었고 2026년엔 마리오카트. 방법도 게임에 맞춰 강화학습이든 휴리스틱이든 그때그때 선택.',
+			tagline: '게임을 이기는 AI를 직접 만드는 팀',
+			body: 'AI 경기에서 진행하는 게임은 매년 달라집니다. 간단한 보드게임부터 로켓리그, 마리오카트 같은 게임까지! 다양한 학습 방법을 통해 AI를 훈련시킵니다',
 			points: [
-				'과제가 나오면 에이전트를 새로 설계하고, 학습용 시뮬레이터까지 직접 제작',
-				'CS101만 들었으면 따라올 수 있는 세미나 운영'
+				'게임이 공개되면 그에 따른 학습 환경 제작부터 완성된 AI까지 모두 진행합니다',
+				'누구나 따라오며 AI 지식 및 경험을 쌓을 수 있는 세미나도 진행합니다'
 			],
 			imageAlt:
 				'2026 카포전 AI 종목 중계 화면. 마리오카트 Wii 화면 네 개에서 양교 AI가 카트를 몰고 있다.'
 		}
 	},
 	projects: {
-		heading: '만드는 것들',
-		lead: '만든 건 대부분 GitHub에 공개.',
-		viewRepo: '저장소 보기',
+		heading: '지금까지 만들어온 것',
+		lead: '대회를 위한 AI부터 내부 학습용까지 만들어 깃허브에 저장합니다',
 		items: [
 			{
 				id: 'flex',
 				name: 'Flex',
 				tagline: '2025 카포전을 3:0으로 이긴 로켓리그 에이전트',
-				body: '셀프플레이 모델 100개 이상을 상대로 인게임 200년 넘게 강화학습. 마무리는 행동 복제(BC)와 파인튜닝. 2025 카포전 AI 종목 3:0 승리, RLBot Championship 2025 ML 부문 결승 진출.',
+				body: '2025 카포전을 3:0으로 이긴 로켓리그 에이전트. 강화학습 기반의 학습과 수백 개의 데이터를 활용한 행동 복제(BC)와 파인튜닝으로 마무리. RLBot Championship 2025 ML 부문 결승 진출.',
 				tags: ['강화학습', 'Self-play', 'Python'],
 				image: 'rocketleague',
 				imageAlt:
@@ -153,59 +143,53 @@ export const ko: Dict = {
 				featured: true
 			},
 			{
-				// No repo link: the code is private. No project name either — the
-				// club calls it what it is.
+				// No project name — the club calls it what it is.
 				id: 'mariokart',
 				name: '마리오카트 AI',
-				tagline: '2026 카포전을 2:0으로 이긴 에이전트',
-				body: '마리오카트 Wii를 사람 손 없이 운전하는 AI. 2026 카포전 AI 종목에서 1·2라운드를 연달아 따내 POSTECH에 2:0 승리.',
+				tagline: '2026 카포전을 2:0으로 이긴 마리오카트 에이전트',
+				body: '마리오카트 Wii를 직접 주행하는 AI. 2026 카포전 AI 종목에서 1, 2라운드를 연달아 따내 POSTECH에 2:0 승리.',
 				tags: ['게임 AI', '마리오카트 Wii']
 			},
 			{
 				id: 'rocketsim',
 				name: 'RocketSim · pyvrsim',
 				tagline: '학습용 고속 로켓리그 시뮬레이터',
-				body: '에이전트를 학습시키려면 게임을 아주 빠르게 돌려야 함. 그래서 C++ 시뮬레이터와, 그 병렬성을 그대로 살린 파이썬 바인딩을 직접 제작.',
-				tags: ['C++', 'Python 바인딩', '시뮬레이션'],
-				repo: 'https://github.com/vlab-kaist/RocketSim'
+				body: '에이전트를 학습시키려면 게임을 아주 빠르게 돌릴 수 있어야 합니다. 그래서 C++ 시뮬레이터와, 그 병렬성을 그대로 살린 파이썬 바인딩을 만들어 로켓리그 학습에 도움을 주는 시뮬레이션.',
+				tags: ['C++', 'Python 바인딩', '시뮬레이션']
 			},
 			{
 				id: 'neopjuki',
 				name: 'Neopjuki',
 				tagline: 'Puoribor 에이전트',
 				body: '2022–2023년 AI 종목 과제였던 보드게임 Puoribor용 에이전트. 탐색에 신경망을 결합.',
-				tags: ['탐색', '신경망', 'Python'],
-				repo: 'https://github.com/vlab-kaist/Neopjuki-v2'
+				tags: ['탐색', '신경망', 'Python']
 			},
 			{
 				id: 'melee',
 				name: 'Melee-PPO',
 				tagline: '대전 격투 게임 강화학습',
-				body: 'PPO로 실시간 대전 게임을 학습시켜 본 실험. 순간 반응과 긴 호흡의 전략이 한꺼번에 필요해서 정책 학습이 까다로운 환경.',
-				tags: ['PPO', '강화학습'],
-				repo: 'https://github.com/vlab-kaist/Melee-PPO'
+				body: 'PPO를 이용해 실시간 대전 게임을 학습.',
+				tags: ['PPO', '강화학습']
 			},
 			{
 				id: 'nn101',
 				name: 'NN101',
 				tagline: '신입 부원용 딥러닝 입문 과정',
 				body: '회귀부터 분류, MLP, CNN, RNN, Transformer까지. 자료와 과제는 매주 공개하고 강의도 병행. 2026년 1월 AI Winter Camp로 확장.',
-				tags: ['교육', '커리큘럼'],
-				repo: 'https://github.com/vlab-kaist/NN101_23S'
+				tags: ['교육', '커리큘럼']
 			},
 			{
 				id: 'vlms',
 				name: 'VLMS',
 				tagline: '학습 자료 아카이브',
 				body: '세미나 자료와 개념 정리를 한곳에 모아 공개하는 저장소.',
-				tags: ['아카이브', '위키'],
-				repo: 'https://github.com/vlab-kaist/VLMS'
+				tags: ['아카이브', '위키']
 			}
 		]
 	},
 	history: {
 		heading: '연혁',
-		lead: '2022년부터 지금까지.',
+		lead: '2022년부터 지금까지',
 		entries: [
 			{
 				date: '2026.09',
@@ -246,7 +230,7 @@ export const ko: Dict = {
 	},
 	life: {
 		heading: '카포전 말고도',
-		lead: '제일 긴 건 동아리방에 모여 있는 시간. 나머지는 대개 같이 놀러 다니는 시간.',
+		lead: '동아리방에 자주 모여 밤도 새고, 같이 놀러다닙니다',
 		captions: [
 			{
 				title: '카포전 연습',

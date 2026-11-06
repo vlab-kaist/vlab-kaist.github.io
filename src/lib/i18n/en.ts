@@ -122,7 +122,6 @@ export const en: Dict = {
 	projects: {
 		heading: 'What we build',
 		lead: 'Most of what we make ends up on GitHub.',
-		viewRepo: 'View repository',
 		items: [
 			{
 				id: 'flex',
@@ -146,40 +145,35 @@ export const en: Dict = {
 				name: 'RocketSim · pyvrsim',
 				tagline: 'A fast Rocket League simulator built for training',
 				body: 'Training an agent means running the game very fast. So we maintain our own C++ simulator, plus a Python binding that keeps the parallelism you would get in C++.',
-				tags: ['C++', 'Python bindings', 'Simulation'],
-				repo: 'https://github.com/vlab-kaist/RocketSim'
+				tags: ['C++', 'Python bindings', 'Simulation']
 			},
 			{
 				id: 'neopjuki',
 				name: 'Neopjuki',
 				tagline: 'A Puoribor agent',
 				body: 'An agent for Puoribor, the board game set as the AI event task in 2022–2023. Search, with a neural network on top.',
-				tags: ['Search', 'Neural networks', 'Python'],
-				repo: 'https://github.com/vlab-kaist/Neopjuki-v2'
+				tags: ['Search', 'Neural networks', 'Python']
 			},
 			{
 				id: 'melee',
 				name: 'Melee-PPO',
 				tagline: 'Reinforcement learning for a fighting game',
 				body: 'An experiment in training real-time fighting-game policies with PPO. The environment wants split-second reactions and long-horizon strategy at once, which makes the policy awkward to learn.',
-				tags: ['PPO', 'Reinforcement learning'],
-				repo: 'https://github.com/vlab-kaist/Melee-PPO'
+				tags: ['PPO', 'Reinforcement learning']
 			},
 			{
 				id: 'nn101',
 				name: 'NN101',
 				tagline: 'A deep learning course for new members',
 				body: 'Regression first, then classification, MLPs, CNNs, RNNs and Transformers. Materials and assignments go out weekly, with live sessions alongside. It became the AI Winter Camp in January 2026.',
-				tags: ['Teaching', 'Curriculum'],
-				repo: 'https://github.com/vlab-kaist/NN101_23S'
+				tags: ['Teaching', 'Curriculum']
 			},
 			{
 				id: 'vlms',
 				name: 'VLMS',
 				tagline: 'Our learning archive',
 				body: 'Seminar material and worked concepts, collected in one public place.',
-				tags: ['Archive', 'Wiki'],
-				repo: 'https://github.com/vlab-kaist/VLMS'
+				tags: ['Archive', 'Wiki']
 			}
 		]
 	},

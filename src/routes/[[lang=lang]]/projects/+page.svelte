@@ -63,12 +63,6 @@
 							<li>{tag}</li>
 						{/each}
 					</ul>
-					{#if project.repo}
-						<a class="card-link" href={project.repo} target="_blank" rel="noopener noreferrer">
-							{d.projects.viewRepo}
-							<span aria-hidden="true">→</span>
-						</a>
-					{/if}
 				</article>
 			</li>
 		{/each}
@@ -158,35 +152,10 @@
 		margin-bottom: var(--space-4);
 	}
 
-	/* Pushed to the bottom so every card's repo link lines up regardless of how
-	   long its description runs. */
+	/* Pushed to the bottom so every card's tags line up regardless of how long
+	   its description runs. */
 	.card :global(.tags) {
 		margin-top: auto;
-		margin-bottom: var(--space-3);
-	}
-
-	.card-link {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--brand);
-	}
-
-	/* The arrow leads the hover: it moves, the label does not. Moving the whole
-	   line would reflow the card's last row against its neighbours. */
-	.card-link span {
-		display: inline-block;
-		transition: transform var(--dur-base) var(--ease-out);
-	}
-
-	.card-link:hover {
-		color: var(--brand-strong);
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	.card-link:hover span,
-	.card-link:focus-visible span {
-		transform: translateX(4px);
 	}
 
 	@media (max-width: 900px) {

@@ -72,7 +72,6 @@ export interface Project {
 	tagline: string;
 	body: string;
 	tags: string[];
-	repo?: string;
 	/** Shown on the featured card only. A key of images.ts, so a typo or a
 	 *  removed photo fails the type check instead of rendering a broken image. */
 	image?: ImageName;
@@ -167,7 +166,8 @@ export interface Dict {
 	projects: {
 		heading: string;
 		lead: string;
-		viewRepo: string;
+		/** No per-project repo links: most of the repos that matter are
+		 *  private, and the org link in the footer covers the public ones. */
 		items: Project[];
 	};
 	history: {
