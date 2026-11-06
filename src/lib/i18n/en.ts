@@ -259,7 +259,8 @@ export const en: Dict = {
 		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
 		closed: 'Recruiting is closed right now',
 		closedNote: 'When a round opens, this button takes you straight to the form.',
-		imageAlt: 'Vlab at the 2026 award ceremony',
+		imageAlt:
+			'Vlab members in matching blue T-shirts cheering with the award in front of the stage after the 2026 Kapo Science War',
 		photoSlot: 'Our 2026 award photo goes here',
 		channels: [
 			{

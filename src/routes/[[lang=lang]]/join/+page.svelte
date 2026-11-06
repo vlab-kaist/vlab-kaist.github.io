@@ -72,9 +72,10 @@
 	</div>
 
 	<div class="join-media reveal">
-		<!-- TODO(owner): 2026 시상 사진. Same steps as the hero photo, then
-		     pass its name here. -->
+		<!-- The 2026 award photo — the same shot as the home hero, which is
+		     the team with the trophy after the final. -->
 		<PhotoSlot
+			name="team-2026"
 			alt={d.join.imageAlt}
 			label={d.join.photoSlot}
 			sizes="(max-width: 900px) 92vw, 440px"

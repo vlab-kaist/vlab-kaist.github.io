@@ -15,9 +15,9 @@ Answered items are already in the site. What follows is what remains.
 (POSTECH 방송국 PBS 유튜브, AI 30:00 · 과학퀴즈 82:00). 2025 중계 화면처럼 문제없는지 한 번 더 확인해 주세요.
 
 - [ ] 중계 프레임 사용 확인 (2025 때와 같은 판단이면 체크만)
-- [ ] **2026 단체 사진 / 시상 사진.** 지금 홈 히어로와 함께하기 페이지에는 점선 빈 칸(`PhotoSlot`)이
-      있습니다. 받으면 `images.source/` 에 넣고 `IMAGES` 에 등록한 뒤 각 페이지의 `<PhotoSlot>` 에
-      `name="..."` 만 넘기면 됩니다 (TODO(owner) 주석 위치). alt 문구(`hero.imageAlt`, `join.imageAlt`)도 같이 고치세요
+- [x] **2026 단체 사진 / 시상 사진** — 받은 사진 한 장(`team-2026`, 상을 들고 찍은 단체 사진)을 홈 히어로와
+      함께하기 페이지에 같이 씀. 다른 컷이 생기면 한쪽만 바꿔도 됨: `images.source/` 에 넣고 `IMAGES` 에
+      등록한 뒤 해당 `<PhotoSlot name="...">` 과 alt(`hero.imageAlt` / `join.imageAlt`) 교체
 - [ ] 마리오카트 AI 카드: 이름 없음·저장소 비공개로 올림. 방법(강화학습/휴리스틱, 학습 규모)을 한 줄 주면 본문에 추가
 
 ### 1-1. 모집 기간

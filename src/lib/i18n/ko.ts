@@ -281,7 +281,8 @@ export const ko: Dict = {
 		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
 		closed: '지금은 모집 기간이 아닙니다',
 		closedNote: '모집이 열리면 이 버튼으로 바로 지원할 수 있습니다.',
-		imageAlt: '2026 카포전 시상 사진',
+		imageAlt:
+			'2026 카포전 시상 후 학생대제전 무대 앞에서 상을 들고 파란 티셔츠를 맞춰 입고 환호하는 Vlab 부원들',
 		photoSlot: '2026 시상 사진 들어갈 자리',
 		channels: [
 			{
