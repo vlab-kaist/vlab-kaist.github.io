@@ -5,7 +5,13 @@ import type { Dict } from './types';
  * key drifts, which is the cheapest way to keep two languages in sync.
  *
  * Written for KAIST's international students, so it names 카포전 as the
- * "Kapo Science War" (the club's own English term) rather than assuming it.
+ * "KAIST-POSTECH Science War", the event's official English name (it is on
+ * the 2026 stage banner), rather than assuming it.
+ *
+ * "KAIST-\u2060POSTECH" in visible copy: U+2060 (word joiner) after the
+ * hyphen stops a line breaking inside the name ("KAIST-" / "POSTECH") on
+ * narrow screens. It renders as nothing. meta keeps the plain spelling for
+ * search snippets.
  *
  * Translated from the club's own Korean rewrite (2026-11-06), line for line:
  * when ko.ts changes, change the matching line here. The hero title is the
@@ -15,8 +21,8 @@ export const en: Dict = {
 	meta: {
 		title: 'Vlab: KAIST AI & Science Quiz Club',
 		description:
-			'Vlab, the KAIST AI & Science Quiz club. We compete in the AI and Science Quiz events of the Kapo Science War. In 2026 we won both: the AI event 2–0 and the Science Quiz 280–210.',
-		ogAlt: 'Vlab: the club that wins the Kapo Science War'
+			'Vlab, the KAIST AI & Science Quiz club. We compete in the AI and Science Quiz events of the KAIST-POSTECH Science War. In 2026 we won both: the AI event 2–0 and the Science Quiz 280–210.',
+		ogAlt: 'Vlab: the club that wins the KAIST-POSTECH Science War'
 	},
 	nav: {
 		teams: 'Teams',
@@ -34,17 +40,17 @@ export const en: Dict = {
 	hero: {
 		badge: 'Recruiting new members',
 		badgeClosed: 'New members',
-		title: 'Kapo Science War',
+		title: 'KAIST-\u2060POSTECH Science War',
 		titleAccent: 'For victory',
-		lead: 'A KAIST science and engineering club in the AI and Science Quiz events of the Kapo Science War\nFounded in 2022, 29 members today\nWon both the AI event and the Science Quiz in 2026',
+		lead: 'A KAIST science and engineering club in the AI and Science Quiz events of the KAIST-\u2060POSTECH Science War\nFounded in 2022, 29 members today\nWon both the AI event and the Science Quiz in 2026',
 		ctaPrimary: 'Join',
 		ctaSecondary: 'See projects',
 		imageAlt:
-			'Vlab members in matching blue T-shirts cheering in front of the Kapo Science War stage after the 2026 finals',
+			'Vlab members in matching blue T-shirts cheering in front of the KAIST-\u2060POSTECH Science War stage after the 2026 finals',
 		photoSlot: 'Our 2026 group photo goes here'
 	},
 	kapo: {
-		heading: 'Kapo Science War 2026',
+		heading: 'KAIST-\u2060POSTECH Science War 2026',
 		when: '18–19 September, at POSTECH in Pohang. We won every event we entered.',
 		us: 'KAIST',
 		them: 'POSTECH',
@@ -183,7 +189,7 @@ export const en: Dict = {
 		entries: [
 			{
 				date: '2026.09',
-				title: '2026 Kapo Science War: won the AI event and the Science Quiz',
+				title: '2026 KAIST-\u2060POSTECH Science War: won the AI event and the Science Quiz',
 				body: 'The AI event (Mario Kart Wii) 2–0, the Science Quiz 280–210. From 2023 to 2025 we took one event a year; this time it was both.',
 				highlight: true
 			},
@@ -195,7 +201,7 @@ export const en: Dict = {
 			},
 			{
 				date: '2025.09',
-				title: '2025 Kapo Science War: won the AI event',
+				title: '2025 KAIST-\u2060POSTECH Science War: won the AI event',
 				body: 'Beat POSTECH 3–0 in the AI event. Lost the Science Quiz.',
 				highlight: true
 			},
@@ -206,12 +212,12 @@ export const en: Dict = {
 			},
 			{
 				date: '2024.09',
-				title: '2024 Kapo Science War: won the Science Quiz',
+				title: '2024 KAIST-\u2060POSTECH Science War: won the Science Quiz',
 				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{
 				date: '2023.09',
-				title: '2023 Kapo Science War: won the Science Quiz',
+				title: '2023 KAIST-\u2060POSTECH Science War: won the Science Quiz',
 				body: 'Took the Science Quiz, lost the AI event.'
 			},
 			{ date: '2022.09', title: 'Won both the Science Quiz and the AI event', highlight: true },
@@ -219,12 +225,12 @@ export const en: Dict = {
 		]
 	},
 	life: {
-		heading: 'Beyond the Kapo Science War',
+		heading: 'Beyond the KAIST-\u2060POSTECH Science War',
 		lead: 'We gather in the club room a lot, stay up all night, and go out together.',
 		captions: [
 			{
 				title: 'Practice',
-				alt: 'Vlab members preparing for the Kapo Science War in the club room, laptops and a whiteboard'
+				alt: 'Vlab members preparing for the KAIST-\u2060POSTECH Science War in the club room, laptops and a whiteboard'
 			},
 			{
 				title: 'Culture Festival',
@@ -254,7 +260,7 @@ export const en: Dict = {
 		closed: 'Recruiting is closed right now',
 		closedNote: 'When recruiting opens, this button takes you straight to the form.',
 		imageAlt:
-			'Vlab members in matching blue T-shirts cheering with the award in front of the stage after the 2026 Kapo Science War',
+			'Vlab members in matching blue T-shirts cheering with the award in front of the stage after the 2026 KAIST-\u2060POSTECH Science War',
 		photoSlot: 'Our 2026 award photo goes here',
 		channels: [
 			{
