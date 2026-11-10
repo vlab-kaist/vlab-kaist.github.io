@@ -25,9 +25,6 @@
      the trophy photo is doing as much of the persuading as the text. -->
 <div class="container page join">
 	<div class="join-copy reveal">
-		<!-- Solid, not gradient: the gradient marks brand moments, and this is
-		     an ask. -->
-		<span class="rule rule-solid" aria-hidden="true"></span>
 		<p class="eyebrow">{d.nav.join}</p>
 		<h1>{d.join.heading}</h1>
 		<p class="join-lead">{d.join.lead}</p>
@@ -106,10 +103,10 @@
 	}
 
 	.join-lead {
-		font-size: 1.1rem;
-		font-weight: 700;
-		color: var(--brand);
-		margin-top: 0.875rem;
+		font-size: var(--text-xl);
+		font-weight: 500;
+		color: var(--text);
+		margin-top: var(--space-3);
 		margin-bottom: var(--space-4);
 	}
 
@@ -129,9 +126,7 @@
 	}
 
 	.channels dt {
-		font-size: 11px;
-		text-transform: uppercase;
-		letter-spacing: var(--tracking-wide);
+		font-size: var(--text-xs);
 		color: var(--text-faint);
 		margin-bottom: var(--space-1);
 	}
@@ -139,7 +134,7 @@
 	.channels dd {
 		margin: 0;
 		font-size: 0.92rem;
-		font-weight: 700;
+		font-weight: 500;
 	}
 
 	.ext {

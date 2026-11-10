@@ -127,7 +127,7 @@
 		position: absolute;
 		inset: 0 0 auto;
 		height: 4px;
-		background: linear-gradient(90deg, var(--kaist) 50%, var(--postech) 50%);
+		background: var(--rivalry);
 	}
 
 	.side {
@@ -143,8 +143,7 @@
 
 	.team {
 		font-size: var(--text-sm);
-		font-weight: 800;
-		letter-spacing: var(--tracking-lat);
+		font-weight: 600;
 	}
 
 	.side-us .team {
@@ -160,7 +159,7 @@
 		font-family: var(--font-numeric);
 		font-variant-numeric: tabular-nums;
 		font-size: clamp(2rem, 4.2vw, 2.9rem);
-		font-weight: 800;
+		font-weight: 600;
 		line-height: 1;
 		letter-spacing: var(--tracking-lat);
 	}
@@ -197,26 +196,23 @@
 		font-size: var(--text-xl);
 	}
 
+	/* unslop: was a filled violet pill. The scoreline right above already says
+	   who won, so this is just the word, in the winner's colour. */
 	.outcome {
-		padding: 2px 10px;
-		border-radius: var(--radius-full);
-		border: 1px solid var(--border-strong);
-		font-size: var(--text-xs);
-		font-weight: 700;
-		color: var(--text-muted);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--postech);
 	}
 
 	.outcome.won {
-		border-color: transparent;
-		background: var(--brand);
-		color: var(--brand-contrast);
+		color: var(--kaist);
 	}
 
 	.format {
 		margin-top: var(--space-1);
 		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--brand);
+		font-weight: 500;
+		color: var(--text-muted);
 	}
 
 	.text {
@@ -232,7 +228,7 @@
 		padding-top: var(--space-4);
 		align-self: flex-start;
 		font-size: var(--text-sm);
-		font-weight: 700;
+		font-weight: 500;
 		color: var(--text);
 		text-decoration: underline;
 		text-decoration-color: var(--border-strong);

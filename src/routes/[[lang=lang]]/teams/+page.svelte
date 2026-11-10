@@ -100,8 +100,8 @@
 	}
 
 	.team-tagline {
-		font-weight: 600;
-		color: var(--brand);
+		font-weight: 500;
+		color: var(--text);
 		margin-top: var(--space-1);
 		margin-bottom: var(--space-4);
 	}

@@ -9,8 +9,6 @@
 	let { data } = $props();
 	const d = $derived(data.dict);
 
-	let closedOpen = $state(false);
-
 	// The home page is now an entrance, not the whole site: hero, the record,
 	// and a way into each of the five sections. Everything that used to scroll
 	// past below this lives at its own URL.
@@ -39,26 +37,14 @@
 			<!-- Out of season the pill stays (people look for it) but stops
 			     linking to a form nobody is reading. Pressing it says so, in
 			     place, instead of sending the visitor somewhere to find out. -->
+			<!-- unslop: was a tinted pill above the headline, a button that revealed
+			     "closed" when pressed. Now one quiet line that just says it. -->
 			{#if RECRUITING}
-				<a class="hero-badge" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
-					{d.hero.badge}
-					<span class="badge-arrow" aria-hidden="true">↗</span>
+				<a class="hero-status" href={d.join.ctaHref} target="_blank" rel="noopener noreferrer">
+					{d.hero.badge} <span aria-hidden="true">↗</span>
 				</a>
 			{:else}
-				<div class="badge-row">
-					<button
-						type="button"
-						class="hero-badge"
-						aria-expanded={closedOpen}
-						aria-controls="recruit-closed"
-						onclick={() => (closedOpen = !closedOpen)}
-					>
-						{d.hero.badgeClosed}
-					</button>
-					<p id="recruit-closed" class="badge-closed" role="status" hidden={!closedOpen}>
-						{d.join.closed}
-					</p>
-				</div>
+				<p class="hero-status">{d.join.closed}</p>
 			{/if}
 			<h1>
 				{d.hero.title}<br />{d.hero.titleAccent}
@@ -110,11 +96,10 @@
 		<ul>
 			{#each sections as section (section.path)}
 				<li class="reveal">
-					<a class="glass" href={localeHref(data.locale, section.path)}>
-						<!-- Same rule as PageHead: "연혁" over "연혁" reads as a typo. -->
-						{#if section.label !== section.title}
-							<span class="index-label">{section.label}</span>
-						{/if}
+					<a href={localeHref(data.locale, section.path)}>
+						<!-- Always rendered so the columns line up; empty when it would
+						     only repeat the title ("연혁" over "연혁"). -->
+						<span class="index-label">{section.label !== section.title ? section.label : ''}</span>
 						<span class="index-title">{section.title}</span>
 						<span class="index-lead">{section.lead}</span>
 						<span class="index-go" aria-hidden="true">→</span>
@@ -146,7 +131,7 @@
 	.hero-inner {
 		display: flex;
 		gap: clamp(2rem, 5vw, 3.5rem);
-		align-items: flex-end;
+		align-items: center;
 		flex-wrap: wrap;
 	}
 
@@ -160,61 +145,15 @@
 		min-width: min(320px, 100%);
 	}
 
-	/* Quiet by construction: a tinted pill at --text-xs, not a filled button.
-	   It sits above the headline and must not compete with the two real CTAs
-	   underneath it. */
-	.hero-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4em;
-		margin-bottom: 0.875rem;
-		padding: 5px 12px;
-		border: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
-		border-radius: var(--radius-full);
-		background: var(--brand-soft);
-		color: var(--brand);
-		font-size: var(--text-xs);
-		font-weight: 700;
-		letter-spacing: var(--tracking-wide);
-		transition:
-			background-color var(--dur-fast) var(--ease-out),
-			border-color var(--dur-fast) var(--ease-out);
-	}
-
-	.hero-badge:hover {
-		background: color-mix(in srgb, var(--brand) 14%, var(--brand-soft));
-		border-color: color-mix(in srgb, var(--brand) 40%, transparent);
-	}
-
-	.badge-arrow {
+	.hero-status {
 		display: inline-block;
-		transition: transform var(--dur-base) var(--ease-out);
-	}
-
-	.hero-badge:hover .badge-arrow,
-	.hero-badge:focus-visible .badge-arrow {
-		transform: translate(2px, -1px);
-	}
-
-	/* Closed-season variant: the pill is a button, and its answer sits on the
-	   same line so pressing it changes nothing else in the hero's layout. */
-	.badge-row {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: var(--space-2) var(--space-3);
-		margin-bottom: 0.875rem;
-	}
-
-	.badge-row .hero-badge {
-		margin-bottom: 0;
-		cursor: pointer;
-	}
-
-	.badge-closed {
+		margin-bottom: var(--space-3);
 		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--text-muted);
+		color: var(--text-faint);
+	}
+
+	a.hero-status:hover {
+		color: var(--text);
 	}
 
 	h1 {
@@ -226,7 +165,7 @@
 	/* pre-line: the copy carries its own line break (see hero.lead in ko.ts). */
 	.hero-lead {
 		white-space: pre-line;
-		font-size: 1.08rem;
+		font-size: 1.125rem;
 		color: var(--text-muted);
 		max-width: 46ch;
 		margin-bottom: var(--space-6);
@@ -261,7 +200,7 @@
 	.results {
 		padding-block: var(--section-gap);
 		border-block: 1px solid var(--border);
-		background: color-mix(in srgb, var(--bg-subtle) 60%, transparent);
+		background: var(--bg-subtle);
 	}
 
 	.results :global(.record) {
@@ -270,63 +209,80 @@
 
 	/* ---------------- Section index ---------------- */
 
+	/* unslop: five equal glass cards in a 3 + 2 grid, with a hole, became a
+	   contents list. Same text, one row per section, hairlines between. */
 	.index ul {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: var(--space-4);
+		border-top: 1px solid var(--border);
+	}
+
+	.index li {
+		border-bottom: 1px solid var(--border);
 	}
 
 	.index a {
-		position: relative;
 		display: grid;
-		/* The arrow gets its own column so a long lead can never run under it. */
-		grid-template-columns: 1fr auto;
-		align-content: start;
-		gap: 0 var(--space-4);
-		height: 100%;
-		padding: var(--space-5);
-		/* Surface, border, blur and hover all come from `.glass` in base.css. */
-		border-radius: var(--radius-lg);
+		grid-template-columns: 6rem minmax(0, 1fr) minmax(0, 1.3fr) 20px;
+		align-items: baseline;
+		gap: var(--space-1) var(--space-5);
+		padding: var(--space-5) var(--space-4);
+		margin-inline: calc(var(--space-4) * -1);
+		border-radius: var(--radius-md);
+		transition: background-color var(--dur-fast) var(--ease-out);
+	}
+
+	.index a:hover {
+		background: var(--surface);
 	}
 
 	.index-label {
-		grid-column: 1;
-		font-size: var(--text-xs);
-		font-weight: 700;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
-		color: var(--brand);
+		font-size: var(--text-sm);
+		color: var(--text-faint);
 	}
 
 	.index-title {
-		grid-column: 1;
-		margin-top: var(--space-2);
-		font-size: 1.15rem;
-		font-weight: 700;
-		letter-spacing: var(--tracking-heading);
+		font-size: var(--text-xl);
+		font-weight: 600;
 		line-height: var(--leading-snug);
 	}
 
 	.index-lead {
-		grid-column: 1 / -1;
-		margin-top: var(--space-2);
-		font-size: 0.9rem;
+		font-size: 0.9375rem;
 		color: var(--text-muted);
 	}
 
 	.index-go {
-		grid-column: 2;
-		grid-row: 1 / span 2;
-		align-self: center;
-		font-size: 1.1rem;
+		justify-self: end;
 		color: var(--text-faint);
 		transition:
-			transform var(--dur-base) var(--ease-out),
-			color var(--dur-base) var(--ease-out);
+			transform var(--dur-fast) var(--ease-out),
+			color var(--dur-fast) var(--ease-out);
 	}
 
 	.index a:hover .index-go {
-		transform: translateX(3px);
-		color: var(--brand);
+		transform: translateX(2px);
+		color: var(--text);
+	}
+
+	@media (max-width: 760px) {
+		.index a {
+			grid-template-columns: minmax(0, 1fr) 20px;
+			margin-inline: 0;
+			padding-inline: 0;
+		}
+
+		.index-label,
+		.index-title,
+		.index-lead {
+			grid-column: 1;
+		}
+
+		.index-label:empty {
+			display: none;
+		}
+
+		.index-go {
+			grid-column: 2;
+			grid-row: 1;
+		}
 	}
 </style>

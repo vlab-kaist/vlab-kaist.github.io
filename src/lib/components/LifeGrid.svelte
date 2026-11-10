@@ -104,7 +104,7 @@
 	   scrapbook. What each photo actually shows still lives in `alt`. */
 	figcaption {
 		font-size: 0.95rem;
-		font-weight: 700;
+		font-weight: 500;
 		line-height: var(--leading-snug);
 	}
 

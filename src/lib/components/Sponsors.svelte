@@ -95,7 +95,7 @@
 
 	.contact-heading {
 		font-size: var(--text-lg);
-		font-weight: 700;
+		font-weight: 600;
 		letter-spacing: var(--tracking-heading);
 	}
 
@@ -127,9 +127,7 @@
 
 	h2 {
 		font-size: var(--text-xs);
-		font-weight: 600;
-		letter-spacing: var(--tracking-wide);
-		text-transform: uppercase;
+		font-weight: 500;
 		color: var(--text-faint);
 	}
 
@@ -169,7 +167,6 @@
 	li a:hover,
 	li a:focus-visible {
 		opacity: 1;
-		transform: translateY(-2px);
 	}
 
 	/* Placeholder credit. Sized to sit on the same optical line as a logo, and
@@ -178,7 +175,7 @@
 	.wordmark {
 		display: block;
 		font-size: 0.95rem;
-		font-weight: 700;
+		font-weight: 600;
 		letter-spacing: var(--tracking-heading);
 		/* Matches the logo height below, so a name and a mark occupy the same
 		   band and the row keeps one optical line however they are mixed. */

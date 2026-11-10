@@ -57,6 +57,11 @@
 	--kaist: #1a56c9;
 	--postech: #c41d3c;
 
+	/* The signature: the broadcast's blue | red split, as a hard edge (two
+	   stops at 50%, no blend). Used where a KAIST-vs-POSTECH result is the
+	   subject: the scoreline's top edge and the rule above the hero. */
+	--rivalry: linear-gradient(90deg, var(--kaist) 50%, var(--postech) 50%);
+
 	/* ---- Surface -------------------------------------------------------- */
 	/* Warm off-white rather than #fff: at these amounts of empty space pure
 	   white glares, and the paper tone is what makes the hairlines look drawn
@@ -74,8 +79,8 @@
 	--text: #18171c;
 	/* Body copy inside lists — one step darker than --text-muted so long
 	   paragraphs stay comfortable at 0.92rem. */
-	--text-body: #33313c;
-	--text-muted: #5b5866;
+	--text-body: var(--text-muted);
+	--text-muted: #4a4754;
 	/* Darkened from the reference design's #8d8996, which measured 3.3:1 on
 	   paper. Everything wearing this token is small — photo credits, timeline
 	   dates, stat qualifiers — so it has to clear 4.5:1, not 3:1. This is
@@ -84,7 +89,7 @@
 
 	--shadow-sm: 0 1px 2px rgb(24 23 28 / 0.05);
 	--shadow-md: 0 6px 20px -6px rgb(24 23 28 / 0.1);
-	--shadow-lg: 0 18px 44px -12px rgb(24 23 28 / 0.14);
+	--shadow-lg: 0 8px 24px rgb(24 23 28 / 0.06);
 
 	/* ---- Type ----------------------------------------------------------- */
 	--font-sans:
@@ -179,33 +184,6 @@
 
 	--z-header: 100;
 	--z-modal: 200;
-
-	/* ---- Glass ----------------------------------------------------------- */
-	/* Cards are translucent so the liquid field behind the page shows through
-	   them. The blur is what keeps that legible: without it, a photo or a bloom
-	   edge passing under a card competes with the text sitting on it.
-	   Every one of these is an *enhancement* — see the @supports guard on
-	   `.glass` in base.css. Where backdrop-filter is unavailable the same cards
-	   fall back to the opaque --surface they used before. */
-	--glass-bg: color-mix(in srgb, var(--surface) 72%, transparent);
-	--glass-bg-hover: color-mix(in srgb, var(--surface) 84%, transparent);
-	--glass-border: color-mix(in srgb, var(--border) 70%, transparent);
-	--glass-border-hover: color-mix(in srgb, var(--border-strong) 85%, transparent);
-	/* The lit top edge that makes a glass panel read as a panel and not as a
-	   flat translucent rectangle. */
-	--glass-sheen: rgb(255 255 255 / 0.55);
-	--glass-blur: 14px;
-
-	/* ---- Liquid field ---------------------------------------------------- */
-	/* Opacity of the drifting blooms behind everything.
-	   Paper wants a whisper. At 0.26 the field read as a pastel wash and the
-	   warm off-white ground — the thing the whole light theme is built on —
-	   disappeared under it; the page looked like a different site rather than
-	   the same site with depth. 0.13 keeps the colour perceptible where two
-	   blooms overlap and leaves the paper as the ground everywhere else.
-	   Ink can carry three times as much before it turns to soup. */
-	--liquid-opacity: 0.13;
-	--liquid-blur: 100px;
 }
 
 /* ==========================================================================
@@ -250,19 +228,10 @@
 	--border-strong: #3d3d4e;
 
 	--text: #f3f2f7;
-	--text-body: #d8d6e0;
-	--text-muted: #a8a5b6;
+	--text-muted: #bebbc8;
 	--text-faint: #918ea1;
 
 	--shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
 	--shadow-md: 0 6px 20px -6px rgb(0 0 0 / 0.55);
 	--shadow-lg: 0 18px 44px -12px rgb(0 0 0 / 0.65);
-
-	/* A white sheen on a dark panel looks like a smudge; on ink the lit edge is
-	   the brand violet at low alpha. */
-	--glass-sheen: rgb(176 131 255 / 0.22);
-	--glass-bg: color-mix(in srgb, var(--surface) 66%, transparent);
-	--glass-bg-hover: color-mix(in srgb, var(--surface) 80%, transparent);
-
-	--liquid-opacity: 0.42;
 }

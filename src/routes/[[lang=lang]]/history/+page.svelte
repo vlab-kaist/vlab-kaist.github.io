@@ -72,10 +72,10 @@
 		flex: none;
 	}
 
-	/* Only the entries the club calls out get the gradient dot. If everything
+	/* Only the entries the club calls out get the solid dot. If everything
 	   were highlighted the timeline would just be a list of dots again. */
 	.highlight .dot {
-		background: var(--brand-gradient);
+		background: var(--text);
 	}
 
 	.line {
@@ -104,19 +104,14 @@
 		display: block;
 		font-family: var(--font-numeric);
 		font-variant-numeric: tabular-nums;
-		font-size: 12.5px;
-		letter-spacing: var(--tracking-lat);
+		font-size: var(--text-xs);
 		color: var(--text-faint);
 		margin-bottom: var(--space-1);
 	}
 
 	.entry h2 {
-		font-size: 1.02rem;
-		font-weight: 700;
-	}
-
-	.highlight .entry h2 {
-		color: var(--brand);
+		font-size: 1rem;
+		font-weight: 600;
 	}
 
 	.entry p {
