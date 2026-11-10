@@ -104,7 +104,7 @@ export const en: Dict = {
 		quiz: {
 			name: 'Science Quiz Team',
 			tagline: 'The team that prepares science across every field, plus game strategy',
-			body: 'We study for questions from maths, physics, chemistry, biology and computer science, with no fixed syllabus. And we work out strategy for the game that runs alongside the quiz!',
+			body: 'We study for questions from maths, physics, chemistry, biology and computer science, with no fixed syllabus. And we work out strategy for the game that runs alongside the quiz.',
 			points: [
 				'Regular sessions on past papers and practice problems',
 				'Our own database of past questions and everything worth studying',
@@ -116,7 +116,7 @@ export const en: Dict = {
 		ai: {
 			name: 'AI Team',
 			tagline: 'The team that builds AI to win the game',
-			body: 'The game in the AI event changes every year, from simple board games to Rocket League and Mario Kart! We train our AI with a range of learning methods.',
+			body: 'The game in the AI event changes every year, from simple board games to Rocket League and Mario Kart. We train our AI with a range of learning methods.',
 			points: [
 				'Once the game is announced, we do it all ourselves, from the training environment to the finished AI',
 				'We also run seminars anyone can follow to build AI knowledge and experience'
@@ -252,8 +252,8 @@ export const en: Dict = {
 	},
 	join: {
 		heading: 'We are looking for people',
-		lead: 'If you don’t mind holding on to one problem for a long time, you are welcome here!',
-		body: 'Any major. For the AI team, CS101 is enough to start! For the Science Quiz team, loving science is enough! Learn the rest once you join! If you have questions, please email us.',
+		lead: 'If you don’t mind holding on to one problem for a long time, you are welcome here',
+		body: 'Any major. For the AI team, CS101 is enough to start. For the Science Quiz team, loving science is enough. Learn the rest once you join. If you have questions, please email us.',
 		cta: 'Apply',
 		ctaNote: 'Opens a Google Form.',
 		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
@@ -309,7 +309,7 @@ export const en: Dict = {
 		blurb: 'KAIST AI & Science Quiz club',
 		email: 'kaist.victorylab@gmail.com',
 		copyright: '© {year} Vlab. All rights reserved.',
-		builtBy: 'Made with ❤️ by {authors}',
+		builtBy: 'Made by {authors}',
 		links: [
 			{ label: 'GitHub', href: 'https://github.com/vlab-kaist', external: true },
 			{ label: 'Instagram', href: 'https://www.instagram.com/vlab.kaist/', external: true },

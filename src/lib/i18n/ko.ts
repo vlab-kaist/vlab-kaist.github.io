@@ -107,7 +107,7 @@ export const ko: Dict = {
 		quiz: {
 			name: '과학퀴즈팀',
 			tagline: '다양한 분야의 과학 지식과 게임 전략을 준비하는 팀',
-			body: '수물화생정 모든 과목에서 정해진 범위 없이 출제되는 문제를 풀기 위해 공부합니다. 또한 같이 진행되는 게임을 이기기 위한 전략 탐구까지!',
+			body: '수물화생정 모든 과목에서 정해진 범위 없이 출제되는 문제를 풀기 위해 공부합니다. 또한 같이 진행되는 게임을 이기기 위한 전략 탐구까지.',
 			points: [
 				'주기적으로 기출, 연습 문제 풀이',
 				'현재까지의 기출과 공부할 내용이 담겨 있는 고유의 데이터베이스',
@@ -118,7 +118,7 @@ export const ko: Dict = {
 		ai: {
 			name: '인공지능팀',
 			tagline: '게임을 이기는 AI를 직접 만드는 팀',
-			body: 'AI 경기에서 진행하는 게임은 매년 달라집니다. 간단한 보드게임부터 로켓리그, 마리오카트 같은 게임까지! 다양한 학습 방법을 통해 AI를 훈련시킵니다.',
+			body: 'AI 경기에서 진행하는 게임은 매년 달라집니다. 간단한 보드게임부터 로켓리그, 마리오카트 같은 게임까지. 다양한 학습 방법을 통해 AI를 훈련시킵니다.',
 			points: [
 				'게임이 공개되면 그에 따른 학습 환경 제작부터 완성된 AI까지 모두 진행합니다',
 				'누구나 따라오며 AI 지식 및 경험을 쌓을 수 있는 세미나도 진행합니다'
@@ -258,8 +258,8 @@ export const ko: Dict = {
 		// The one page in 존댓말 rather than 개조식: it is the page that talks
 		// to a person deciding whether to join. The club's own wording.
 		heading: '함께할 사람을 찾습니다',
-		lead: '한 문제를 오래 붙잡고 있어도 괜찮은 사람이면 환영합니다!',
-		body: '전공 무관. 인공지능팀은 CS101 정도면 시작 가능합니다! 과학퀴즈팀은 과학을 좋아하면 충분합니다! 나머지는 들어와서 배우세요! 궁금한 점은 메일로 문의 바랍니다.',
+		lead: '한 문제를 오래 붙잡고 있어도 괜찮은 사람이면 환영합니다',
+		body: '전공 무관. 인공지능팀은 CS101 정도면 시작 가능합니다. 과학퀴즈팀은 과학을 좋아하면 충분합니다. 나머지는 들어와서 배우세요. 궁금한 점은 메일로 문의 바랍니다.',
 		cta: '지원하기',
 		ctaNote: '구글 폼으로 이동합니다.',
 		ctaHref: 'https://forms.gle/AAHfwuAT4VVEYmBG6',
@@ -315,7 +315,7 @@ export const ko: Dict = {
 		blurb: 'KAIST 인공지능 · 과학퀴즈 학술동아리',
 		email: 'kaist.victorylab@gmail.com',
 		copyright: '© {year} Vlab. All rights reserved.',
-		builtBy: 'Made with ❤️ by {authors}',
+		builtBy: 'Made by {authors}',
 		links: [
 			{ label: 'GitHub', href: 'https://github.com/vlab-kaist', external: true },
 			{ label: 'Instagram', href: 'https://www.instagram.com/vlab.kaist/', external: true },
