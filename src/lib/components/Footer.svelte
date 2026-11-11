@@ -98,7 +98,7 @@
 	}
 
 	.name {
-		font-weight: 800;
+		font-weight: 600;
 		letter-spacing: var(--tracking-lat);
 		letter-spacing: 0.02em;
 	}

@@ -66,7 +66,7 @@ h1,
 h2,
 h3,
 h4 {
-	font-weight: 700;
+	font-weight: 600;
 	line-height: var(--leading-tight);
 	letter-spacing: var(--tracking-heading);
 	text-wrap: balance;
@@ -182,14 +182,16 @@ ol {
 /* Short accent rule above a page title. */
 .rule {
 	display: block;
-	width: 36px;
+	width: 32px;
 	height: 3px;
 	border-radius: 2px;
-	margin-bottom: 1.125rem;
+	margin-bottom: 20px;
 }
 
+/* Name kept for PageHead's prop; it is the rivalry split now, not the
+   three-hue brand gradient. */
 .rule-gradient {
-	background: var(--brand-gradient);
+	background: var(--rivalry);
 }
 
 .rule-solid {
@@ -197,11 +199,9 @@ ol {
 }
 
 .eyebrow {
-	font-size: var(--text-xs);
-	font-weight: 700;
-	letter-spacing: var(--tracking-wide);
-	text-transform: uppercase;
-	color: var(--brand);
+	font-size: var(--text-sm);
+	font-weight: 500;
+	color: var(--text-faint);
 }
 
 /* Every subpage opens with the same block: accent label, title, one line of
@@ -210,7 +210,7 @@ ol {
 .page-head {
 	max-width: var(--measure);
 	margin-bottom: var(--space-8);
-	padding-bottom: 1.125rem;
+	padding-bottom: var(--space-4);
 	border-bottom: 1px solid var(--border);
 }
 
@@ -229,108 +229,39 @@ ol {
 }
 
 /* ---- Buttons ------------------------------------------------------------ */
-
-/* Buttons carry the only interaction motion on the site, so it is worth
-   spending real attention on. Three states, three different speeds:
-
-   - hover: lift 2px over --dur-snap (160ms) and grow a shadow over --dur-base.
-     Fast enough to feel like an answer, slow enough not to twitch.
-   - press: drop back down and scale to 0.97, over 70ms. Deliberately much
-     faster than the hover. A press that eases in feels laggy no matter how
-     quick the underlying action is; a press that snaps feels like the click
-     landed even before anything has happened.
-   - release: back to hover, at hover speed.
-
-   The lift is behind `@media (hover: hover)`. On a touchscreen `:hover` sticks
-   after a tap — the button would stay raised until you touched something else,
-   which reads as a stuck state rather than as feedback. Touch gets the press
-   state only, which is the one that matters there.
-
-   Everything animated is `transform`, `box-shadow` and colour, so none of it
-   triggers layout. Under prefers-reduced-motion the global block at the bottom
-   of this file collapses every duration: the states still change, they just
-   arrive instantly. */
+/* unslop: hover is a colour step and press is a small scale-down. The 2px
+   lift, the band of light that swept the primary on hover and the violet
+   shadow under it are gone. */
 
 .btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.75rem 1.375rem;
+	min-height: 44px;
+	padding: var(--space-3) var(--space-5);
 	border-radius: var(--radius-md);
-	font-weight: 600;
-	font-size: 0.95rem;
-	/* Stops the label from being selected on a double-tap, which on mobile is
-	   the difference between "button" and "text that happens to be in a box". */
+	font-weight: 500;
+	font-size: 0.9375rem;
+	line-height: 1.4;
+	/* Stops the label from being selected on a double-tap. */
 	user-select: none;
 	transition:
 		background-color var(--dur-fast) var(--ease-out),
 		border-color var(--dur-fast) var(--ease-out),
-		/* The shadow blooms slower than the lift on purpose: the button arrives,
-		   then its shadow settles under it. Matching the two makes the pair read
-		   as one flat slide. */
-		box-shadow var(--dur-base) var(--ease-out),
-		transform var(--dur-snap) var(--ease-out);
-}
-
-@media (hover: hover) {
-	.btn:hover {
-		transform: translateY(-2px);
-	}
+		transform var(--dur-fast) var(--ease-out);
 }
 
 .btn:active {
-	transform: translateY(0) scale(0.97);
-	transition-duration: 70ms;
+	transform: scale(0.98);
 }
 
 .btn-primary {
-	/* Own stacking context, for the sheen below. */
-	position: relative;
-	isolation: isolate;
-	overflow: hidden;
 	background: var(--brand);
 	color: var(--brand-contrast);
-	box-shadow: 0 1px 2px color-mix(in srgb, var(--brand) 30%, transparent);
-}
-
-/* A band of light that crosses the fill once per hover. z-index -1 keeps it
-   above the button's own background but below the label — a negative-index
-   child paints over the background of the element that establishes the
-   stacking context, and under its in-flow content. No extra element, no JS,
-   and it cannot land on top of the text. */
-.btn-primary::after {
-	content: '';
-	position: absolute;
-	inset: 0;
-	z-index: -1;
-	background: linear-gradient(
-		100deg,
-		transparent 25%,
-		rgb(255 255 255 / 0.24) 48%,
-		transparent 72%
-	);
-	transform: translateX(-130%);
-	transition: transform var(--dur-slow) var(--ease-out);
 }
 
 .btn-primary:hover {
 	background: var(--brand-strong);
-}
-
-@media (hover: hover) {
-	.btn-primary:hover {
-		/* Tinted rather than neutral: a grey shadow under a saturated violet
-		   button reads as dirt on the paper. */
-		box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--brand) 62%, transparent);
-	}
-
-	.btn-primary:hover::after {
-		transform: translateX(130%);
-	}
-}
-
-.btn-primary:active {
-	box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--brand) 55%, transparent);
 }
 
 .btn-ghost {
@@ -343,57 +274,19 @@ ol {
 	background: var(--surface);
 }
 
-@media (hover: hover) {
-	.btn-ghost:hover {
-		box-shadow: var(--shadow-md);
-	}
-}
-
-/* ---- Glass -------------------------------------------------------------- */
-/* The card treatment, used by the home index, the project cards and the join
-   panel. A card is a translucent pane over the drifting field from
-   Liquid.svelte: tinted surface, blurred backdrop, and a lit top edge.
-
-   Progressive by construction. The base rule is the opaque card the site had
-   before; the translucency is applied only inside @supports, because a
-   translucent panel with no blur behind it is not a softer card, it is an
-   unreadable one. Browsers without backdrop-filter — and anything under
-   forced-colors, where it is ignored — keep the solid surface.
-
-   The sheen is an inset box-shadow rather than a border so it stays a hairline
-   of light on the top edge only, and does not fight the 1px border that
-   defines the card's actual shape. */
+/* ---- Cards -------------------------------------------------------------- */
+/* Formerly a translucent, blurred pane with a lit top edge over the drifting
+   field. With the field gone it is a raised surface and a hairline. The
+   class name stays so the markup does not churn. */
 
 .glass {
 	background: var(--surface);
 	border: 1px solid var(--border);
-	transition:
-		background-color var(--dur-base) var(--ease-out),
-		border-color var(--dur-base) var(--ease-out),
-		box-shadow var(--dur-base) var(--ease-out);
+	transition: border-color var(--dur-fast) var(--ease-out);
 }
 
 .glass:hover {
 	border-color: var(--border-strong);
-	box-shadow: var(--shadow-md);
-}
-
-@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-	.glass {
-		background: var(--glass-bg);
-		border-color: var(--glass-border);
-		backdrop-filter: blur(var(--glass-blur)) saturate(130%);
-		-webkit-backdrop-filter: blur(var(--glass-blur)) saturate(130%);
-		box-shadow: inset 0 1px 0 var(--glass-sheen);
-	}
-
-	.glass:hover {
-		background: var(--glass-bg-hover);
-		border-color: var(--glass-border-hover);
-		box-shadow:
-			inset 0 1px 0 var(--glass-sheen),
-			var(--shadow-md);
-	}
 }
 
 /* ---- Tags --------------------------------------------------------------- */
@@ -407,9 +300,9 @@ ol {
 
 .tags li {
 	font-size: var(--text-xs);
-	padding: 3px 10px;
+	padding: 2px 8px;
 	border: 1px solid var(--border-strong);
-	border-radius: var(--radius-full);
+	border-radius: var(--radius-sm);
 	color: var(--text-muted);
 	line-height: 1.5;
 }
@@ -421,38 +314,8 @@ ol {
 }
 
 /* ---- Scroll reveal ------------------------------------------------------ */
-/* Pure CSS, driven by a view-progress timeline: the element fades and lifts as
-   it crosses into the viewport, with no observer, no hydration and no attribute
-   bookkeeping.
-   Content is visible by default and the animation only ever *removes* that
-   starting opacity, so every degradation lands the right way up:
-     - browser without view timelines → no animation, content visible
-     - reduced motion                 → no animation, content visible
-     - JS blocked or failed to load   → no animation, content visible
-   The previous JS version hid the content up front and relied on an observer to
-   bring it back, which meant a failed script left a blank page. It also never
-   ran: the action was applied but nothing in the markup carried the attribute
-   its CSS keyed off, so the whole effect was silently dead. */
-
-@media (prefers-reduced-motion: no-preference) {
-	@supports (animation-timeline: view()) {
-		.reveal {
-			animation: reveal-in linear both;
-			animation-timeline: view();
-			/* Finish well before the element reaches the middle of the screen —
-			   an animation still running when you are already reading it is worse
-			   than none. */
-			animation-range: entry 0% entry 70%;
-		}
-	}
-}
-
-@keyframes reveal-in {
-	from {
-		opacity: 0;
-		transform: translateY(16px);
-	}
-}
+/* unslop: removed. Every block fading and lifting as it crossed into view was
+   motion with nothing to explain. `.reveal` stays in the markup as a no-op. */
 
 /* ---- Motion ------------------------------------------------------------- */
 

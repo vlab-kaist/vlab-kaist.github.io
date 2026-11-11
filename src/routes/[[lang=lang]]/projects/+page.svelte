@@ -80,14 +80,6 @@
 		overflow: hidden;
 	}
 
-	.featured::before {
-		content: '';
-		position: absolute;
-		inset: 0 0 auto 0;
-		height: 2px;
-		background: var(--brand-gradient);
-	}
-
 	.featured.has-media {
 		display: grid;
 		grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -106,10 +98,10 @@
 	}
 
 	.featured-tagline {
-		font-weight: 600;
-		color: var(--brand);
+		font-weight: 500;
+		color: var(--text);
 		margin-top: var(--space-2);
-		margin-bottom: 0.875rem;
+		margin-bottom: var(--space-3);
 	}
 
 	.featured-text {
@@ -135,15 +127,15 @@
 
 	.card h2 {
 		font-size: 1.1rem;
-		font-weight: 700;
+		font-weight: 600;
 	}
 
 	.card-tagline {
 		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--brand);
+		font-weight: 500;
+		color: var(--text);
 		margin-top: var(--space-1);
-		margin-bottom: 0.625rem;
+		margin-bottom: var(--space-3);
 	}
 
 	.card-text {

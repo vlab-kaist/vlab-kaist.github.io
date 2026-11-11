@@ -102,36 +102,46 @@
 	/* The newest year is the one this page is about. */
 	thead .year:nth-last-child(2) {
 		color: var(--text);
-		font-weight: 800;
+		font-weight: 600;
 	}
 
 	tbody th {
 		text-align: left;
 		padding-left: 0;
 		font-size: var(--text-sm);
-		font-weight: 700;
+		font-weight: 500;
 	}
 
 	tbody tr + tr > * {
 		border-top: 1px solid var(--border);
 	}
 
+	/* unslop: seven filled violet pills made every cell shout. Now a dot in
+	   the colour of whichever school took that year, and the word beside it.
+	   The blue and red are the broadcast's, already used by the scoreline. */
 	.chip {
-		display: inline-grid;
-		place-items: center;
-		min-width: 2.4em;
-		padding: 3px 8px;
-		border-radius: var(--radius-full);
-		border: 1px solid var(--border-strong);
-		font-size: var(--text-xs);
-		font-weight: 700;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: var(--text-sm);
 		color: var(--text-faint);
 	}
 
+	.chip::before {
+		content: '';
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--postech);
+	}
+
 	.chip.win {
-		border-color: transparent;
-		background: var(--brand);
-		color: var(--brand-contrast);
+		font-weight: 500;
+		color: var(--text);
+	}
+
+	.chip.win::before {
+		background: var(--kaist);
 	}
 
 	.overall {
@@ -141,7 +151,7 @@
 
 	td.overall {
 		font-size: var(--text-sm);
-		font-weight: 700;
+		font-weight: 500;
 	}
 
 	/* Phone width: tighten the cells rather than let the total column scroll
@@ -153,8 +163,7 @@
 		}
 
 		.chip {
-			min-width: 2em;
-			padding: 2px 6px;
+			gap: 4px;
 		}
 
 		.overall {

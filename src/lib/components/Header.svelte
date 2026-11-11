@@ -184,7 +184,7 @@
 	   hangul headings just gave up. */
 	.wordmark {
 		font-size: 1.0625rem;
-		font-weight: 800;
+		font-weight: 600;
 		letter-spacing: var(--tracking-lat);
 	}
 
@@ -213,10 +213,15 @@
 	/* "함께하기" is the one nav item that is also the site's goal, so it carries
 	   the accent as a tinted pill rather than a filled button — a filled button
 	   in a 64px header out-shouts the hero CTA directly below it. */
-	.links .join,
+	/* unslop: the one button in the nav, as a hairline outline instead of a
+	   violet-tinted pill. The hero's primary is the only filled violet. */
+	.links .join {
+		color: var(--text);
+		box-shadow: inset 0 0 0 1px var(--border-strong);
+	}
+
 	.links .join:hover {
-		color: var(--brand);
-		background: var(--brand-soft);
+		background: var(--surface);
 	}
 
 	/* Now that these are page links rather than scroll targets, the header has
@@ -229,7 +234,9 @@
 	}
 
 	.links .join[aria-current='page'] {
-		color: var(--brand);
+		color: var(--text);
+		box-shadow: inset 0 0 0 1px var(--text-faint);
+		border-radius: var(--radius-md);
 	}
 
 	.sheet a[aria-current='page'] {
@@ -250,8 +257,7 @@
 		padding-inline: var(--space-2);
 		border-radius: var(--radius-md);
 		font-size: var(--text-xs);
-		font-weight: 700;
-		letter-spacing: var(--tracking-wide);
+		font-weight: 500;
 		color: var(--text-faint);
 		transition:
 			color var(--dur-fast) var(--ease-out),
@@ -336,7 +342,7 @@
 		display: block;
 		padding: var(--space-4) 0;
 		font-size: var(--text-2xl);
-		font-weight: 700;
+		font-weight: 600;
 		letter-spacing: var(--tracking-heading);
 		border-bottom: 1px solid var(--border);
 	}
