@@ -151,13 +151,6 @@ export const ko: Dict = {
 				tags: ['게임 AI', '마리오카트 Wii']
 			},
 			{
-				id: 'rocketsim',
-				name: 'RocketSim · pyvrsim',
-				tagline: '학습용 고속 로켓리그 시뮬레이터',
-				body: '에이전트를 학습시키려면 게임을 아주 빠르게 돌릴 수 있어야 합니다. 그래서 C++ 시뮬레이터와 그 병렬성을 그대로 살린 파이썬 바인딩을 만들어 로켓리그 학습에 도움을 주는 시뮬레이션.',
-				tags: ['C++', 'Python 바인딩', '시뮬레이션']
-			},
-			{
 				id: 'neopjuki',
 				name: 'Neopjuki',
 				tagline: 'Puoribor 에이전트',
