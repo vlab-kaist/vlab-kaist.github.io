@@ -98,7 +98,14 @@ const SPONSORS = {
 	// chose the brand-blue one for ink (`logoDark` in i18n) over a white
 	// knockout.
 	'jane-street': { file: 'jane-street-logo.png', height: 120 },
-	'jane-street-blue': { file: 'jane-street-logo-blue.png', height: 120 }
+	'jane-street-blue': { file: 'jane-street-logo-blue.png', height: 120 },
+	// Supplied as SVG — the lockup from their own (dark) site: white hexagon,
+	// light wordmark. That file is `dimension-dark` as-is. They publish no
+	// paper version, so `dimension` is the same artwork with the mark and
+	// wordmark set in their page colour (#161618) and the inner glyph cut as a
+	// real hole, so it stays correct on any ground. See CONTENT-TODO.md.
+	dimension: { file: 'dimension-logo.svg', height: 120 },
+	'dimension-dark': { file: 'dimension-logo-dark.svg', height: 120 }
 };
 
 const AVIF = { quality: 50, effort: 6 };
@@ -259,7 +266,10 @@ for (const [name, cfg] of shouldRun('sponsors') ? Object.entries(SPONSORS) : [])
 	}
 	const prepared = cfg.cutWhite ? await cutBackground(input) : readFileSync(input);
 	const dest = join(SPONSOR_OUT, `${name}.png`);
-	await sharp(prepared)
+	// Vector sources rasterise at 72 dpi by default — an 84-unit-tall SVG would
+	// come out 84px and `withoutEnlargement` would keep it there. Render well
+	// above the target and let the resize bring it down.
+	await sharp(prepared, input.endsWith('.svg') ? { density: 300 } : {})
 		.trim({ threshold: 1 })
 		.resize({ height: cfg.height, withoutEnlargement: true })
 		.png({ compressionLevel: 9, palette: true })
