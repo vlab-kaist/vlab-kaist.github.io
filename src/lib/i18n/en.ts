@@ -286,15 +286,13 @@ export const en: Dict = {
 		},
 		items: [
 			{
-				name: 'Elice',
-				logo: 'elice.png',
-				href: 'https://elice.io/'
-			},
-			{
-				name: 'KAIST School of Computing',
-				logo: 'kaist-cs.png',
-				logoDark: 'kaist-cs-reverse.png',
-				href: 'https://cs.kaist.ac.kr/'
+				name: 'The Dimension Company',
+				logo: 'dimension.png',
+				logoDark: 'dimension-dark.png',
+				// A 7:1 one-line lockup: at the 38px default it hits the 240px
+				// max-width cap, and 30px puts it at the same width as the KAIST mark.
+				height: 30,
+				href: 'https://dimension.company/'
 			},
 			{
 				name: 'Jane Street',
@@ -304,13 +302,15 @@ export const en: Dict = {
 				href: 'https://www.janestreet.com/'
 			},
 			{
-				name: 'The Dimension Company',
-				logo: 'dimension.png',
-				logoDark: 'dimension-dark.png',
-				// A 7:1 one-line lockup: at the 38px default it hits the 240px
-				// max-width cap, and 30px puts it at the same width as the KAIST mark.
-				height: 30,
-				href: 'https://dimension.company/'
+				name: 'KAIST School of Computing',
+				logo: 'kaist-cs.png',
+				logoDark: 'kaist-cs-reverse.png',
+				href: 'https://cs.kaist.ac.kr/'
+			},
+			{
+				name: 'Elice',
+				logo: 'elice.png',
+				href: 'https://elice.io/'
 			}
 		]
 	},
