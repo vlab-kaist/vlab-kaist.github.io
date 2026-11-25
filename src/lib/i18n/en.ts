@@ -147,13 +147,6 @@ export const en: Dict = {
 				tags: ['Game AI', 'Mario Kart Wii']
 			},
 			{
-				id: 'rocketsim',
-				name: 'RocketSim · pyvrsim',
-				tagline: 'A fast Rocket League simulator for training',
-				body: 'Training an agent means running the game very fast. So we built a C++ simulator and a Python binding that keeps its parallelism, to speed up Rocket League training.',
-				tags: ['C++', 'Python bindings', 'Simulation']
-			},
-			{
 				id: 'neopjuki',
 				name: 'Neopjuki',
 				tagline: 'A Puoribor agent',
