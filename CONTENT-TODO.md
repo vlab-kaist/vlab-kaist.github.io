@@ -73,6 +73,20 @@ Answered items are already in the site. What follows is what remains.
 - [ ] 후원 표기 방식이 엘리스와 합의된 것인지 확인 (로고만 / "후원" 문구 / 별도 표기 요구사항)
 - [ ] 링크는 `https://elice.io/` 로 걸어두었습니다. 다른 주소를 원하면 알려주세요.
 
+### 5-1. The Dimension Company 로고
+
+받은 SVG는 그쪽 사이트(어두운 배경)에서 쓰는 버전입니다 — 흰 육각형 + 밝은 글자.
+다크 모드에는 이걸 그대로(`images.source/dimension-logo-dark.svg`) 씁니다. CSS 변수(`var(--hex, …)`)만
+기본값으로 풀었습니다 — 빌드 도구(sharp)가 변수를 못 읽어서입니다.
+
+**라이트 모드용은 저희가 만든 것입니다.** 공개된 밝은 배경용 로고가 없어서, 같은 도형에 그쪽 페이지 색
+(`#161618`)을 입히고 육각형 안의 문양은 실제 구멍으로 뚫었습니다 (`images.source/dimension-logo.svg`).
+
+- [ ] 공식 **밝은 배경용 로고**를 받으면 `images.source/dimension-logo.svg` 를 교체 →
+      `node scripts/build-images.js --only=sponsors`
+- [ ] 후원 표기 방식(로고·"후원" 문구) 합의 확인, 국문 표기가 따로 있으면 `ko.ts` 이름 교체
+- [ ] 링크: 한국어 페이지는 `https://dimension.company/ko/`, 영어 페이지는 `https://dimension.company/`
+
 ### 6. 커스텀 도메인
 
 - [ ] 원하는 주소가 정해지면 알려주세요. `src/lib/config.ts` 의 `SITE_URL` 한 줄과 `static/CNAME`

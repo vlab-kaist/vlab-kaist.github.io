@@ -308,6 +308,15 @@ export const ko: Dict = {
 				logoDark: 'jane-street-blue.png',
 				height: 56,
 				href: 'https://www.janestreet.com/'
+			},
+			{
+				name: 'The Dimension Company',
+				logo: 'dimension.png',
+				logoDark: 'dimension-dark.png',
+				// A 7:1 one-line lockup: at the 38px default it hits the 240px
+				// max-width cap, and 30px puts it at the same width as the KAIST mark.
+				height: 30,
+				href: 'https://dimension.company/ko/'
 			}
 		]
 	},
